@@ -11,109 +11,55 @@ void background(int width, int height) {
 	}
 }
 
-void paintTriangle(int width, int height, ColorPlot t[]) {
-    // Sort the points by y-coordinate
-    sortColorPlot(t);
-    int xmin, xmax, ymin, ymax, fmin, fmax;
-    int f[3]; // Intersection points of edges with scanlines
-    int xsort[3] = { t[0].x, t[1].x, t[2].x };  // x coordinates of vertices
-    sort3Points(xsort);  // Sorting x-coordinates
+// Helper function for linear interpolation
+Color255 interpolateColor(Color255 c1, Color255 c2, double t) {
+    Color255 result;
+    result.r = (unsigned char)((1 - t) * c1.r + t * c2.r);
+    result.g = (unsigned char)((1 - t) * c1.g + t * c2.g);
+    result.b = (unsigned char)((1 - t) * c1.b + t * c2.b);
+    return result;
+}
 
-    ymin = t[0].y;
-    ymax = t[2].y;
+// Function to render a triangle with Gouraud shading
+void paintTriangle(int width, int height, Rendered rendered) {
+    // unsigned char Pixel[height][width][3] = {0};
 
-    // Determine which edge is horizontal and which vertices to process
-    int eqmin = (ymin == t[1].y);
-    int eqmax = (ymax == t[1].y);
+    // Extract vertices and colors
+    ColorPlot v1 = rendered.cp[0];
+    ColorPlot v2 = rendered.cp[1];
+    ColorPlot v3 = rendered.cp[2];
 
-    // Prepare to loop over each scanline between ymin and ymax
-    for (int y = ymin; y <= ymax; y++) {
-        // Calculate intersection points of edges with the current scanline
-        for (int i = 0; i < 3; i++) {
-            int next = (i + 1) % 3;  // Get next vertex index cyclically
-            f[i] = t[i].x * (y - t[next].y) + t[next].x * (t[i].y - y);
-            f[i] /= (t[i].y - t[next].y);  // Avoid division by zero
-        }
+    // Determine the bounding box for the triangle
+    double minX = fmin(fmin(v1.p.x, v2.p.x), v3.p.x);
+    double maxX = fmax(fmax(v1.p.x, v2.p.x), v3.p.x);
+    double minY = fmin(fmin(v1.p.y, v2.p.y), v3.p.y);
+    double maxY = fmax(fmax(v1.p.y, v2.p.y), v3.p.y);
 
-        // Sort the intersection points for the current scanline
-        sort3Points(f);
+    // Iterate through pixels in the bounding box
+    for (int y = (int)ceil(minY); y <= (int)floor(maxY) && y < height; y++) {
+        for (int x = (int)ceil(minX); x <= (int)floor(maxX) && x < width; x++) {
+            Vector p = {x + 0.5, y + 0.5}; // Pixel center
 
-        // Determine the left and right intersection points for coloring
-        if (y == ymin) {
-            fmin = 0;
-            for (int i = 0; i < 3; i++) {
-                if (f[fmin] < xmin) fmin++;
+            // Compute barycentric coordinates
+            double lambda1 = ((v2.p.y - v3.p.y) * (p.x - v3.p.x) + (v3.p.x - v2.p.x) * (p.y - v3.p.y)) /
+                             ((v2.p.y - v3.p.y) * (v1.p.x - v3.p.x) + (v3.p.x - v2.p.x) * (v1.p.y - v3.p.y));
+            double lambda2 = ((v3.p.y - v1.p.y) * (p.x - v3.p.x) + (v1.p.x - v3.p.x) * (p.y - v3.p.y)) /
+                             ((v2.p.y - v3.p.y) * (v1.p.x - v3.p.x) + (v3.p.x - v2.p.x) * (v1.p.y - v3.p.y));
+            double lambda3 = 1.0 - lambda1 - lambda2;
+
+            // If inside the triangle, interpolate color
+            if (lambda1 >= 0 && lambda2 >= 0 && lambda3 >= 0) {
+                Color255 pixelColor = interpolateColor(
+                    interpolateColor(v1.c, v2.c, lambda2 / (lambda1 + lambda2)),
+                    v3.c,
+                    lambda3
+                );
+
+                // Set the pixel color
+                Pixel[y][x][0] = pixelColor.r;
+                Pixel[y][x][1] = pixelColor.g;
+                Pixel[y][x][2] = pixelColor.b;
             }
-            fmax = fmin + 1;
-        } else {
-            if (y > t[1].y + 1) {
-                fmin = 0;
-                for (int i = 0; i < 3; i++) {
-                    if (f[fmin] < xmin) fmin++;
-                }
-                fmax = fmin + 1;
-            }
-        }
-
-        // Interpolate the colors across the scanline
-        ColorPlot left, right;
-        for (int i = 0; i < 3; i++) {
-            int next = (i + 1) % 3;
-            if (fmin == fmax) {
-                left.r = t[i].r;
-                left.g = t[i].g;
-                left.b = t[i].b;
-            } else {
-                // Interpolate between the two points based on the y-position
-                double div = 1.0;
-                if (t[i].y != t[next].y) {
-                    div = t[i].y - t[next].y;
-                }
-                left.r = (t[i].r * (y - t[next].y) + t[next].r * (t[i].y - y)) / div;
-                left.g = (t[i].g * (y - t[next].y) + t[next].g * (t[i].y - y)) / div;
-                left.b = (t[i].b * (y - t[next].y) + t[next].b * (t[i].y - y)) / div;
-            }
-        }
-
-        // Apply shading logic and handle color interpolation
-        for (int i = 0; i < 3; i++) {
-            if (i < 2) next = i + 1;
-            else next = 0;
-
-            // Check for triangle orientation (upward or downward)
-            if (t[0].y != xmax) {
-                if (eqmin == 0) {
-                    if (y == ymin) {
-                        a1 = 0;    a2 = 0;
-                        b1 = 0;    b2 = 0;
-                    } else if (y < t[1].y) {
-                        if (t[0].x != xmax) {
-                            a2 = 2;
-                            b2 = 1;
-                        } else {
-                            a2 = 1;
-                            b2 = 2;
-                        }
-                    } else if (y == t[1].y) {
-                        if (t[1].x != xmin) b1 = 1;
-                        else                a1 = 1;
-                    } else if (y < t[2].y) {
-                        if (t[1].x != xmin) b2 = 2;
-                        else                a2 = 2;
-                    } else if (y == t[2].y) {
-                        a1 = 2;    a2 = 2;
-                        b1 = 2;    b2 = 2;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (tmp[i] < 0) tmp[i] = 0;
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (tmp[i] < 0) tmp[i] = 0;
         }
     }
 }

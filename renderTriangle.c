@@ -84,8 +84,8 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 	}
 }
 
-Triangle2D renderTriangle(Triangle3D tri3, Settings s) {
-    Triangle2D rtn;
+Rendered renderTriangle(Triangle3D tri3, Settings s) {
+    Rendered rtn;
     Vector before[3], after[3];
     Color255 color[3];
 

@@ -35,7 +35,7 @@ typedef struct {
 typedef struct {
 	ColorPlot cp[3];
 	Vector g;
-} Triangle2D;
+} Rendered;
 
 typedef struct {
 	int width, height;	// スクリーンの大きさ
