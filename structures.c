@@ -44,3 +44,28 @@ typedef struct {
 	Vector iplot;			// 光源Iの位置
 	Color1 icolor, a;	// 光源Iの色, 環境光
 } Settings;
+
+typedef struct {
+	int x1;	int y1;	int z1;
+	int x2; int y2; int z2;
+	Color255 o;
+	int n;
+	double k[3];
+	int num;
+} Cube;
+
+typedef struct {
+	int r;
+	int h;
+	int x;	int y; int z;
+	Color255 o;
+	int n;
+	double k[3];
+	int div;
+	int num;
+} Cylinder;
+
+typedef struct {
+	int r;
+	int x; int y; int z;
+} Sphere;

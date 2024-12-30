@@ -36,8 +36,8 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 
 	// 3角形面の法線ベクトルNの算出
     u1 = subtract(t.p[1], t.p[0]);
-    u2 = subtract(t.p[2], t.p[1]);
-    n = crossProduct(u1, u2);   // 現在右手系でうまくいく、左手系にしなくていい？
+    u2 = subtract(t.p[2], t.p[0]);
+    n = crossProduct(u2, u1);   // 現在右手系でうまくいく、左手系にしなくていい？
 	n = normalize(n);
 	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
