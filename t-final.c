@@ -13,7 +13,7 @@
 void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
-	screen.c.x = 300;	screen.c.y = 300; screen.c.z = 100;
+	screen.c.x = 400;	screen.c.y = 400; screen.c.z = 100;
 	screen.d = 300;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
 	screen.iplot.x = 300;	screen.iplot.y = 300;	screen.iplot.z = 100;
@@ -55,7 +55,7 @@ void main(void) {
 	}
 	*/
 	
-	/*
+	
 	// 直方体データ定義
 	Cube cube;
 	Triangle3D tcube[12];
@@ -65,7 +65,7 @@ void main(void) {
 	cube.n = 9;
 	cube.k[0] = 0.5;	cube.k[1] = 0.5;	cube.k[2] = 0.5;
 	cube.num = 12;
-	*/
+	
 
 	// 円柱データ定義
 	Cylinder cylinder;

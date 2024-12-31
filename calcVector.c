@@ -47,7 +47,7 @@ Vector normalVector(Triangle3D t) {
     Vector n, u1, u2, reference;
     double test;
 
-     printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
+    printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
 
 
     u1 = subtract(t.p[1], t.p[0]);
@@ -57,21 +57,23 @@ Vector normalVector(Triangle3D t) {
 
     printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
-    reference = subtract(t.g, t.ref);
-    reference = normalize(reference);
-    printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
+    if (abs(n.x) == 1 || abs(n.y) == 1 || abs(n.z) == 1) {
+        reference = subtract(t.g, t.ref);
+        reference = normalize(reference);
+        printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
 
-    test = dotProduct(n, reference);
-    printf("test: %.3lf\n", test);
-    
-    if (test < 0) {
-        n.x = - n.x;
-        n.y = - n.y;
-        n.z = - n.z;
+        test = dotProduct(n, reference);
+        printf("test: %.3lf\n", test);
+        
+        
+        if (test < 0) {
+            n.x = - n.x;
+            n.y = - n.y;
+            n.z = - n.z;
+        }
+        
+        printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
     }
-
-	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
-
     return n;
 }
 
