@@ -13,10 +13,10 @@
 void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
-	screen.c.x = 300;	screen.c.y = 300; screen.c.z = 0;
-	screen.d = 200;
+	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 0;
+	screen.d = 300;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
-	screen.iplot.x = 100;	screen.iplot.y = 200;	screen.iplot.z = 80;
+	screen.iplot.x = 0;	screen.iplot.y = 0;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
 	// sample triangles
@@ -58,8 +58,8 @@ void main(void) {
 	// 直方体データ定義
 	Cube cube;
 	Triangle3D tcube[12];
-	cube.x1 = 300;	cube.y1 = 300;	cube.z1 = 300;
-	cube.x2 = 200;	cube.y2 = 400;	cube.z2 = 350;
+	cube.p1.x = 300;	cube.p1.y = 300;	cube.p1.z = 300;
+	cube.p2.x = 400;	cube.p2.y = 400;	cube.p2.z = 350;
 	cube.o.r = 200;	cube.o.g = 200;	cube.o.b = 255;
 	cube.n = 9;
 	cube.k[0] = 0.5;	cube.k[1] = 0.5;	cube.k[2] = 0.5;

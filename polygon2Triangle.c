@@ -6,14 +6,45 @@ void cube2triangle(Triangle3D t[], Cube c) {
 
 	Vector vertex[8];
 
-	vertex[0].x = c.x2;	vertex[0].y = c.y1;	vertex[0].z = c.z1;
-	vertex[1].x = c.x1;	vertex[1].y = c.y1;	vertex[1].z = c.z1;
-	vertex[2].x = c.x1;	vertex[2].y = c.y2;	vertex[2].z = c.z1;
-	vertex[3].x = c.x2;	vertex[3].y = c.y2;	vertex[3].z = c.z1;
-	vertex[4].x = c.x2;	vertex[4].y = c.y1;	vertex[4].z = c.z2;
-	vertex[5].x = c.x1;	vertex[5].y = c.y1;	vertex[5].z = c.z2;
-	vertex[6].x = c.x1;	vertex[6].y = c.y2;	vertex[6].z = c.z2;
-	vertex[7].x = c.x2;	vertex[7].y = c.y2;	vertex[7].z = c.z2;
+	c.centroid.x = (c.p1.x + c.p2.x) / 2;
+	c.centroid.y = (c.p1.y + c.p2.y) / 2;
+	c.centroid.z = (c.p1.z + c.p2.z) / 2;
+
+	printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
+	printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 		
+
+	vertex[0].x = c.p1.x;	vertex[0].y = c.p1.y;	vertex[0].z = c.p2.z;
+	vertex[1].x = c.p1.x;	vertex[1].y = c.p1.y;	vertex[1].z = c.p1.z;
+	vertex[2].x = c.p2.x;	vertex[2].y = c.p1.y;	vertex[2].z = c.p1.z;
+	vertex[3].x = c.p2.x;	vertex[3].y = c.p1.y;	vertex[3].z = c.p2.z;
+	vertex[4].x = c.p1.x;	vertex[4].y = c.p2.y;	vertex[4].z = c.p2.z;
+	vertex[5].x = c.p1.x;	vertex[5].y = c.p2.y;	vertex[5].z = c.p1.z;
+	vertex[6].x = c.p2.x;	vertex[6].y = c.p2.y;	vertex[6].z = c.p1.z;
+	vertex[7].x = c.p2.x;	vertex[7].y = c.p2.y;	vertex[7].z = c.p2.z;
+
+	t[0].p[0] = vertex[0];	t[0].p[1] = vertex[4];	t[0].p[2] = vertex[7];
+	t[1].p[0] = vertex[7];	t[1].p[1] = vertex[3];	t[1].p[2] = vertex[0];
+	t[2].p[0] = vertex[1];	t[2].p[1] = vertex[2];	t[2].p[2] = vertex[6];
+	t[3].p[0] = vertex[6];	t[3].p[1] = vertex[5];	t[3].p[2] = vertex[1];
+	t[4].p[0] = vertex[0];	t[4].p[1] = vertex[1];	t[4].p[2] = vertex[5];
+	t[5].p[0] = vertex[5];	t[5].p[1] = vertex[4];	t[5].p[2] = vertex[0];
+	t[6].p[0] = vertex[3];	t[6].p[1] = vertex[7];	t[6].p[2] = vertex[6];
+	t[7].p[0] = vertex[6];	t[7].p[1] = vertex[2];	t[7].p[2] = vertex[3];
+	t[8].p[0] = vertex[0];	t[8].p[1] = vertex[3];	t[8].p[2] = vertex[2];
+	t[9].p[0] = vertex[2];	t[9].p[1] = vertex[1];	t[9].p[2] = vertex[0];
+	t[10].p[0] = vertex[4];	t[10].p[1] = vertex[5];	t[10].p[2] = vertex[6];
+	t[11].p[0] = vertex[6];	t[11].p[1] = vertex[7];	t[11].p[2] = vertex[4];
+
+	/*
+	
+	vertex[0].x = c.p2.x;	vertex[0].y = c.p1.y;	vertex[0].z = c.p1.z;
+	vertex[1].x = c.p1.x;	vertex[1].y = c.p1.y;	vertex[1].z = c.p1.z;
+	vertex[2].x = c.p1.x;	vertex[2].y = c.p2.y;	vertex[2].z = c.p1.z;
+	vertex[3].x = c.p2.x;	vertex[3].y = c.p2.y;	vertex[3].z = c.p1.z;
+	vertex[4].x = c.p2.x;	vertex[4].y = c.p1.y;	vertex[4].z = c.p2.z;
+	vertex[5].x = c.p1.x;	vertex[5].y = c.p1.y;	vertex[5].z = c.p2.z;
+	vertex[6].x = c.p1.x;	vertex[6].y = c.p2.y;	vertex[6].z = c.p2.z;
+	vertex[7].x = c.p2.x;	vertex[7].y = c.p2.y;	vertex[7].z = c.p2.z;
 
 	t[0].p[0] = vertex[2];	t[0].p[1] = vertex[1];	t[0].p[2] = vertex[0];
 	t[1].p[0] = vertex[0];	t[1].p[1] = vertex[3];	t[1].p[2] = vertex[2];
@@ -28,12 +59,15 @@ void cube2triangle(Triangle3D t[], Cube c) {
 	t[10].p[0] = vertex[1];	t[10].p[1] = vertex[6];	t[10].p[2] = vertex[5];
 	t[11].p[0] = vertex[6];	t[11].p[1] = vertex[1];	t[11].p[2] = vertex[2];
 
+	*/
+
 	for (int i = 0; i < 12; i++) {
 		t[i].o = c.o;
 		t[i].n = c.n;
 		t[i].k[0] = c.k[0];
 		t[i].k[1] = c.k[1];
 		t[i].k[2] = c.k[2];
+		t[i].ref = c.centroid;
 
 		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
 		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;

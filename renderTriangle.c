@@ -16,7 +16,7 @@ projection(Vector t[], Vector rtn[], Vector c, int d) {
 }
 
 void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
-    Vector u1, u2;	// 三角平面のベクトル
+    // Vector u1, u2;	// 三角平面のベクトル
 	// Plot plot[3] = {t.p1, t.p2, t.p3};
 
 	double color[3];	// 表示色[0,1]
@@ -35,11 +35,14 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 	o1.b = (double)t.o.b / 255;
 
 	// 3角形面の法線ベクトルNの算出
-    u1 = subtract(t.p[1], t.p[0]);
+	n = normalVector(t);
+	/*
+	u1 = subtract(t.p[1], t.p[0]);
     u2 = subtract(t.p[2], t.p[0]);
-    n = crossProduct(u2, u1);   // 現在右手系でうまくいく、左手系にしなくていい？
+    n = crossProduct(u2, u1);
 	n = normalize(n);
 	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+	*/
 
 	for (int i = 0; i < 3; i++) {
 		// 視線Vの算出

@@ -8,12 +8,18 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 
 	printf("***hiddenSurfaceRemoval***\n");
 	for (int i = 0; i < num; i++) {
+		printf("triangle[%d]\n", i);
+		n = normalVector(t[i]);
+		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+
+		/*
 		u1 = subtract(t[i].p[1], t[i].p[0]);
 		u2 = subtract(t[i].p[2], t[i].p[0]);
 
-		n = crossProduct(u2, u1);   // 現在右手系でうまくいく、左手系にしなくていい？
+		n = crossProduct(u1, u2);
 		n = normalize(n);
-		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);		
+		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);
+		*/
 		
 		v = subtract(s.c, t[i].g);
         v = normalize(v);

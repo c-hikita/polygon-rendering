@@ -30,6 +30,7 @@ typedef struct {
 	int n;
 	double k[3];
 	Vector g;
+	Vector ref;
 } Triangle3D;
 
 typedef struct {
@@ -46,8 +47,10 @@ typedef struct {
 } Settings;
 
 typedef struct {
-	int x1;	int y1;	int z1;
-	int x2; int y2; int z2;
+	Vector p1, p2;
+	Vector centroid;
+	// int x1;	int y1;	int z1;
+	// int x2; int y2; int z2;
 	Color255 o;
 	int n;
 	double k[3];
