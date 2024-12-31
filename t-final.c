@@ -16,7 +16,7 @@ void main(void) {
 	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
 	screen.d = 300;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
-	screen.iplot.x = 100;	screen.iplot.y = 100;	screen.iplot.z = 100;
+	screen.iplot.x = 150;	screen.iplot.y = 150;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
 	// sample triangles
@@ -69,20 +69,20 @@ void main(void) {
 
 	// 円柱データ定義
 	Cylinder cylinder;
-	Triangle3D tcylinder[48];
+	Triangle3D tcylinder[100];
 	cylinder.r = 100;	cylinder.h = 200;
 	cylinder.p.x = 200;	cylinder.p.y = 200;	cylinder.p.z = 200;
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
 	cylinder.k[0] = 0.5;	cylinder.k[1] = 0.5;	cylinder.k[2] = 0.5;
-	cylinder.div = 12;		
+	cylinder.div = 24;		
 	cylinder.num = 4 * cylinder.div;
 
 	background(screen.width, screen.height);
-	cube2triangle(tcube, cube);
-	drawPrimitive(cube.num, tcube, screen);
-	// cylinder2triangle(tcylinder, cylinder);
-	// drawPrimitive(cylinder.num, tcylinder, screen);
+	// cube2triangle(tcube, cube);
+	// drawPrimitive(cube.num, tcube, screen);
+	cylinder2triangle(tcylinder, cylinder);
+	drawPrimitive(cylinder.num, tcylinder, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);

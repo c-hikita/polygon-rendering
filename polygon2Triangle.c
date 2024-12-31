@@ -52,7 +52,7 @@ void cube2triangle(Triangle3D t[], Cube c) {
 void cylinder2triangle(Triangle3D t[], Cylinder c) {
     printf("\n*** cylinder2triangle ***\n");
 
-    Vector o1, o2, vertex[24];
+    Vector o1, o2, vertex[100];
     double theta = 2 * PI / c.div;
 
     // Cylinder base points
@@ -65,7 +65,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
         vertex[i] = (Vector){c.p.x + c.r * cos(theta * i),
                              c.p.y + c.r * sin(theta * i),
                              c.p.z};
-        vertex[i + 12] = (Vector){vertex[i].x, vertex[i].y, c.p.z + c.h};
+        vertex[i + c.div] = (Vector){vertex[i].x, vertex[i].y, c.p.z + c.h};
     }
 
     // Base triangles
@@ -78,18 +78,18 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
         t[i].p[2] = vertex[next];
 
         // Top face
-        t[i + 12].p[0] = o2;
-        t[i + 12].p[1] = vertex[next + 12];
-        t[i + 12].p[2] = vertex[i + 12];
+        t[i + c.div].p[0] = o2;
+        t[i + c.div].p[1] = vertex[next + c.div];
+        t[i + c.div].p[2] = vertex[i + c.div];
 
         // Side faces
-        t[i + 24].p[0] = vertex[i];
-        t[i + 24].p[1] = vertex[next];
-        t[i + 24].p[2] = vertex[next + 12];
+        t[i + 2 * c.div].p[0] = vertex[i];
+        t[i + 2 * c.div].p[1] = vertex[next];
+        t[i + 2 * c.div].p[2] = vertex[next + c.div];
 
-        t[i + 36].p[0] = vertex[i];
-        t[i + 36].p[1] = vertex[next + 12];
-        t[i + 36].p[2] = vertex[i + 12];
+        t[i + 3 * c.div].p[0] = vertex[i];
+        t[i + 3 * c.div].p[1] = vertex[next + c.div];
+        t[i + 3 * c.div].p[2] = vertex[i + c.div];
     }
 
     // Set triangle properties
@@ -165,7 +165,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 	}
 	
 	// printf("\n");
-	for (int i = 0; i < c.num; i++) { 
+	for (int i = 0; i < c.div; i++) { 
 		t[i].o = c.o;
 		t[i].n = c.n;
 		t[i].k[0] = c.k[0];
