@@ -47,8 +47,7 @@ Vector normalVector(Triangle3D t) {
     Vector n, u1, u2, reference;
     double test;
 
-    printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
-
+    // printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
 
     u1 = subtract(t.p[1], t.p[0]);
     u2 = subtract(t.p[2], t.p[0]);
@@ -64,7 +63,6 @@ Vector normalVector(Triangle3D t) {
 
         test = dotProduct(n, reference);
         printf("test: %.3lf\n", test);
-        
         
         if (test < 0) {
             n.x = - n.x;

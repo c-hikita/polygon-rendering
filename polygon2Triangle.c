@@ -10,8 +10,8 @@ void cube2triangle(Triangle3D t[], Cube c) {
 	c.centroid.y = (c.p1.y + c.p2.y) / 2;
 	c.centroid.z = (c.p1.z + c.p2.z) / 2;
 
-	printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
-	printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 		
+	// printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
+	// printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 		
 
 	vertex[0].x = c.p1.x;	vertex[0].y = c.p1.y;	vertex[0].z = c.p2.z;
 	vertex[1].x = c.p1.x;	vertex[1].y = c.p1.y;	vertex[1].z = c.p1.z;

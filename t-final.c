@@ -13,10 +13,10 @@
 void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
-	screen.c.x = 400;	screen.c.y = 400; screen.c.z = 100;
+	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
 	screen.d = 300;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
-	screen.iplot.x = 300;	screen.iplot.y = 300;	screen.iplot.z = 100;
+	screen.iplot.x = 100;	screen.iplot.y = 100;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
 	// sample triangles
@@ -59,8 +59,8 @@ void main(void) {
 	// 直方体データ定義
 	Cube cube;
 	Triangle3D tcube[12];
-	cube.p1.x = 300;	cube.p1.y = 300;	cube.p1.z = 300;
-	cube.p2.x = 400;	cube.p2.y = 400;	cube.p2.z = 350;
+	cube.p1.x = 200;	cube.p1.y = 200;	cube.p1.z = 200;
+	cube.p2.x = 300;	cube.p2.y = 300;	cube.p2.z = 250;
 	cube.o.r = 200;	cube.o.g = 200;	cube.o.b = 255;
 	cube.n = 9;
 	cube.k[0] = 0.5;	cube.k[1] = 0.5;	cube.k[2] = 0.5;
@@ -79,10 +79,10 @@ void main(void) {
 	cylinder.num = 4 * cylinder.div;
 
 	background(screen.width, screen.height);
-	// cube2triangle(tcube, cube);
-	// drawPrimitive(cube.num, tcube, screen);
-	cylinder2triangle(tcylinder, cylinder);
-	drawPrimitive(cylinder.num, tcylinder, screen);
+	cube2triangle(tcube, cube);
+	drawPrimitive(cube.num, tcube, screen);
+	// cylinder2triangle(tcylinder, cylinder);
+	// drawPrimitive(cylinder.num, tcylinder, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);
