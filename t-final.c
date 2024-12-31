@@ -78,11 +78,24 @@ void main(void) {
 	cylinder.div = 24;		
 	cylinder.num = 4 * cylinder.div;
 
+	// shpere
+	Sphere sphere;
+	Triangle3D tsphere[1000];
+	sphere.r = 100;
+	sphere.p.x = 200;	sphere.p.y = 200;	sphere.p.z = 200;
+	sphere.o.r = 200;	sphere.o.g = 200;	sphere.o.b = 255;
+	sphere.n = 9;
+	sphere.k[0] = 0.5;	sphere.k[1] = 0.5;	sphere.k[2] = 0.5;
+	sphere.lat_div = 12;		sphere.long_div = 8;
+	sphere.num = sphere.lat_div * sphere.long_div;
+
 	background(screen.width, screen.height);
 	// cube2triangle(tcube, cube);
 	// drawPrimitive(cube.num, tcube, screen);
-	cylinder2triangle(tcylinder, cylinder);
-	drawPrimitive(cylinder.num, tcylinder, screen);
+	// cylinder2triangle(tcylinder, cylinder);
+	// drawPrimitive(cylinder.num, tcylinder, screen);
+	sphere2triangle(tsphere, sphere);
+	drawPrimitive(sphere.num, tsphere, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);

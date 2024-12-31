@@ -108,76 +108,63 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
     }
 }
 
+void sphere2triangle(Triangle3D t[], Sphere s) {
+    printf("\n*** sphere2triangle ***\n");
 
-/*
-void cylinder2triangle(Triangle3D t[], Cylinder c) {
-	printf("\n*** cylinder2triangle ***\n");
-	// trying with 12 (change div in t-step[2])
+    Vector vertex[1000];
+    double theta_step = PI / s.lat_div;  // Vertical step
+    double phi_step = 2 * PI / s.long_div;  // Horizontal step
 
-	Vector o1, o2, vertex[24];
-	double theta;
+    // Generate vertices
+    int idx = 0;
+    for (int lat = 0; lat <= s.lat_div; lat++) {
+        double theta = lat * theta_step;  // Vertical angle
+        for (int lon = 0; lon < s.long_div; lon++) {
+            double phi = lon * phi_step;  // Horizontal angle
 
-	o1.x = c.p.x;		o1.y = c.p.y;		o1.z = c.p.z;
-	o2.x = c.p.x;		o2.y = c.p.y;		o2.z = c.p.z + c.h;
+            // Calculate the vertex position using spherical coordinates
+            vertex[idx].x = s.p.x + s.r * sin(theta) * cos(phi);
+            vertex[idx].y = s.p.y + s.r * sin(theta) * sin(phi);
+            vertex[idx].z = s.p.z + s.r * cos(theta);
+            idx++;
+        }
+    }
 
-	c.centroid.x = c.p.x;
-	c.centroid.y = c.p.y;
-	c.centroid.z = c.p.z + c.h / 2;
+    // Generate triangles for the horizontal slices (latitudinal)
+    idx = 0;
+    for (int lat = 0; lat < s.lat_div; lat++) {
+        for (int lon = 0; lon < s.long_div; lon++) {
+            int next_lon = (lon + 1) % s.long_div;
+            int next_lat = lat + 1;
 
-	theta = 2 * PI / c.div;
-	printf("theta: %.4lf\n", theta);
+            // Bottom triangles
+            t[idx].p[0] = vertex[lat * s.long_div + lon];
+            t[idx].p[1] = vertex[next_lat * s.long_div + lon];
+            t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
+            idx++;
 
-	for (int i = 0; i < c.div; i++) {
-		vertex[i].x = c.p.x + (int) (c.r * cos(theta * i));
-		vertex[i].y = c.p.y + (int) (c.r * sin(theta * i));
-		vertex[i].z = c.p.z;
+            // Top triangles
+            t[idx].p[0] = vertex[lat * s.long_div + lon];
+            t[idx].p[1] = vertex[next_lat * s.long_div + next_lon];
+            t[idx].p[2] = vertex[lat * s.long_div + next_lon];
+            idx++;
+        }
+    }
 
-		vertex[i + 12].x = vertex[i].x;
-		vertex[i + 12].y = vertex[i].y;
-		vertex[i + 12].z = c.p.z + c.h;
-	}
-	printf("\n");
-	for (int i = 0; i < c.div * 2; i++) {
-		printf("vertex[%d]: (%.3lf, %.3lf, %.3lf)\n", i, vertex[i].x, vertex[i].y, vertex[i].z);
-	}
-	
-	printf("\n");
-	// 底面（上下）
-	for (int i = 0; i < c.div; i++) {
-		int next;
+    // Set triangle properties (assuming you want them like the cylinder function)
+    for (int i = 0; i < s.num; i++) {
+        t[i].o = s.o;
+        t[i].n = s.n;
+        t[i].k[0] = s.k[0];
+        t[i].k[1] = s.k[1];
+        t[i].k[2] = s.k[2];
+        t[i].ref = s.p;  // Sphere's center as reference
 
-		if (i < c.div - 1) next = i + 1;
-		else next = 0;
-
-		// if (i == c.div - 1) printf("next: %d\n", next);
-
-		// 底面（下0-11, 上12-23）
-		t[i].p[0] = o1;			t[i].p[1] = vertex[next];			t[i].p[2] = vertex[i];
-		t[i + 12].p[0] = o2;	t[i + 12].p[1] = vertex[i + 12];	t[i + 12].p[2] = vertex[next + 12];
-
-
-		// 側面（24-35, 36-47)
-		// t[i + 24].p[0] = vertex[i];	t[i + 24].p[1] = vertex[next];		t[i + 24].p[2] = vertex[next + 12];
-		// t[i + 36].p[0] = vertex[i];	t[i + 36].p[1] = vertex[next + 12];	t[i + 36].p[2] = vertex[i + 12];
-
-		t[i + 24].p[0] = vertex[i];	t[i + 24].p[1] = vertex[next];		t[i + 24].p[2] = vertex[next + 12];
-		t[i + 36].p[0] = vertex[i];	t[i + 36].p[1] = vertex[next + 12];	t[i + 36].p[2] = vertex[i + 12];
-	}
-	
-	// printf("\n");
-	for (int i = 0; i < c.div; i++) { 
-		t[i].o = c.o;
-		t[i].n = c.n;
-		t[i].k[0] = c.k[0];
-		t[i].k[1] = c.k[1];
-		t[i].k[2] = c.k[2];
-		
-
-		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
-		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;
-		t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3;
-
-		// printf("g[%d]: (%.2lf, %.2lf, %.2lf)\n", i, t[i].g.x, t[i].g.y, t[i].g.z);
-	}
+        // Calculate centroid of each triangle
+        t[i].g = (Vector){
+            (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3,
+            (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3,
+            (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3
+        };
+    }
 }
-*/

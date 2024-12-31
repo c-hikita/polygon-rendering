@@ -71,5 +71,11 @@ typedef struct {
 
 typedef struct {
 	int r;
-	int x; int y; int z;
+	Vector p;
+	Color255 o;
+	int n;
+	double k[3];
+	int lat_div;
+	int long_div;
+	int num;
 } Sphere;
