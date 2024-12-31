@@ -47,27 +47,38 @@ Vector normalVector(Triangle3D t) {
     Vector n, u1, u2, reference;
     double test;
 
+     printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
+
+
     u1 = subtract(t.p[1], t.p[0]);
     u2 = subtract(t.p[2], t.p[0]);
     n = crossProduct(u2, u1);
 	n = normalize(n);
 
-    // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+    printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
     reference = subtract(t.g, t.ref);
     reference = normalize(reference);
-    // printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
+    printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
 
     test = dotProduct(n, reference);
-    // printf("test: %.3lf\n", test);
-
+    printf("test: %.3lf\n", test);
+    
     if (test < 0) {
         n.x = - n.x;
         n.y = - n.y;
         n.z = - n.z;
     }
 
-	// printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
     return n;
+}
+
+// 色成分のクランプ処理
+Color255 clampColor(Color255 color) {
+    color.r = (color.r < 0) ? 0 : (color.r > 255) ? 255 : color.r;
+    color.g = (color.g < 0) ? 0 : (color.g > 255) ? 255 : color.g;
+    color.b = (color.b < 0) ? 0 : (color.b > 255) ? 255 : color.b;
+    return color;
 }

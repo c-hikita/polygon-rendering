@@ -60,7 +60,8 @@ typedef struct {
 typedef struct {
 	int r;
 	int h;
-	int x;	int y; int z;
+	Vector p;
+	Vector centroid;
 	Color255 o;
 	int n;
 	double k[3];

@@ -82,20 +82,24 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 	Vector o1, o2, vertex[24];
 	double theta;
 
-	o1.x = c.x;		o1.y = c.y;		o1.z = c.z;
-	o2.x = c.x;		o2.y = c.y;		o2.z = c.z + c.h;
+	o1.x = c.p.x;		o1.y = c.p.y;		o1.z = c.p.z;
+	o2.x = c.p.x;		o2.y = c.p.y;		o2.z = c.p.z + c.h;
+
+	c.centroid.x = c.p.x;
+	c.centroid.y = c.p.y;
+	c.centroid.z = c.p.z + c.h / 2;
 
 	theta = 2 * PI / c.div;
 	printf("theta: %.4lf\n", theta);
 
 	for (int i = 0; i < c.div; i++) {
-		vertex[i].x = c.x + (int) (c.r * cos(theta * i));
-		vertex[i].y = c.y + (int) (c.r * sin(theta * i));
-		vertex[i].z = c.z;
+		vertex[i].x = c.p.x + (int) (c.r * cos(theta * i));
+		vertex[i].y = c.p.y + (int) (c.r * sin(theta * i));
+		vertex[i].z = c.p.z;
 
 		vertex[i + 12].x = vertex[i].x;
 		vertex[i + 12].y = vertex[i].y;
-		vertex[i + 12].z = c.z + c.h;
+		vertex[i + 12].z = c.p.z + c.h;
 	}
 	printf("\n");
 	for (int i = 0; i < c.div * 2; i++) {
@@ -113,7 +117,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 		// if (i == c.div - 1) printf("next: %d\n", next);
 
 		// 底面（下0-11, 上12-23）
-		t[i].p[0] = o1;		t[i].p[1] = vertex[next];			t[i].p[2] = vertex[i];
+		t[i].p[0] = o1;			t[i].p[1] = vertex[next];			t[i].p[2] = vertex[i];
 		t[i + 12].p[0] = o2;	t[i + 12].p[1] = vertex[i + 12];	t[i + 12].p[2] = vertex[next + 12];
 
 		/*
@@ -128,26 +132,6 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 		t[i + 24].p[0] = vertex[i];	t[i + 24].p[1] = vertex[next];		t[i + 24].p[2] = vertex[next + 12];
 		t[i + 36].p[0] = vertex[i];	t[i + 36].p[1] = vertex[next + 12];	t[i + 36].p[2] = vertex[i + 12];
 	}
-
-	/*
-	0 13 1
-	6 19 7
-	7 20 8
-	8 21
-	9 22
-	10 23
-	11 12
-
-	0 12 13
-	6 18 19
-	7 19 20
-	8 20 21
-	9 21 22
-	10 22 23
-	11 23 12
-
-	
-	*/
 	
 	// printf("\n");
 	for (int i = 0; i < c.num; i++) { 
@@ -156,6 +140,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 		t[i].k[0] = c.k[0];
 		t[i].k[1] = c.k[1];
 		t[i].k[2] = c.k[2];
+		
 
 		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
 		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;

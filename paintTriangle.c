@@ -34,14 +34,6 @@ int myMax(int a, int b) {
     return (a > b) ? a : b;
 }
 
-// 色成分のクランプ処理
-Color255 clampColor(Color255 color) {
-    color.r = (color.r < 0) ? 0 : (color.r > 255) ? 255 : color.r;
-    color.g = (color.g < 0) ? 0 : (color.g > 255) ? 255 : color.g;
-    color.b = (color.b < 0) ? 0 : (color.b > 255) ? 255 : color.b;
-    return color;
-}
-
 // Function to render a triangle with Gouraud shading based on color interpolation
 void paintTriangle(int width, int height, Rendered rendered) {
     // Extract vertices and colors

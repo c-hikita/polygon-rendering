@@ -36,12 +36,13 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 
 	// 3角形面の法線ベクトルNの算出
 	n = normalVector(t);
+	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+
 	/*
 	u1 = subtract(t.p[1], t.p[0]);
     u2 = subtract(t.p[2], t.p[0]);
     n = crossProduct(u2, u1);
 	n = normalize(n);
-	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 	*/
 
 	for (int i = 0; i < 3; i++) {
@@ -75,14 +76,18 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 		color[2] = t.k[0] * o1.b * s.a.b + t.k[1] * o1.b * s.icolor.b * ln + t.k[2] * s.icolor.b * pow(rv, t.n);
 		// printf("(r,g,b) = (%.3lf, %.3lf, %.3lf)\n", color[0], color[1], color[2]);
 
+		/*
 		for (int j = 0; j < 3; j++) {
 			if (color[j] < 0) color[j] = 0;
 		}
+		*/
 		
 		// 色の範囲を[0,1]から[0,255]に変更;
 		rtn[i].r = (int)(color[0] * 255);
 		rtn[i].g = (int)(color[1] * 255);
 		rtn[i].b = (int)(color[2] * 255);
+
+		rtn[i] = clampColor(rtn[i]);
         printf("(r,g,b) = (%d, %d, %d)\n\n", rtn[i].r, rtn[i].g, rtn[i].b);
 	}
 }
