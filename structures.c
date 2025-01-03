@@ -30,6 +30,8 @@ typedef struct {
 	int n;
 	double k[3];
 	Vector g;
+	Vector ref;
+	int id; // 1: cube, 2: cylinder, 3: sphere
 } Triangle3D;
 
 typedef struct {
@@ -44,3 +46,37 @@ typedef struct {
 	Vector iplot;			// 光源Iの位置
 	Color1 icolor, a;	// 光源Iの色, 環境光
 } Settings;
+
+typedef struct {
+	Vector p1, p2;
+	Vector centroid;
+	// int x1;	int y1;	int z1;
+	// int x2; int y2; int z2;
+	Color255 o;
+	int n;
+	double k[3];
+	int num;
+} Cube;
+
+typedef struct {
+	int r;
+	int h;
+	Vector p;
+	Vector centroid;
+	Color255 o;
+	int n;
+	double k[3];
+	int div;
+	int num;
+} Cylinder;
+
+typedef struct {
+	int r;
+	Vector p;
+	Color255 o;
+	int n;
+	double k[3];
+	int lat_div;
+	int long_div;
+	int num;
+} Sphere;
