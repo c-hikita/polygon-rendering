@@ -132,6 +132,10 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
         }
     }
 
+    // Add the poles as separate vertices
+    Vector north_pole = {s.p.x, s.p.y, s.p.z + s.r};
+    Vector south_pole = {s.p.x, s.p.y, s.p.z - s.r};
+
     // Generate triangles for the horizontal slices (latitudinal)
     idx = 0;
     for (int lat = 0; lat < s.lat_div; lat++) {
@@ -139,17 +143,31 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
             int next_lon = (lon + 1) % s.long_div;
             int next_lat = lat + 1;
 
-            // Bottom triangles
-            t[idx].p[0] = vertex[lat * s.long_div + lon];
-            t[idx].p[1] = vertex[next_lat * s.long_div + lon];
-            t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
-            idx++;
+            if (lat == 0) {
+                // Triangles at the north pole
+                t[idx].p[0] = north_pole;
+                t[idx].p[1] = vertex[next_lat * s.long_div + lon];
+                t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
+                idx++;
+            } else if (lat == s.lat_div - 1) {
+                // Triangles at the south pole
+                t[idx].p[0] = vertex[lat * s.long_div + lon];
+                t[idx].p[1] = south_pole;
+                t[idx].p[2] = vertex[lat * s.long_div + next_lon];
+                idx++;
+            } else {
+                // Bottom triangles
+                t[idx].p[0] = vertex[lat * s.long_div + lon];
+                t[idx].p[1] = vertex[next_lat * s.long_div + lon];
+                t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
+                idx++;
 
-            // Top triangles
-            t[idx].p[0] = vertex[lat * s.long_div + lon];
-            t[idx].p[1] = vertex[next_lat * s.long_div + next_lon];
-            t[idx].p[2] = vertex[lat * s.long_div + next_lon];
-            idx++;
+                // Top triangles
+                t[idx].p[0] = vertex[lat * s.long_div + lon];
+                t[idx].p[1] = vertex[next_lat * s.long_div + next_lon];
+                t[idx].p[2] = vertex[lat * s.long_div + next_lon];
+                idx++;
+            }
         }
     }
 

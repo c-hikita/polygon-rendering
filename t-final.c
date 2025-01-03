@@ -14,7 +14,7 @@ void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
 	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
-	screen.d = 300;
+	screen.d = 400;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
 	screen.iplot.x = 150;	screen.iplot.y = 150;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;

@@ -7,10 +7,15 @@ projection(Vector t[], Vector rtn[], Vector c, int d) {
 		rtn[i].x = d * t[i].x;
 		rtn[i].y = d * t[i].y;
 
+		if (t[i].z + c.x != 0) rtn[i].x /= (t[i].z + c.x);
+		if (t[i].z + c.y != 0) rtn[i].y /= (t[i].z + c.y);
+
+		/*
 		if (t[i].z != 0) {
 			rtn[i].x /= t[i].z;
 			rtn[i].y /= t[i].z;
 		}
+		*/
 		rtn[i].z = d;
 	}
 }
