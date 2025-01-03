@@ -31,6 +31,7 @@ typedef struct {
 	double k[3];
 	Vector g;
 	Vector ref;
+	int id; // 1: cube, 2: cylinder, 3: sphere
 } Triangle3D;
 
 typedef struct {

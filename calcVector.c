@@ -43,7 +43,7 @@ Vector calcCentroid(Vector p[]) {
 }
 
 Vector normalVector(Triangle3D t) {
-    printf("*** normalVector ***\n");
+    // printf("*** normalVector ***\n");
     Vector n, u1, u2, reference;
     double test;
 
@@ -54,15 +54,16 @@ Vector normalVector(Triangle3D t) {
     n = crossProduct(u2, u1);
 	n = normalize(n);
 
-    printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+    // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
-    if (abs(n.x) == 1 || abs(n.y) == 1 || abs(n.z) == 1) {
+    
+    if (t.id == 1 || t.id == 3) {
         reference = subtract(t.g, t.ref);
         reference = normalize(reference);
-        printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
+        // printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
 
         test = dotProduct(n, reference);
-        printf("test: %.3lf\n", test);
+        // printf("test: %.3lf\n", test);
         
         if (test < 0) {
             n.x = - n.x;
@@ -70,7 +71,7 @@ Vector normalVector(Triangle3D t) {
             n.z = - n.z;
         }
         
-        printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+        //printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
     }
     return n;
 }

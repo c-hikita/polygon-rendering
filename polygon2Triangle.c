@@ -42,6 +42,7 @@ void cube2triangle(Triangle3D t[], Cube c) {
 		t[i].k[1] = c.k[1];
 		t[i].k[2] = c.k[2];
 		t[i].ref = c.centroid;
+        t[i].id = 1;
 
 		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
 		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;
@@ -100,6 +101,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
         t[i].k[1] = c.k[1];
         t[i].k[2] = c.k[2];
 		t[i].ref = c.centroid;
+        t[i].id = 2;
 
         // Calculate centroid
         t[i].g = (Vector){(t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3,
@@ -159,6 +161,7 @@ void sphere2triangle(Triangle3D t[], Sphere s) {
         t[i].k[1] = s.k[1];
         t[i].k[2] = s.k[2];
         t[i].ref = s.p;  // Sphere's center as reference
+        t[i].id = 3;
 
         // Calculate centroid of each triangle
         t[i].g = (Vector){

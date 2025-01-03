@@ -14,9 +14,9 @@ void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
 	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
-	screen.d = 300;
+	screen.d = 200;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
-	screen.iplot.x = 150;	screen.iplot.y = 150;	screen.iplot.z = 100;
+	screen.iplot.x = 100;	screen.iplot.y = 100;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
 	// sample triangles
@@ -82,12 +82,14 @@ void main(void) {
 	Sphere sphere;
 	Triangle3D tsphere[1000];
 	sphere.r = 100;
-	sphere.p.x = 200;	sphere.p.y = 200;	sphere.p.z = 200;
+	sphere.p.x = 200;	sphere.p.y = 200;	sphere.p.z = 300;
 	sphere.o.r = 200;	sphere.o.g = 200;	sphere.o.b = 255;
 	sphere.n = 9;
 	sphere.k[0] = 0.5;	sphere.k[1] = 0.5;	sphere.k[2] = 0.5;
-	sphere.lat_div = 12;		sphere.long_div = 8;
-	sphere.num = sphere.lat_div * sphere.long_div;
+	sphere.lat_div = 24;		sphere.long_div = 12;
+	sphere.num = sphere.lat_div + sphere.long_div + sphere.lat_div * (sphere.long_div - 2) * 2;
+
+	// printf("num: %d\n", sphere.num);
 
 	background(screen.width, screen.height);
 	// cube2triangle(tcube, cube);
