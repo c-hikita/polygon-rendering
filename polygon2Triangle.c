@@ -1,18 +1,82 @@
 ﻿// polygon2Triangle
 // Chikako Hikita
 
-void cube2triangle(Triangle3D t[], Cube c) {
+void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 	printf("\n*** cube2triangle ***\n");
 
-	Vector vertex[8];
+	// Vector vertices[8];
 
 	c.centroid.x = (c.p1.x + c.p2.x) / 2;
 	c.centroid.y = (c.p1.y + c.p2.y) / 2;
 	c.centroid.z = (c.p1.z + c.p2.z) / 2;
 
-	// printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
-	// printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 		
+    printf("translate.x: %.3lf\n", tf.translate.x);
+    printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
+    printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
 
+    if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
+        c.p1.x += tf.translate.x;
+        c.p1.y += tf.translate.y;
+        c.p1.z += tf.translate.z;
+
+        c.p2.x += tf.translate.x;
+        c.p2.y += tf.translate.y;
+        c.p2.z += tf.translate.z;
+    }
+
+    if (tf.scale != 100) {
+        double scale = tf.scale / 100.0;
+        c.p2.x = c.p1.x + (c.p2.x - c.p1.x) * scale;
+        c.p2.y = c.p1.y + (c.p2.y - c.p1.y) * scale;
+        c.p2.z = c.p1.z + (c.p2.z - c.p1.z) * scale;
+    }
+
+    printf("Translated Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
+    printf("Translated Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
+
+    // Define the cube vertices relative to its diagonal points
+    Vector vertices[8] = {
+        {c.p1.x, c.p1.y, c.p2.z},
+        {c.p1.x, c.p1.y, c.p1.z},
+        {c.p2.x, c.p1.y, c.p1.z},
+        {c.p2.x, c.p1.y, c.p2.z},
+        {c.p1.x, c.p2.y, c.p2.z},
+        {c.p1.x, c.p2.y, c.p1.z},
+        {c.p2.x, c.p2.y, c.p1.z},
+        {c.p2.x, c.p2.y, c.p2.z}
+    };
+
+    if (tf.rotate_x != 0 || tf.rotate_y != 0 || tf.rotate_z != 0) {
+        // Translate vertices to be relative to the c.centroid
+        for (int i = 0; i < 8; i++) {
+            vertices[i].x -= c.centroid.x;
+            vertices[i].y -= c.centroid.y;
+            vertices[i].z -= c.centroid.z;
+        }
+
+        // Rotate the vertices
+        for (int i = 0; i < 8; i++) {
+            vertices[i] = rotatePoint(vertices[i], tf.rotate_x, tf.rotate_y, tf.rotate_z);
+        }
+
+        // Translate vertices back to the world coordinates
+        for (int i = 0; i < 8; i++) {
+            vertices[i].x += c.centroid.x;
+            vertices[i].y += c.centroid.y;
+            vertices[i].z += c.centroid.z;
+        }
+
+        // Print the rotated vertices
+        printf("Rotated Cube Vertices:\n");
+        for (int i = 0; i < 8; i++) {
+            printf("Vertex %d: (%f, %f, %f)\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
+        }
+    }
+
+	// printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
+	// printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 	
+
+    /*	
 	vertex[0].x = c.p1.x;	vertex[0].y = c.p1.y;	vertex[0].z = c.p2.z;
 	vertex[1].x = c.p1.x;	vertex[1].y = c.p1.y;	vertex[1].z = c.p1.z;
 	vertex[2].x = c.p2.x;	vertex[2].y = c.p1.y;	vertex[2].z = c.p1.z;
@@ -21,19 +85,20 @@ void cube2triangle(Triangle3D t[], Cube c) {
 	vertex[5].x = c.p1.x;	vertex[5].y = c.p2.y;	vertex[5].z = c.p1.z;
 	vertex[6].x = c.p2.x;	vertex[6].y = c.p2.y;	vertex[6].z = c.p1.z;
 	vertex[7].x = c.p2.x;	vertex[7].y = c.p2.y;	vertex[7].z = c.p2.z;
+    */
 
-	t[0].p[0] = vertex[0];	t[0].p[1] = vertex[4];	t[0].p[2] = vertex[7];
-	t[1].p[0] = vertex[7];	t[1].p[1] = vertex[3];	t[1].p[2] = vertex[0];
-	t[2].p[0] = vertex[1];	t[2].p[1] = vertex[2];	t[2].p[2] = vertex[6];
-	t[3].p[0] = vertex[6];	t[3].p[1] = vertex[5];	t[3].p[2] = vertex[1];
-	t[4].p[0] = vertex[0];	t[4].p[1] = vertex[1];	t[4].p[2] = vertex[5];
-	t[5].p[0] = vertex[5];	t[5].p[1] = vertex[4];	t[5].p[2] = vertex[0];
-	t[6].p[0] = vertex[3];	t[6].p[1] = vertex[7];	t[6].p[2] = vertex[6];
-	t[7].p[0] = vertex[6];	t[7].p[1] = vertex[2];	t[7].p[2] = vertex[3];
-	t[8].p[0] = vertex[0];	t[8].p[1] = vertex[3];	t[8].p[2] = vertex[2];
-	t[9].p[0] = vertex[2];	t[9].p[1] = vertex[1];	t[9].p[2] = vertex[0];
-	t[10].p[0] = vertex[4];	t[10].p[1] = vertex[5];	t[10].p[2] = vertex[6];
-	t[11].p[0] = vertex[6];	t[11].p[1] = vertex[7];	t[11].p[2] = vertex[4];
+	t[0].p[0] = vertices[0];	t[0].p[1] = vertices[4];	t[0].p[2] = vertices[7];
+	t[1].p[0] = vertices[7];	t[1].p[1] = vertices[3];	t[1].p[2] = vertices[0];
+	t[2].p[0] = vertices[1];	t[2].p[1] = vertices[2];	t[2].p[2] = vertices[6];
+	t[3].p[0] = vertices[6];	t[3].p[1] = vertices[5];	t[3].p[2] = vertices[1];
+	t[4].p[0] = vertices[0];	t[4].p[1] = vertices[1];	t[4].p[2] = vertices[5];
+	t[5].p[0] = vertices[5];	t[5].p[1] = vertices[4];	t[5].p[2] = vertices[0];
+	t[6].p[0] = vertices[3];	t[6].p[1] = vertices[7];	t[6].p[2] = vertices[6];
+	t[7].p[0] = vertices[6];	t[7].p[1] = vertices[2];	t[7].p[2] = vertices[3];
+	t[8].p[0] = vertices[0];	t[8].p[1] = vertices[3];	t[8].p[2] = vertices[2];
+	t[9].p[0] = vertices[2];	t[9].p[1] = vertices[1];	t[9].p[2] = vertices[0];
+	t[10].p[0] = vertices[4];	t[10].p[1] = vertices[5];	t[10].p[2] = vertices[6];
+	t[11].p[0] = vertices[6];	t[11].p[1] = vertices[7];	t[11].p[2] = vertices[4];
 
 	for (int i = 0; i < 12; i++) {
 		t[i].o = c.o;

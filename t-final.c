@@ -5,6 +5,7 @@
 #include "writeBmp.c"
 #include "structures.c"
 #include "calcVector.c"
+#include "rotatePoint.c"
 #include "renderTriangle.c"
 #include "paintTriangle.c"
 #include "drawPrimitive.c"
@@ -54,18 +55,22 @@ void main(void) {
 		t[i].k[0] = 0.5;	t[i].k[1] = 0.5;	t[i].k[2] = 0.5;
 	}
 	*/
-	
+
+	Transform tf;
+	tf.translate.x = 0;	tf.translate.y = 0;	tf.translate.z = 0;
+	tf.scale = 100;
+	tf.rotate_x = 0;	tf.rotate_y = 30;	tf.rotate_z = 30;
+
 	
 	// 直方体データ定義
 	Cube cube;
 	Triangle3D tcube[12];
 	cube.p1.x = 200;	cube.p1.y = 200;	cube.p1.z = 200;
-	cube.p2.x = 300;	cube.p2.y = 300;	cube.p2.z = 250;
+	cube.p2.x = 300;	cube.p2.y = 300;	cube.p2.z = 300;
 	cube.o.r = 200;	cube.o.g = 200;	cube.o.b = 255;
 	cube.n = 9;
 	cube.k[0] = 0.5;	cube.k[1] = 0.5;	cube.k[2] = 0.5;
 	cube.num = 12;
-	
 
 	// 円柱データ定義
 	Cylinder cylinder;
@@ -92,12 +97,14 @@ void main(void) {
 	// printf("num: %d\n", sphere.num);
 
 	background(screen.width, screen.height);
-	// cube2triangle(tcube, cube);
-	// drawPrimitive(cube.num, tcube, screen);
+	// cube = transformCube(cube, tf);
+	cube2triangle(tcube, cube, tf);
+	drawPrimitive(cube.num, tcube, screen);
+
 	// cylinder2triangle(tcylinder, cylinder);
 	// drawPrimitive(cylinder.num, tcylinder, screen);
-	sphere.num = sphere2triangle(tsphere, sphere);
-	drawPrimitive(sphere.num, tsphere, screen);
+	// sphere.num = sphere2triangle(tsphere, sphere);
+	// drawPrimitive(sphere.num, tsphere, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);
