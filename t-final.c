@@ -14,9 +14,9 @@ void main(void) {
 	Settings screen;
 	screen.width = 640;	screen.height = 480;
 	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
-	screen.d = 200;
+	screen.d = 300;
 	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
-	screen.iplot.x = 100;	screen.iplot.y = 100;	screen.iplot.z = 100;
+	screen.iplot.x = 150;	screen.iplot.y = 150;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
 	// sample triangles
@@ -69,25 +69,25 @@ void main(void) {
 
 	// 円柱データ定義
 	Cylinder cylinder;
-	Triangle3D tcylinder[100];
-	cylinder.r = 100;	cylinder.h = 200;
+	Triangle3D tcylinder[500];
+	cylinder.r = 100;	cylinder.h = 100;
 	cylinder.p.x = 200;	cylinder.p.y = 200;	cylinder.p.z = 200;
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
 	cylinder.k[0] = 0.5;	cylinder.k[1] = 0.5;	cylinder.k[2] = 0.5;
-	cylinder.div = 24;		
+	cylinder.div = 32;		
 	cylinder.num = 4 * cylinder.div;
 
 	// shpere
 	Sphere sphere;
-	Triangle3D tsphere[1000];
+	Triangle3D tsphere[2000];
 	sphere.r = 100;
-	sphere.p.x = 200;	sphere.p.y = 200;	sphere.p.z = 300;
+	sphere.p.x = 200;	sphere.p.y = 200;	sphere.p.z = 250;
 	sphere.o.r = 200;	sphere.o.g = 200;	sphere.o.b = 255;
 	sphere.n = 9;
 	sphere.k[0] = 0.5;	sphere.k[1] = 0.5;	sphere.k[2] = 0.5;
-	sphere.lat_div = 24;		sphere.long_div = 12;
-	sphere.num = sphere.lat_div + sphere.long_div + sphere.lat_div * (sphere.long_div - 2) * 2;
+	sphere.lat_div = 24;		sphere.long_div = 24;
+	// sphere.num = sphere.lat_div + sphere.long_div + sphere.lat_div * (sphere.long_div - 2) * 2;
 
 	// printf("num: %d\n", sphere.num);
 
@@ -96,7 +96,7 @@ void main(void) {
 	// drawPrimitive(cube.num, tcube, screen);
 	// cylinder2triangle(tcylinder, cylinder);
 	// drawPrimitive(cylinder.num, tcylinder, screen);
-	sphere2triangle(tsphere, sphere);
+	sphere.num = sphere2triangle(tsphere, sphere);
 	drawPrimitive(sphere.num, tsphere, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み

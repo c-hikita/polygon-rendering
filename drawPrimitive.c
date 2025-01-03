@@ -10,7 +10,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 	for (int i = 0; i < num; i++) {
 		// printf("triangle[%d]\n", i);
 		n = normalVector(t[i]);
-		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+		// printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
 		/*
 		u1 = subtract(t[i].p[1], t[i].p[0]);
@@ -26,7 +26,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 	 	// printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
 
 		nv = dotProduct(n, v);
-		printf("%d NV: %.3lf\n\n", i, nv);
+		// printf("%d NV: %.3lf\n\n", i, nv);
 
 		if (nv >= 0) {
 			removed[rtn] = t[i];
@@ -62,20 +62,20 @@ void sortTriangles(int n, Triangle3D t[]) {
 
 void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	int count;
-	Triangle3D removed[1000];
+	Triangle3D removed[2000];
 	Rendered rendered;
 
 	count = hiddenSurfaceRemoval(num, removed, t, s);
 	sortTriangles(count, removed);
 	
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < count; i++) {
 		printf("\ntriangle %d\n", i);
 		// t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x)/3;
 		// t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y)/3;
 		// t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z)/3;
 		// printf("g: (%.3lf %.3lf %.3lf)\n", t[i].g.x, t[i].g.y, t[i].g.z);
 
-		rendered = renderTriangle(t[i], s);
+		rendered = renderTriangle(removed[i], s);
 		// printf("rendered: (%d %d %d)\n", rendered.cp[0].c.r, rendered.cp[0].c.g, rendered.cp[0].c.b);
 
 		paintTriangle(s.width, s.height, rendered);

@@ -53,7 +53,7 @@ void cube2triangle(Triangle3D t[], Cube c) {
 void cylinder2triangle(Triangle3D t[], Cylinder c) {
     printf("\n*** cylinder2triangle ***\n");
 
-    Vector o1, o2, vertex[100];
+    Vector o1, o2, vertex[300];
     double theta = 2 * PI / c.div;
 
     // Cylinder base points
@@ -110,10 +110,10 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
     }
 }
 
-void sphere2triangle(Triangle3D t[], Sphere s) {
+int sphere2triangle(Triangle3D t[], Sphere s) {
     printf("\n*** sphere2triangle ***\n");
 
-    Vector vertex[1000];
+    Vector vertex[2000];
     double theta_step = PI / s.lat_div;  // Vertical step
     double phi_step = 2 * PI / s.long_div;  // Horizontal step
 
@@ -153,8 +153,10 @@ void sphere2triangle(Triangle3D t[], Sphere s) {
         }
     }
 
+    printf("idx: %d\n", idx);
+
     // Set triangle properties (assuming you want them like the cylinder function)
-    for (int i = 0; i < s.num; i++) {
+    for (int i = 0; i < idx; i++) {
         t[i].o = s.o;
         t[i].n = s.n;
         t[i].k[0] = s.k[0];
@@ -170,4 +172,6 @@ void sphere2triangle(Triangle3D t[], Sphere s) {
             (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3
         };
     }
+
+    return idx;
 }

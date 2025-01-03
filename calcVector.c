@@ -56,7 +56,6 @@ Vector normalVector(Triangle3D t) {
 
     // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
-    
     if (t.id == 1 || t.id == 3) {
         reference = subtract(t.g, t.ref);
         reference = normalize(reference);
@@ -70,8 +69,7 @@ Vector normalVector(Triangle3D t) {
             n.y = - n.y;
             n.z = - n.z;
         }
-        
-        //printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+        // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
     }
     return n;
 }
