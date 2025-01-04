@@ -59,7 +59,7 @@ void main(void) {
 	Transform tf;
 	tf.translate.x = 200;	tf.translate.y = 200;	tf.translate.z = 100;
 	tf.scale = 100;
-	tf.rotate.x = 30;	tf.rotate.y = 60;	tf.rotate.z = 0;
+	tf.rotate.x = 0;	tf.rotate.y = 30;	tf.rotate.z = 0;
 
 	// 直方体データ定義
 	Cube cube;
@@ -74,7 +74,7 @@ void main(void) {
 	// 円柱データ定義
 	Cylinder cylinder;
 	Triangle3D tcylinder[1000];
-	cylinder.r = 100;	cylinder.h = 100;
+	cylinder.r = 100;	cylinder.h = 200;
 	cylinder.p.x = 200;	cylinder.p.y = 200;	cylinder.p.z = 200;
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;

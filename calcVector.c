@@ -11,6 +11,16 @@ Vector subtract(Vector a, Vector b) {
     return result;
 }
 
+Vector multiply(Vector a, double n) {
+    Vector result = {a.x * n, a.y * n, a.z * n};
+    return result;
+}
+
+Vector divide(Vector a, double n) {
+    Vector result = {a.x / n, a.y / n, a.z / n};
+    return result;
+}
+
 // Function to compute the cross product of two vectors
 Vector crossProduct(Vector a, Vector b) {
     Vector result = {

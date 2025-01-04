@@ -131,7 +131,7 @@ void rotateVertices (Vector v[], Vector c, Vector angle, int num) {
     }
 
     // Print the rotated vertices
-    printf("Rotated Cube Vertices:\n");
+    printf("Rotated Vertices:\n");
     for (int i = 0; i < num; i++) {
         printf("Vertex %d: (%f, %f, %f)\n", i, v[i].x, v[i].y, v[i].z);
     }

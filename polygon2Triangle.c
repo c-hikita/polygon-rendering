@@ -80,6 +80,98 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
     printf("\n*** cylinder2triangle ***\n");
 
+    Vector o[2], vertices[500];
+    double theta = 2 * PI / c.div;
+
+    // 1. Apply Scaling
+    if (tf.scale != 100) {
+        double scale = tf.scale / 100.0;
+        c.r *= scale;
+        c.h *= scale;
+    }
+
+    // 2. Define Base Points (before translation and rotation)
+
+
+    // 3. Apply Translation
+    c.p.x += tf.translate.x;
+    c.p.y += tf.translate.y;
+    c.p.z += tf.translate.z;
+
+    // Update Points After Translation
+    o[0] = c.p;
+    o[1] = (Vector){c.p.x, c.p.y, c.p.z + c.h};
+    c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
+
+    // 4. Generate Vertices
+    for (int i = 0; i < c.div; i++) {
+        double angle = i * theta;
+        vertices[i] = (Vector){
+            c.p.x + c.r * cos(angle),
+            c.p.y + c.r * sin(angle),
+            c.p.z
+        };
+        vertices[i + c.div] = (Vector){
+            vertices[i].x,
+            vertices[i].y,
+            c.p.z + c.h
+        };
+    }
+
+    // 5. Apply Rotation
+    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
+        rotateVertices(vertices, c.centroid, tf.rotate, c.div * 2);
+        rotateVertices(o, c.centroid, tf.rotate, 2);
+    }
+
+    // 6. Create Triangles (unchanged from original logic)
+    for (int i = 0; i < c.div; i++) {
+        int next = (i + 1) % c.div;
+
+        // Bottom face
+        t[i].p[0] = o[0];
+        t[i].p[1] = vertices[next];
+        t[i].p[2] = vertices[i];
+
+        // Top face
+        t[i + c.div].p[0] = o[1];
+        t[i + c.div].p[1] = vertices[i + c.div];
+        t[i + c.div].p[2] = vertices[next + c.div];
+
+        // Side faces
+        t[i + 2 * c.div].p[0] = vertices[i];
+        t[i + 2 * c.div].p[1] = vertices[next];
+        t[i + 2 * c.div].p[2] = vertices[next + c.div];
+
+        t[i + 3 * c.div].p[0] = vertices[i];
+        t[i + 3 * c.div].p[1] = vertices[next + c.div];
+        t[i + 3 * c.div].p[2] = vertices[i + c.div];
+    }    
+
+    // 7. Assign Triangle Properties
+    for (int i = 0; i < c.num; i++) {
+        t[i].o = c.o;
+        t[i].n = c.n;
+        t[i].k[0] = c.k[0];
+        t[i].k[1] = c.k[1];
+        t[i].k[2] = c.k[2];
+        t[i].ref = c.centroid;
+        t[i].id = 2;
+
+        // Calculate centroid
+        t[i].g = (Vector){
+            (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3,
+            (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3,
+            (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3
+        };
+    }
+}
+
+
+/*
+void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
+    printf("\n*** cylinder2triangle ***\n");
+
     Vector o1, o2, vertices[500];
     double theta = 2 * PI / c.div;
 
@@ -90,22 +182,17 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
         c.h *= scale;
     }
 
-    // Compute centroid before translation
-    // c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
-
     // Apply translation
-    /*
     c.p.x += tf.translate.x;
     c.p.y += tf.translate.y;
     c.p.z += tf.translate.z;
-    */
 
     // Update cylinder points after translation
     o1 = c.p;
     o2 = (Vector){c.p.x, c.p.y, c.p.z + c.h};
     c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
 
-    printf("Centroid after transformations: (%f, %f, %f)\n", c.centroid.x, c.centroid.y, c.centroid.z);
+    printf("Centroid: (%f, %f, %f)\n", c.centroid.x, c.centroid.y, c.centroid.z);
 
     // Generate vertices for the cylinder
     for (int i = 0; i < c.div; i++) {
@@ -134,7 +221,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
         vertices[i].y += tf.translate.y;
         vertices[i].z += tf.translate.z;
     }
-    */
+    
 
     // Create triangles
     for (int i = 0; i < c.div; i++) {
@@ -178,7 +265,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
         };
     }
 }
-
+*/
 
 /*
 void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
