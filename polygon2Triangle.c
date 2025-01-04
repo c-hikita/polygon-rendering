@@ -46,46 +46,9 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
         {c.p2.x, c.p2.y, c.p2.z}
     };
 
-    if (tf.rotate_x != 0 || tf.rotate_y != 0 || tf.rotate_z != 0) {
-        // Translate vertices to be relative to the c.centroid
-        for (int i = 0; i < 8; i++) {
-            vertices[i].x -= c.centroid.x;
-            vertices[i].y -= c.centroid.y;
-            vertices[i].z -= c.centroid.z;
-        }
-
-        // Rotate the vertices
-        for (int i = 0; i < 8; i++) {
-            vertices[i] = rotatePoint(vertices[i], tf.rotate_x, tf.rotate_y, tf.rotate_z);
-        }
-
-        // Translate vertices back to the world coordinates
-        for (int i = 0; i < 8; i++) {
-            vertices[i].x += c.centroid.x;
-            vertices[i].y += c.centroid.y;
-            vertices[i].z += c.centroid.z;
-        }
-
-        // Print the rotated vertices
-        printf("Rotated Cube Vertices:\n");
-        for (int i = 0; i < 8; i++) {
-            printf("Vertex %d: (%f, %f, %f)\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
-        }
+    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
+        rotateVertices(vertices, c.centroid, tf.rotate, 8);
     }
-
-	// printf("centroid: (%.3lf, %.3lf, %.3lf)\n", c.centroid.x, c.centroid.y, c.centroid.z);
-	// printf("p1: (%.3lf, %.3lf, %.3lf)\n", c.p1.x, c.p1.y, c.p1.z); 	
-
-    /*	
-	vertex[0].x = c.p1.x;	vertex[0].y = c.p1.y;	vertex[0].z = c.p2.z;
-	vertex[1].x = c.p1.x;	vertex[1].y = c.p1.y;	vertex[1].z = c.p1.z;
-	vertex[2].x = c.p2.x;	vertex[2].y = c.p1.y;	vertex[2].z = c.p1.z;
-	vertex[3].x = c.p2.x;	vertex[3].y = c.p1.y;	vertex[3].z = c.p2.z;
-	vertex[4].x = c.p1.x;	vertex[4].y = c.p2.y;	vertex[4].z = c.p2.z;
-	vertex[5].x = c.p1.x;	vertex[5].y = c.p2.y;	vertex[5].z = c.p1.z;
-	vertex[6].x = c.p2.x;	vertex[6].y = c.p2.y;	vertex[6].z = c.p1.z;
-	vertex[7].x = c.p2.x;	vertex[7].y = c.p2.y;	vertex[7].z = c.p2.z;
-    */
 
 	t[0].p[0] = vertices[0];	t[0].p[1] = vertices[4];	t[0].p[2] = vertices[7];
 	t[1].p[0] = vertices[7];	t[1].p[1] = vertices[3];	t[1].p[2] = vertices[0];

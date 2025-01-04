@@ -5,7 +5,7 @@
 #include "writeBmp.c"
 #include "structures.c"
 #include "calcVector.c"
-#include "rotatePoint.c"
+#include "rotate.c"
 #include "renderTriangle.c"
 #include "paintTriangle.c"
 #include "drawPrimitive.c"
@@ -59,7 +59,7 @@ void main(void) {
 	Transform tf;
 	tf.translate.x = 0;	tf.translate.y = 0;	tf.translate.z = 0;
 	tf.scale = 100;
-	tf.rotate_x = 0;	tf.rotate_y = 30;	tf.rotate_z = 30;
+	tf.rotate.x = 0;	tf.rotate.y = 30;	tf.rotate.z = 30;
 
 	
 	// 直方体データ定義

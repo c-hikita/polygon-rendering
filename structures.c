@@ -5,9 +5,11 @@ typedef struct {
 	double x, y, z;
 } Vector;
 
+/*
 typedef struct {
     double x, y, z, w;
 } Vector4;
+*/
 
 typedef struct {
 	double r, g, b;
@@ -22,9 +24,11 @@ typedef struct {
     Color255 c;
 } ColorPlot;
 
+/*
 typedef struct {
     double m[4][4];
 } Matrix4x4;
+*/
 
 typedef struct {
 	Vector p[3];
@@ -52,7 +56,7 @@ typedef struct {
 typedef struct {
 	Vector translate;
 	int scale;
-	int rotate_x, rotate_y, rotate_z;
+	Vector rotate;
 } Transform;
 
 typedef struct {
