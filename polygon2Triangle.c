@@ -1,7 +1,7 @@
 ﻿// polygon2Triangle
 // Chikako Hikita
 
-int cube2triangle(Triangle3D t[], Cube c, Transform tf, int num) {
+int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num) {
 	printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
@@ -46,7 +46,7 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, int num) {
     };
 
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, c.centroid, tf.rotate, 8);
+        rotateVertices(vertices, centroid, tf.rotate, 8);
     }
 
 	t[num].p[0] = vertices[0];	t[num].p[1] = vertices[4];	t[num].p[2] = vertices[7];
@@ -79,7 +79,7 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, int num) {
     return c.num;
 }
 
-int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, int num) {
+int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid, int num) {
     printf("\n*** cylinder2triangle ***\n");
 
     Vector o[2], vertices[500];
@@ -121,8 +121,8 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, int num) {
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, c.centroid, tf.rotate, c.div * 2);
-        rotateVertices(o, c.centroid, tf.rotate, 2);
+        rotateVertices(vertices, centroid, tf.rotate, c.div * 2);
+        rotateVertices(o, centroid, tf.rotate, 2);
     }
 
     c.centroid = add(o[0], o[1]);
@@ -173,7 +173,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, int num) {
     return c.num;
 }
 
-int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, int num) {
+int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int num) {
     printf("\n*** sphere2triangle ***\n");
 
     Vector pole[2], vertices[2000];
@@ -215,8 +215,8 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, int num) {
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, s.p, tf.rotate, idx);
-        rotateVertices(pole, s.p, tf.rotate, 2);
+        rotateVertices(vertices, centroid, tf.rotate, idx);
+        rotateVertices(pole, centroid, tf.rotate, 2);
     }
 
     // Generate triangles for the horizontal slices (latitudinal)
