@@ -10,7 +10,6 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 	c.centroid.y = (c.p1.y + c.p2.y) / 2;
 	c.centroid.z = (c.p1.z + c.p2.z) / 2;
 
-    printf("translate.x: %.3lf\n", tf.translate.x);
     printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
     printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
 
@@ -78,11 +77,28 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 	}
 }
 
-void cylinder2triangle(Triangle3D t[], Cylinder c) {
+void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
     printf("\n*** cylinder2triangle ***\n");
 
-    Vector o1, o2, vertex[300];
+    Vector o1, o2, vertices[300];
     double theta = 2 * PI / c.div;
+
+    printf("Original Point: (%f, %f, %f)\n", c.p.x, c.p.y, c.p.z);
+
+    if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
+        c.p.x += tf.translate.x;
+        c.p.y += tf.translate.y;
+        c.p.z += tf.translate.z;
+    }
+
+    if (tf.scale != 100) {
+        double scale = tf.scale / 100.0;
+        c.r *= scale;
+        c.h *= scale;
+        c.p.z -= c.h / 2;
+    }
+
+    printf("Transformed Point: (%f, %f, %f)\n", c.p.x, c.p.y, c.p.z);
 
     // Cylinder base points
     o1 = c.p; 
@@ -91,10 +107,44 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 
     // Generate vertices
     for (int i = 0; i < c.div; i++) {
-        vertex[i] = (Vector){c.p.x + c.r * cos(theta * i),
+        vertices[i] = (Vector){
+            c.p.x + c.r * cos(theta * i),
+            c.p.y + c.r * sin(theta * i),
+            c.p.z
+        };
+        vertices[i + c.div] = (Vector){vertices[i].x, vertices[i].y, c.p.z + c.h};
+    }
+
+    // Create triangles
+    for (int i = 0; i < c.div; i++) {
+        int next = (i + 1) % c.div;
+
+        // Bottom face
+        t[i].p[0] = o1;
+        t[i].p[1] = vertices[next];
+        t[i].p[2] = vertices[i];
+
+        // Top face
+        t[i + c.div].p[0] = o2;
+        t[i + c.div].p[1] = vertices[i + c.div];
+        t[i + c.div].p[2] = vertices[next + c.div];
+
+        // Side faces
+        t[i + 2 * c.div].p[0] = vertices[i];
+        t[i + 2 * c.div].p[1] = vertices[next];
+        t[i + 2 * c.div].p[2] = vertices[next + c.div];
+
+        t[i + 3 * c.div].p[0] = vertices[i];
+        t[i + 3 * c.div].p[1] = vertices[next + c.div];
+        t[i + 3 * c.div].p[2] = vertices[i + c.div];
+    }
+    /*
+    // Generate vertices
+    for (int i = 0; i < c.div; i++) {
+        vertices[i] = (Vector){c.p.x + c.r * cos(theta * i),
                              c.p.y + c.r * sin(theta * i),
                              c.p.z};
-        vertex[i + c.div] = (Vector){vertex[i].x, vertex[i].y, c.p.z + c.h};
+        vertices[i + c.div] = (Vector){vertices[i].x, vertices[i].y, c.p.z + c.h};
     }
 
     // Base triangles
@@ -103,23 +153,24 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 
         // Bottom face
         t[i].p[0] = o1;
-        t[i].p[1] = vertex[i];
-        t[i].p[2] = vertex[next];
+        t[i].p[1] = vertices[i];
+        t[i].p[2] = vertices[next];
 
         // Top face
         t[i + c.div].p[0] = o2;
-        t[i + c.div].p[1] = vertex[next + c.div];
-        t[i + c.div].p[2] = vertex[i + c.div];
+        t[i + c.div].p[1] = vertices[next + c.div];
+        t[i + c.div].p[2] = vertices[i + c.div];
 
         // Side faces
-        t[i + 2 * c.div].p[0] = vertex[i];
-        t[i + 2 * c.div].p[1] = vertex[next];
-        t[i + 2 * c.div].p[2] = vertex[next + c.div];
+        t[i + 2 * c.div].p[0] = vertices[i];
+        t[i + 2 * c.div].p[1] = vertices[next + c.div];
+        t[i + 2 * c.div].p[2] = vertices[next];
 
-        t[i + 3 * c.div].p[0] = vertex[i];
-        t[i + 3 * c.div].p[1] = vertex[next + c.div];
-        t[i + 3 * c.div].p[2] = vertex[i + c.div];
+        t[i + 3 * c.div].p[0] = vertices[i];
+        t[i + 3 * c.div].p[1] = vertices[i + c.div];
+        t[i + 3 * c.div].p[2] = vertices[next + c.div];
     }
+    */
 
     // Set triangle properties
     for (int i = 0; i < c.num; i++) {
@@ -141,7 +192,7 @@ void cylinder2triangle(Triangle3D t[], Cylinder c) {
 int sphere2triangle(Triangle3D t[], Sphere s) {
     printf("\n*** sphere2triangle ***\n");
 
-    Vector vertex[2000];
+    Vector vertices[2000];
     double theta_step = PI / s.lat_div;  // Vertical step
     double phi_step = 2 * PI / s.long_div;  // Horizontal step
 
@@ -152,10 +203,10 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
         for (int lon = 0; lon < s.long_div; lon++) {
             double phi = lon * phi_step;  // Horizontal angle
 
-            // Calculate the vertex position using spherical coordinates
-            vertex[idx].x = s.p.x + s.r * sin(theta) * cos(phi);
-            vertex[idx].y = s.p.y + s.r * sin(theta) * sin(phi);
-            vertex[idx].z = s.p.z + s.r * cos(theta);
+            // Calculate the vertices position using spherical coordinates
+            vertices[idx].x = s.p.x + s.r * sin(theta) * cos(phi);
+            vertices[idx].y = s.p.y + s.r * sin(theta) * sin(phi);
+            vertices[idx].z = s.p.z + s.r * cos(theta);
             idx++;
         }
     }
@@ -174,26 +225,26 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
             if (lat == 0) {
                 // Triangles at the north pole
                 t[idx].p[0] = north_pole;
-                t[idx].p[1] = vertex[next_lat * s.long_div + lon];
-                t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
+                t[idx].p[1] = vertices[next_lat * s.long_div + lon];
+                t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
                 idx++;
             } else if (lat == s.lat_div - 1) {
                 // Triangles at the south pole
-                t[idx].p[0] = vertex[lat * s.long_div + lon];
+                t[idx].p[0] = vertices[lat * s.long_div + lon];
                 t[idx].p[1] = south_pole;
-                t[idx].p[2] = vertex[lat * s.long_div + next_lon];
+                t[idx].p[2] = vertices[lat * s.long_div + next_lon];
                 idx++;
             } else {
                 // Bottom triangles
-                t[idx].p[0] = vertex[lat * s.long_div + lon];
-                t[idx].p[1] = vertex[next_lat * s.long_div + lon];
-                t[idx].p[2] = vertex[next_lat * s.long_div + next_lon];
+                t[idx].p[0] = vertices[lat * s.long_div + lon];
+                t[idx].p[1] = vertices[next_lat * s.long_div + lon];
+                t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
                 idx++;
 
                 // Top triangles
-                t[idx].p[0] = vertex[lat * s.long_div + lon];
-                t[idx].p[1] = vertex[next_lat * s.long_div + next_lon];
-                t[idx].p[2] = vertex[lat * s.long_div + next_lon];
+                t[idx].p[0] = vertices[lat * s.long_div + lon];
+                t[idx].p[1] = vertices[next_lat * s.long_div + next_lon];
+                t[idx].p[2] = vertices[lat * s.long_div + next_lon];
                 idx++;
             }
         }

@@ -57,11 +57,10 @@ void main(void) {
 	*/
 
 	Transform tf;
-	tf.translate.x = 0;	tf.translate.y = 0;	tf.translate.z = 0;
+	tf.translate.x = 300;	tf.translate.y = 0;	tf.translate.z = 0;
 	tf.scale = 100;
-	tf.rotate.x = 0;	tf.rotate.y = 30;	tf.rotate.z = 30;
+	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
-	
 	// 直方体データ定義
 	Cube cube;
 	Triangle3D tcube[12];
@@ -80,7 +79,7 @@ void main(void) {
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
 	cylinder.k[0] = 0.5;	cylinder.k[1] = 0.5;	cylinder.k[2] = 0.5;
-	cylinder.div = 32;		
+	cylinder.div = 60;		
 	cylinder.num = 4 * cylinder.div;
 
 	// shpere
@@ -97,12 +96,12 @@ void main(void) {
 	// printf("num: %d\n", sphere.num);
 
 	background(screen.width, screen.height);
-	// cube = transformCube(cube, tf);
-	cube2triangle(tcube, cube, tf);
-	drawPrimitive(cube.num, tcube, screen);
+	// cube2triangle(tcube, cube, tf);
+	// drawPrimitive(cube.num, tcube, screen);
 
-	// cylinder2triangle(tcylinder, cylinder);
-	// drawPrimitive(cylinder.num, tcylinder, screen);
+	cylinder2triangle(tcylinder, cylinder, tf);
+	drawPrimitive(cylinder.num, tcylinder, screen);
+
 	// sphere.num = sphere2triangle(tsphere, sphere);
 	// drawPrimitive(sphere.num, tsphere, screen);
 
