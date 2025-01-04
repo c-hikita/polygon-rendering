@@ -92,7 +92,6 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
 
     // 2. Define Base Points (before translation and rotation)
 
-
     // 3. Apply Translation
     c.p.x += tf.translate.x;
     c.p.y += tf.translate.y;
@@ -167,202 +166,23 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
     }
 }
 
-
-/*
-void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
-    printf("\n*** cylinder2triangle ***\n");
-
-    Vector o1, o2, vertices[500];
-    double theta = 2 * PI / c.div;
-
-    // Adjust scaling first
-    if (tf.scale != 100) {
-        double scale = tf.scale / 100.0;
-        c.r *= scale;
-        c.h *= scale;
-    }
-
-    // Apply translation
-    c.p.x += tf.translate.x;
-    c.p.y += tf.translate.y;
-    c.p.z += tf.translate.z;
-
-    // Update cylinder points after translation
-    o1 = c.p;
-    o2 = (Vector){c.p.x, c.p.y, c.p.z + c.h};
-    c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
-
-    printf("Centroid: (%f, %f, %f)\n", c.centroid.x, c.centroid.y, c.centroid.z);
-
-    // Generate vertices for the cylinder
-    for (int i = 0; i < c.div; i++) {
-        double angle = i * theta;
-        vertices[i] = (Vector){
-            c.p.x + c.r * cos(angle),
-            c.p.y + c.r * sin(angle),
-            c.p.z
-        };
-        vertices[i + c.div] = (Vector){
-            vertices[i].x,
-            vertices[i].y,
-            c.p.z + c.h
-        };
-    }
-
-    // Apply rotation if needed
-    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, c.centroid, tf.rotate, c.div * 2);
-    }
-
-    /*
-    // translation
-    for (int i = 0; i < c.div * 2; i++) {
-        vertices[i].x += tf.translate.x;
-        vertices[i].y += tf.translate.y;
-        vertices[i].z += tf.translate.z;
-    }
-    
-
-    // Create triangles
-    for (int i = 0; i < c.div; i++) {
-        int next = (i + 1) % c.div;
-
-        // Bottom face
-        t[i].p[0] = o1;
-        t[i].p[1] = vertices[next];
-        t[i].p[2] = vertices[i];
-
-        // Top face
-        t[i + c.div].p[0] = o2;
-        t[i + c.div].p[1] = vertices[i + c.div];
-        t[i + c.div].p[2] = vertices[next + c.div];
-
-        // Side faces
-        t[i + 2 * c.div].p[0] = vertices[i];
-        t[i + 2 * c.div].p[1] = vertices[next];
-        t[i + 2 * c.div].p[2] = vertices[next + c.div];
-
-        t[i + 3 * c.div].p[0] = vertices[i];
-        t[i + 3 * c.div].p[1] = vertices[next + c.div];
-        t[i + 3 * c.div].p[2] = vertices[i + c.div];
-    }
-
-    // Set triangle properties
-    for (int i = 0; i < c.num; i++) {
-        t[i].o = c.o;
-        t[i].n = c.n;
-        t[i].k[0] = c.k[0];
-        t[i].k[1] = c.k[1];
-        t[i].k[2] = c.k[2];
-        t[i].ref = c.centroid;
-        t[i].id = 2;
-
-        // Calculate centroid
-        t[i].g = (Vector){
-            (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3,
-            (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3,
-            (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3
-        };
-    }
-}
-*/
-
-/*
-void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
-    printf("\n*** cylinder2triangle ***\n");
-
-    Vector o1, o2, vertices[500];
-    double theta = 2 * PI / c.div;
-
-    printf("Original Point: (%f, %f, %f)\n", c.p.x, c.p.y, c.p.z);
-
-    // 平行移動
-    c.p.x += tf.translate.x;
-    c.p.y += tf.translate.y;
-    c.p.z += tf.translate.z;
-
-    if (tf.scale != 100) {
-        double scale = tf.scale / 100.0;
-        c.r *= scale;
-        c.h *= scale;
-        c.p.z -= c.h / 2;
-    }
-
-    printf("Transformed Point: (%f, %f, %f)\n", c.p.x, c.p.y, c.p.z);
-
-    // Cylinder base points
-    o1 = c.p; 
-    o2 = (Vector){c.p.x, c.p.y, c.p.z + c.h};
-    c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
-
-    printf("o1: (%f, %f, %f)\n", o1.x, o1.y, o1.z);
-    printf("o2: (%f, %f, %f)\n", o2.x, o2.y, o2.z);
-    printf("Centroid: (%f, %f, %f)\n", c.centroid.x, c.centroid.y, c.centroid.z);
-
-    // Generate vertices
-
-    for (int i = 0; i < c.div; i++) {
-        double angle = i * theta; // Use a precise angle calculation
-        vertices[i] = (Vector){
-            c.p.x + c.r * cos(angle),
-            c.p.y + c.r * sin(angle),
-            c.p.z
-        };
-        vertices[i + c.div] = (Vector){vertices[i].x, vertices[i].y, c.p.z + c.h};
-    }
-
-    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, c.centroid, tf.rotate, c.div * 2);
-    }
-    
-    // Create triangles
-    for (int i = 0; i < c.div; i++) {
-        int next = (i + 1) % c.div;
-
-        // Bottom face
-        t[i].p[0] = o1;
-        t[i].p[1] = vertices[next];
-        t[i].p[2] = vertices[i];
-
-        // Top face
-        t[i + c.div].p[0] = o2;
-        t[i + c.div].p[1] = vertices[i + c.div];
-        t[i + c.div].p[2] = vertices[next + c.div];
-
-        // Side faces
-        t[i + 2 * c.div].p[0] = vertices[i];
-        t[i + 2 * c.div].p[1] = vertices[next];
-        t[i + 2 * c.div].p[2] = vertices[next + c.div];
-
-        t[i + 3 * c.div].p[0] = vertices[i];
-        t[i + 3 * c.div].p[1] = vertices[next + c.div];
-        t[i + 3 * c.div].p[2] = vertices[i + c.div];
-    }
-
-    // Set triangle properties
-    for (int i = 0; i < c.num; i++) {
-        t[i].o = c.o;
-        t[i].n = c.n;
-        t[i].k[0] = c.k[0];
-        t[i].k[1] = c.k[1];
-        t[i].k[2] = c.k[2];
-		t[i].ref = c.centroid;
-        t[i].id = 2;
-
-        // Calculate centroid
-        t[i].g = (Vector){(t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3,
-                          (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3,
-                          (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3};
-    }
-}
-*/
-
-int sphere2triangle(Triangle3D t[], Sphere s) {
+int sphere2triangle(Triangle3D t[], Sphere s, Transform tf) {
     printf("\n*** sphere2triangle ***\n");
 
-    Vector vertices[2000];
+    Vector pole[2], vertices[2000];
     double theta_step = PI / s.lat_div;  // Vertical step
     double phi_step = 2 * PI / s.long_div;  // Horizontal step
+
+    // 1. Apply Scaling
+    if (tf.scale != 100) {
+        double scale = tf.scale / 100.0;
+        s.r *= scale;
+    }
+
+    // 3. Apply Translation
+    s.p.x += tf.translate.x;
+    s.p.y += tf.translate.y;
+    s.p.z += tf.translate.z;
 
     // Generate vertices
     int idx = 0;
@@ -380,8 +200,17 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
     }
 
     // Add the poles as separate vertices
-    Vector north_pole = {s.p.x, s.p.y, s.p.z + s.r};
-    Vector south_pole = {s.p.x, s.p.y, s.p.z - s.r};
+    pole[0] = s.p;
+    pole[1] = s.p;
+
+    pole[0].z += s.r;
+    pole[1].z -= s.r;
+
+    // 5. Apply Rotation
+    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
+        rotateVertices(vertices, s.p, tf.rotate, idx);
+        rotateVertices(pole, s.p, tf.rotate, 2);
+    }
 
     // Generate triangles for the horizontal slices (latitudinal)
     idx = 0;
@@ -392,14 +221,14 @@ int sphere2triangle(Triangle3D t[], Sphere s) {
 
             if (lat == 0) {
                 // Triangles at the north pole
-                t[idx].p[0] = north_pole;
+                t[idx].p[0] = pole[0];
                 t[idx].p[1] = vertices[next_lat * s.long_div + lon];
                 t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
                 idx++;
             } else if (lat == s.lat_div - 1) {
                 // Triangles at the south pole
                 t[idx].p[0] = vertices[lat * s.long_div + lon];
-                t[idx].p[1] = south_pole;
+                t[idx].p[1] = pole[1];
                 t[idx].p[2] = vertices[lat * s.long_div + next_lon];
                 idx++;
             } else {

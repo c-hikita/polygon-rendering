@@ -90,7 +90,7 @@ void main(void) {
 	sphere.o.r = 200;	sphere.o.g = 200;	sphere.o.b = 255;
 	sphere.n = 9;
 	sphere.k[0] = 0.5;	sphere.k[1] = 0.5;	sphere.k[2] = 0.5;
-	sphere.lat_div = 24;		sphere.long_div = 24;
+	sphere.lat_div = 30;		sphere.long_div = 30;
 	// sphere.num = sphere.lat_div + sphere.long_div + sphere.lat_div * (sphere.long_div - 2) * 2;
 
 	// printf("num: %d\n", sphere.num);
@@ -99,11 +99,11 @@ void main(void) {
 	// cube2triangle(tcube, cube, tf);
 	// drawPrimitive(cube.num, tcube, screen);
 
-	cylinder2triangle(tcylinder, cylinder, tf);
-	drawPrimitive(cylinder.num, tcylinder, screen);
+	// cylinder2triangle(tcylinder, cylinder, tf);
+	// drawPrimitive(cylinder.num, tcylinder, screen);
 
-	// sphere.num = sphere2triangle(tsphere, sphere);
-	// drawPrimitive(sphere.num, tsphere, screen);
+	sphere.num = sphere2triangle(tsphere, sphere, tf);
+	drawPrimitive(sphere.num, tsphere, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);
