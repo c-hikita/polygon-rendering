@@ -2,6 +2,43 @@
 // Chikako Hikita
 
 Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
+    Vector rotated = point;
+
+    // Convert angles to radians
+    double rad_x = theta_x * PI / 180.0;
+    double rad_y = theta_y * PI / 180.0;
+    double rad_z = theta_z * PI / 180.0;
+
+    // Rotate around X-axis
+    if (theta_x != 0) {
+        double cosX = cos(rad_x), sinX = sin(rad_x);
+        double y = rotated.y, z = rotated.z;
+        rotated.y = y * cosX - z * sinX;
+        rotated.z = y * sinX + z * cosX;
+    }
+
+    // Rotate around Y-axis
+    if (theta_y != 0) {
+        double cosY = cos(rad_y), sinY = sin(rad_y);
+        double x = rotated.x, z = rotated.z;
+        rotated.x = x * cosY + z * sinY;
+        rotated.z = -x * sinY + z * cosY;
+    }
+
+    // Rotate around Z-axis
+    if (theta_z != 0) {
+        double cosZ = cos(rad_z), sinZ = sin(rad_z);
+        double x = rotated.x, y = rotated.y;
+        rotated.x = x * cosZ - y * sinZ;
+        rotated.y = x * sinZ + y * cosZ;
+    }
+
+    return rotated;
+}
+
+
+/*
+Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
     Vector rtn;
     
     // Convert angles to radians
@@ -73,6 +110,7 @@ Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
     return rtn;
 }
 
+*/
 void rotateVertices (Vector v[], Vector c, Vector angle, int num) {
     for (int i = 0; i < num; i++) {
         v[i].x -= c.x;

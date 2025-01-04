@@ -16,7 +16,7 @@ void main(void) {
 	screen.width = 640;	screen.height = 480;
 	screen.c.x = 200;	screen.c.y = 200; screen.c.z = 100;
 	screen.d = 400;
-	screen.a.r = 0.7;	screen.a.g = 0.7;	screen.a.b = 0.7;
+	screen.a.r = 0.8;	screen.a.g = 0.8;	screen.a.b = 0.8;
 	screen.iplot.x = 150;	screen.iplot.y = 150;	screen.iplot.z = 100;
 	screen.icolor.r = 1;	screen.icolor.g = 1;	screen.icolor.b = 1;
 
@@ -57,9 +57,9 @@ void main(void) {
 	*/
 
 	Transform tf;
-	tf.translate.x = 300;	tf.translate.y = 0;	tf.translate.z = 0;
+	tf.translate.x = 100;	tf.translate.y = 0;	tf.translate.z = 100;
 	tf.scale = 100;
-	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
+	tf.rotate.x = 30;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
 	// 直方体データ定義
 	Cube cube;
@@ -73,13 +73,13 @@ void main(void) {
 
 	// 円柱データ定義
 	Cylinder cylinder;
-	Triangle3D tcylinder[500];
+	Triangle3D tcylinder[1000];
 	cylinder.r = 100;	cylinder.h = 100;
 	cylinder.p.x = 200;	cylinder.p.y = 200;	cylinder.p.z = 200;
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
-	cylinder.k[0] = 0.5;	cylinder.k[1] = 0.5;	cylinder.k[2] = 0.5;
-	cylinder.div = 60;		
+	cylinder.k[0] = 0.8;	cylinder.k[1] = 0.8;	cylinder.k[2] = 0.8;
+	cylinder.div = 24;		
 	cylinder.num = 4 * cylinder.div;
 
 	// shpere

@@ -80,7 +80,7 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
     printf("\n*** cylinder2triangle ***\n");
 
-    Vector o1, o2, vertices[300];
+    Vector o1, o2, vertices[500];
     double theta = 2 * PI / c.div;
 
     printf("Original Point: (%f, %f, %f)\n", c.p.x, c.p.y, c.p.z);
@@ -105,16 +105,26 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
     o2 = (Vector){c.p.x, c.p.y, c.p.z + c.h};
     c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
 
+    printf("o1: (%f, %f, %f)\n", o1.x, o1.y, o1.z);
+    printf("o2: (%f, %f, %f)\n", o2.x, o2.y, o2.z);
+    printf("Centroid: (%f, %f, %f)\n", c.centroid.x, c.centroid.y, c.centroid.z);
+
     // Generate vertices
+
     for (int i = 0; i < c.div; i++) {
+        double angle = i * theta; // Use a precise angle calculation
         vertices[i] = (Vector){
-            c.p.x + c.r * cos(theta * i),
-            c.p.y + c.r * sin(theta * i),
+            c.p.x + c.r * cos(angle),
+            c.p.y + c.r * sin(angle),
             c.p.z
         };
         vertices[i + c.div] = (Vector){vertices[i].x, vertices[i].y, c.p.z + c.h};
     }
 
+    if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
+        rotateVertices(vertices, c.centroid, tf.rotate, c.div * 2);
+    }
+    
     // Create triangles
     for (int i = 0; i < c.div; i++) {
         int next = (i + 1) % c.div;
@@ -138,39 +148,6 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
         t[i + 3 * c.div].p[1] = vertices[next + c.div];
         t[i + 3 * c.div].p[2] = vertices[i + c.div];
     }
-    /*
-    // Generate vertices
-    for (int i = 0; i < c.div; i++) {
-        vertices[i] = (Vector){c.p.x + c.r * cos(theta * i),
-                             c.p.y + c.r * sin(theta * i),
-                             c.p.z};
-        vertices[i + c.div] = (Vector){vertices[i].x, vertices[i].y, c.p.z + c.h};
-    }
-
-    // Base triangles
-    for (int i = 0; i < c.div; i++) {
-        int next = (i + 1) % c.div;
-
-        // Bottom face
-        t[i].p[0] = o1;
-        t[i].p[1] = vertices[i];
-        t[i].p[2] = vertices[next];
-
-        // Top face
-        t[i + c.div].p[0] = o2;
-        t[i + c.div].p[1] = vertices[next + c.div];
-        t[i + c.div].p[2] = vertices[i + c.div];
-
-        // Side faces
-        t[i + 2 * c.div].p[0] = vertices[i];
-        t[i + 2 * c.div].p[1] = vertices[next + c.div];
-        t[i + 2 * c.div].p[2] = vertices[next];
-
-        t[i + 3 * c.div].p[0] = vertices[i];
-        t[i + 3 * c.div].p[1] = vertices[i + c.div];
-        t[i + 3 * c.div].p[2] = vertices[next + c.div];
-    }
-    */
 
     // Set triangle properties
     for (int i = 0; i < c.num; i++) {

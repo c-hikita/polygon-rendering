@@ -2,7 +2,7 @@
 // Chikako Hikita
 
 int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings s) {
-	int rtn = 0;
+	int check, rtn = 0;
 	Vector u1, u2, n, v;
 	double nv;
 
@@ -21,6 +21,20 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);
 		*/
 		
+		check = 0;
+		for (int j = 0; j < 3; j++) {
+			v = subtract(s.c, t[i].p[j]);
+        	v = normalize(v);
+
+			nv = dotProduct(n, v);	
+			if (nv < 0) check++;
+		}
+
+		if (check < 3) {
+			removed[rtn] = t[i];
+			rtn++;
+		}
+		/*
 		v = subtract(s.c, t[i].g);
         v = normalize(v);
 	 	// printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
@@ -32,6 +46,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 			removed[rtn] = t[i];
 			rtn++;
 		}
+		*/
 	}
 
 	printf("count: %d\n", rtn);
