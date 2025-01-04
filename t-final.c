@@ -57,9 +57,9 @@ void main(void) {
 	*/
 
 	Transform tf;
-	tf.translate.x = 100;	tf.translate.y = 0;	tf.translate.z = 100;
+	tf.translate.x = 200;	tf.translate.y = 200;	tf.translate.z = 100;
 	tf.scale = 100;
-	tf.rotate.x = 30;	tf.rotate.y = 0;	tf.rotate.z = 0;
+	tf.rotate.x = 30;	tf.rotate.y = 60;	tf.rotate.z = 0;
 
 	// 直方体データ定義
 	Cube cube;
@@ -78,8 +78,8 @@ void main(void) {
 	cylinder.p.x = 200;	cylinder.p.y = 200;	cylinder.p.z = 200;
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
-	cylinder.k[0] = 0.8;	cylinder.k[1] = 0.8;	cylinder.k[2] = 0.8;
-	cylinder.div = 24;		
+	cylinder.k[0] = 0.7;	cylinder.k[1] = 0.7;	cylinder.k[2] = 0.7;
+	cylinder.div = 60;		
 	cylinder.num = 4 * cylinder.div;
 
 	// shpere

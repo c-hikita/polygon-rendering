@@ -21,6 +21,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 		printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);
 		*/
 		
+		/*
 		check = 0;
 		for (int j = 0; j < 3; j++) {
 			v = subtract(s.c, t[i].p[j]);
@@ -34,7 +35,8 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 			removed[rtn] = t[i];
 			rtn++;
 		}
-		/*
+		*/
+		
 		v = subtract(s.c, t[i].g);
         v = normalize(v);
 	 	// printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
@@ -42,11 +44,12 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 		nv = dotProduct(n, v);
 		// printf("%d NV: %.3lf\n\n", i, nv);
 
-		if (nv >= 0) {
+		// if (nv >= 0) {
+		if (nv > 1e-6 || nv < -1e-6) {
 			removed[rtn] = t[i];
 			rtn++;
 		}
-		*/
+		
 	}
 
 	printf("count: %d\n", rtn);
