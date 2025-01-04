@@ -2,27 +2,33 @@
 // Chikako Hikita
 
 typedef struct {
-	double x;
-	double y;
-	double z;
+	double x, y, z;
 } Vector;
 
+/*
 typedef struct {
-	double r;
-	double g;
-	double b;
+    double x, y, z, w;
+} Vector4;
+*/
+
+typedef struct {
+	double r, g, b;
 } Color1;
 
 typedef struct {
-	int r;
-	int g;
-	int b;
+	int r, g, b;
 } Color255;
 
 typedef struct {
 	Vector p;
     Color255 c;
 } ColorPlot;
+
+/*
+typedef struct {
+    double m[4][4];
+} Matrix4x4;
+*/
 
 typedef struct {
 	Vector p[3];
@@ -48,10 +54,13 @@ typedef struct {
 } Settings;
 
 typedef struct {
-	Vector p1, p2;
-	Vector centroid;
-	// int x1;	int y1;	int z1;
-	// int x2; int y2; int z2;
+	Vector translate;
+	int scale;
+	Vector rotate;
+} Transform;
+
+typedef struct {
+	Vector p1, p2, centroid;
 	Color255 o;
 	int n;
 	double k[3];
@@ -59,24 +68,19 @@ typedef struct {
 } Cube;
 
 typedef struct {
-	int r;
-	int h;
-	Vector p;
-	Vector centroid;
+	double r, h;
+	Vector p, centroid;
 	Color255 o;
 	int n;
 	double k[3];
-	int div;
-	int num;
+	int div, num;
 } Cylinder;
 
 typedef struct {
-	int r;
+	double r;
 	Vector p;
 	Color255 o;
 	int n;
 	double k[3];
-	int lat_div;
-	int long_div;
-	int num;
+	int lat_div, long_div, num;
 } Sphere;

@@ -1,9 +1,23 @@
 ﻿// calcVector
 // Chikako Hikita
 
+Vector add(Vector a, Vector b) {
+    Vector result = {a.x + b.x, a.y + b.y, a.z + b.z};
+    return result;
+}
 // 引き算
 Vector subtract(Vector a, Vector b) {
     Vector result = {a.x - b.x, a.y - b.y, a.z - b.z};
+    return result;
+}
+
+Vector multiply(Vector a, double n) {
+    Vector result = {a.x * n, a.y * n, a.z * n};
+    return result;
+}
+
+Vector divide(Vector a, double n) {
+    Vector result = {a.x / n, a.y / n, a.z / n};
     return result;
 }
 
@@ -56,20 +70,19 @@ Vector normalVector(Triangle3D t) {
 
     // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
-    if (t.id == 1 || t.id == 3) {
-        reference = subtract(t.g, t.ref);
-        reference = normalize(reference);
-        // printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
+    reference = subtract(t.g, t.ref);
+    reference = normalize(reference);
+    // printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
 
-        test = dotProduct(n, reference);
-        // printf("test: %.3lf\n", test);
-        
-        if (test < 0) {
-            n.x = - n.x;
-            n.y = - n.y;
-            n.z = - n.z;
-        }
-        // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+    test = dotProduct(n, reference);
+    // printf("test: %.3lf\n", test);
+    
+    if (test < 0) {
+        n.x = - n.x;
+        n.y = - n.y;
+        n.z = - n.z;
+
+        // printf("N rotated\n");
     }
     return n;
 }

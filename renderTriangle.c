@@ -49,6 +49,42 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
     n = crossProduct(u2, u1);
 	n = normalize(n);
 	*/
+	// Calculate lighting for each vertex
+	for (int i = 0; i < 3; i++) {
+		// Normalize vectors
+		v = subtract(s.c, t.p[i]);
+		v = normalize(v);
+
+		l = subtract(s.iplot, t.p[i]);
+		l = normalize(l);
+
+		ln = dotProduct(l, n);
+		ln = fmax(ln, 0.0); // Clamp diffuse component
+
+		r.x = 2 * ln * n.x - l.x;
+		r.y = 2 * ln * n.y - l.y;
+		r.z = 2 * ln * n.z - l.z;
+		r = normalize(r);
+
+		rv = dotProduct(r, v);
+		rv = fmax(rv, 0.0); // Clamp specular component
+
+		double specular = (rv > 0) ? pow(rv, t.n) : 0.0;
+
+		// Calculate color components
+		color[0] = t.k[0] * o1.r * s.a.r + t.k[1] * o1.r * s.icolor.r * ln + t.k[2] * s.icolor.r * specular;
+		color[1] = t.k[0] * o1.g * s.a.g + t.k[1] * o1.g * s.icolor.g * ln + t.k[2] * s.icolor.g * specular;
+		color[2] = t.k[0] * o1.b * s.a.b + t.k[1] * o1.b * s.icolor.b * ln + t.k[2] * s.icolor.b * specular;
+
+		// Clamp to [0, 255]
+		rtn[i].r = (int)(fmax(0, fmin(255, color[0] * 255)));
+		rtn[i].g = (int)(fmax(0, fmin(255, color[1] * 255)));
+		rtn[i].b = (int)(fmax(0, fmin(255, color[2] * 255)));
+
+		printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
+	}
+
+	/*
 
 	for (int i = 0; i < 3; i++) {
 		// 視線Vの算出
@@ -81,11 +117,6 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 		color[2] = t.k[0] * o1.b * s.a.b + t.k[1] * o1.b * s.icolor.b * ln + t.k[2] * s.icolor.b * pow(rv, t.n);
 		// printf("(r,g,b) = (%.3lf, %.3lf, %.3lf)\n", color[0], color[1], color[2]);
 
-		/*
-		for (int j = 0; j < 3; j++) {
-			if (color[j] < 0) color[j] = 0;
-		}
-		*/
 		
 		// 色の範囲を[0,1]から[0,255]に変更;
 		rtn[i].r = (int)(color[0] * 255);
@@ -95,6 +126,7 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 		rtn[i] = clampColor(rtn[i]);
         printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
 	}
+	*/
 }
 
 Rendered renderTriangle(Triangle3D tri3, Settings s) {
