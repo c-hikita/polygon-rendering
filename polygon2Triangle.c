@@ -1,7 +1,7 @@
 ﻿// polygon2Triangle
 // Chikako Hikita
 
-void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
+int cube2triangle(Triangle3D t[], Cube c, Transform tf, int num) {
 	printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
@@ -49,20 +49,20 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
         rotateVertices(vertices, c.centroid, tf.rotate, 8);
     }
 
-	t[0].p[0] = vertices[0];	t[0].p[1] = vertices[4];	t[0].p[2] = vertices[7];
-	t[1].p[0] = vertices[7];	t[1].p[1] = vertices[3];	t[1].p[2] = vertices[0];
-	t[2].p[0] = vertices[1];	t[2].p[1] = vertices[2];	t[2].p[2] = vertices[6];
-	t[3].p[0] = vertices[6];	t[3].p[1] = vertices[5];	t[3].p[2] = vertices[1];
-	t[4].p[0] = vertices[0];	t[4].p[1] = vertices[1];	t[4].p[2] = vertices[5];
-	t[5].p[0] = vertices[5];	t[5].p[1] = vertices[4];	t[5].p[2] = vertices[0];
-	t[6].p[0] = vertices[3];	t[6].p[1] = vertices[7];	t[6].p[2] = vertices[6];
-	t[7].p[0] = vertices[6];	t[7].p[1] = vertices[2];	t[7].p[2] = vertices[3];
-	t[8].p[0] = vertices[0];	t[8].p[1] = vertices[3];	t[8].p[2] = vertices[2];
-	t[9].p[0] = vertices[2];	t[9].p[1] = vertices[1];	t[9].p[2] = vertices[0];
-	t[10].p[0] = vertices[4];	t[10].p[1] = vertices[5];	t[10].p[2] = vertices[6];
-	t[11].p[0] = vertices[6];	t[11].p[1] = vertices[7];	t[11].p[2] = vertices[4];
+	t[num].p[0] = vertices[0];	t[num].p[1] = vertices[4];	t[num].p[2] = vertices[7];
+	t[num + 1].p[0] = vertices[7];	t[num + 1].p[1] = vertices[3];	t[num + 1].p[2] = vertices[0];
+	t[num + 2].p[0] = vertices[1];	t[num + 2].p[1] = vertices[2];	t[num + 2].p[2] = vertices[6];
+	t[num + 3].p[0] = vertices[6];	t[num + 3].p[1] = vertices[5];	t[num + 3].p[2] = vertices[1];
+	t[num + 4].p[0] = vertices[0];	t[num + 4].p[1] = vertices[1];	t[num + 4].p[2] = vertices[5];
+	t[num + 5].p[0] = vertices[5];	t[num + 5].p[1] = vertices[4];	t[num + 5].p[2] = vertices[0];
+	t[num + 6].p[0] = vertices[3];	t[num + 6].p[1] = vertices[7];	t[num + 6].p[2] = vertices[6];
+	t[num + 7].p[0] = vertices[6];	t[num + 7].p[1] = vertices[2];	t[num + 7].p[2] = vertices[3];
+	t[num + 8].p[0] = vertices[0];	t[num + 8].p[1] = vertices[3];	t[num + 8].p[2] = vertices[2];
+	t[num + 9].p[0] = vertices[2];	t[num + 9].p[1] = vertices[1];	t[num + 9].p[2] = vertices[0];
+	t[num + 10].p[0] = vertices[4];	t[num + 10].p[1] = vertices[5];	t[num + 10].p[2] = vertices[6];
+	t[num + 11].p[0] = vertices[6];	t[num + 11].p[1] = vertices[7];	t[num + 11].p[2] = vertices[4];
 
-	for (int i = 0; i < 12; i++) {
+	for (int i = num; i < num + 12; i++) {
 		t[i].o = c.o;
 		t[i].n = c.n;
 		t[i].k[0] = c.k[0];
@@ -75,9 +75,11 @@ void cube2triangle(Triangle3D t[], Cube c, Transform tf) {
 		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;
 		t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3;
 	}
+
+    return c.num;
 }
 
-void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
+int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, int num) {
     printf("\n*** cylinder2triangle ***\n");
 
     Vector o[2], vertices[500];
@@ -123,32 +125,35 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
         rotateVertices(o, c.centroid, tf.rotate, 2);
     }
 
+    c.centroid = add(o[0], o[1]);
+    c.centroid = divide(c.centroid, 2);
+
     // 6. Create Triangles (unchanged from original logic)
     for (int i = 0; i < c.div; i++) {
         int next = (i + 1) % c.div;
 
         // Bottom face
-        t[i].p[0] = o[0];
-        t[i].p[1] = vertices[next];
-        t[i].p[2] = vertices[i];
+        t[num + i].p[0] = o[0];
+        t[num + i].p[1] = vertices[next];
+        t[num + i].p[2] = vertices[i];
 
         // Top face
-        t[i + c.div].p[0] = o[1];
-        t[i + c.div].p[1] = vertices[i + c.div];
-        t[i + c.div].p[2] = vertices[next + c.div];
+        t[num + i + c.div].p[0] = o[1];
+        t[num + i + c.div].p[1] = vertices[i + c.div];
+        t[num + i + c.div].p[2] = vertices[next + c.div];
 
         // Side faces
-        t[i + 2 * c.div].p[0] = vertices[i];
-        t[i + 2 * c.div].p[1] = vertices[next];
-        t[i + 2 * c.div].p[2] = vertices[next + c.div];
+        t[num + i + 2 * c.div].p[0] = vertices[i];
+        t[num + i + 2 * c.div].p[1] = vertices[next];
+        t[num + i + 2 * c.div].p[2] = vertices[next + c.div];
 
-        t[i + 3 * c.div].p[0] = vertices[i];
-        t[i + 3 * c.div].p[1] = vertices[next + c.div];
-        t[i + 3 * c.div].p[2] = vertices[i + c.div];
+        t[num + i + 3 * c.div].p[0] = vertices[i];
+        t[num + i + 3 * c.div].p[1] = vertices[next + c.div];
+        t[num + i + 3 * c.div].p[2] = vertices[i + c.div];
     }    
 
     // 7. Assign Triangle Properties
-    for (int i = 0; i < c.num; i++) {
+    for (int i = num; i < c.num + num; i++) {
         t[i].o = c.o;
         t[i].n = c.n;
         t[i].k[0] = c.k[0];
@@ -164,9 +169,11 @@ void cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf) {
             (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3
         };
     }
+
+    return c.num;
 }
 
-int sphere2triangle(Triangle3D t[], Sphere s, Transform tf) {
+int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, int num) {
     printf("\n*** sphere2triangle ***\n");
 
     Vector pole[2], vertices[2000];
@@ -213,7 +220,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf) {
     }
 
     // Generate triangles for the horizontal slices (latitudinal)
-    idx = 0;
+    idx = num;
     for (int lat = 0; lat < s.lat_div; lat++) {
         for (int lon = 0; lon < s.long_div; lon++) {
             int next_lon = (lon + 1) % s.long_div;
@@ -250,7 +257,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf) {
     printf("idx: %d\n", idx);
 
     // Set triangle properties (assuming you want them like the cylinder function)
-    for (int i = 0; i < idx; i++) {
+    for (int i = num; i < num + idx; i++) {
         t[i].o = s.o;
         t[i].n = s.n;
         t[i].k[0] = s.k[0];
