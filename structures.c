@@ -31,12 +31,16 @@ typedef struct {
 */
 
 typedef struct {
+	Vector v[6];
+	int count;
+} NormalVectors;
+
+typedef struct {
 	Vector p[3];
 	Color255 o;
-	int n;
+	int n, countnv;
 	double k[3];
-	Vector g;
-	Vector ref;
+	Vector g, ref, vectors[3]; 
 	int id; // 1: cube, 2: cylinder, 3: sphere
 } Triangle3D;
 

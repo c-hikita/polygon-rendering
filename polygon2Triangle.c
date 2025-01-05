@@ -1,6 +1,33 @@
 ﻿// polygon2Triangle
 // Chikako Hikita
 
+     //    addNormalVector(nm, t[num + i], 0, next, i);
+
+void initializeNV(NormalVectors rtn[], int num) {
+    for (int i = 0; i < num; i++) {
+        rtn[i].count = 0;
+    }
+}
+
+void calcNormalVector(NormalVectors rtn[], Triangle3D t, int id1, int id2, int id3) {
+    Vector normal;
+    int idx1, idx2, idx3;
+
+    idx1 = rtn[id1].count;
+    idx2 = rtn[id2].count;
+    idx3 = rtn[id3].count;
+
+    normal = normalVector(t);
+
+    rtn[id1].v[idx1] = normal;
+    rtn[id2].v[idx2] = normal;
+    rtn[id3].v[idx3] = normal;
+
+    rtn[id1].count++;
+    rtn[id2].count++;
+    rtn[id3].count++;
+}
+
 int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num) {
 	printf("\n*** cube2triangle ***\n");
 
@@ -82,8 +109,11 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
 int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid, int num) {
     printf("\n*** cylinder2triangle ***\n");
 
+    NormalVectors nm[200];
     Vector o[2], vertices[500];
     double theta = 2 * PI / c.div;
+
+    initializeNV(nm, 500);
 
     // 1. Apply Scaling
     if (tf.scale != 100) {
@@ -128,6 +158,12 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
     c.centroid = add(o[0], o[1]);
     c.centroid = divide(c.centroid, 2);
 
+    for (int i = num; i < c.num + num; i++) {
+        t[i].countnv = 0;
+    }
+
+    printf("done\n");
+
     // 6. Create Triangles (unchanged from original logic)
     for (int i = 0; i < c.div; i++) {
         int next = (i + 1) % c.div;
@@ -136,21 +172,35 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
         t[num + i].p[0] = o[0];
         t[num + i].p[1] = vertices[next];
         t[num + i].p[2] = vertices[i];
+        calcNormalVector(nm, t[num + i], c.div * 2, next, i);
 
         // Top face
         t[num + i + c.div].p[0] = o[1];
         t[num + i + c.div].p[1] = vertices[i + c.div];
         t[num + i + c.div].p[2] = vertices[next + c.div];
+        calcNormalVector(nm, t[num + i + c.div], 1 + c.div * 2, i + c.div, next + c.div);
 
         // Side faces
         t[num + i + 2 * c.div].p[0] = vertices[i];
         t[num + i + 2 * c.div].p[1] = vertices[next];
         t[num + i + 2 * c.div].p[2] = vertices[next + c.div];
+        calcNormalVector(nm, t[num + i + 2 * c.div], i, next, next + c.div);
 
         t[num + i + 3 * c.div].p[0] = vertices[i];
         t[num + i + 3 * c.div].p[1] = vertices[next + c.div];
         t[num + i + 3 * c.div].p[2] = vertices[i + c.div];
+        calcNormalVector(nm, t[num + i + 3 * c.div], i, next + c.div, i + c.div);
     }    
+
+    printf("normal vectors: \n");
+    for (int i = 0; i < c.div * 2 + 2; i++) {
+        printf("%d: ", i);
+        printf("count: %d  ", nm[i].count);
+        for (int j = 0; j < 6; j++) {
+            printf("(%.1lf %.1lf %.1lf) ", nm[i].v[j].x, nm[i].v[j].y, nm[i].v[j].z);
+        }
+        printf("\n");
+    }
 
     // 7. Assign Triangle Properties
     for (int i = num; i < c.num + num; i++) {

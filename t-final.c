@@ -23,7 +23,7 @@ void main(void) {
 	Transform tf;
 	tf.translate.x = 0;	tf.translate.y = 0;	tf.translate.z = 0;
 	tf.scale = 100;
-	tf.rotate.x = 15;	tf.rotate.y = 0;	tf.rotate.z = 0;
+	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
 	Triangle3D tri[3000];
 	Vector centroid;
@@ -66,13 +66,13 @@ void main(void) {
 	background(screen.width, screen.height);
 
 	centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
-	centroid = cubeCentroid(centroid, cube);
+	// centroid = cubeCentroid(centroid, cube);
 	printf("centroid: (%.3lf %.3lf %.3lf)\n", centroid.x, centroid.y, centroid.z);
 
 	centroid = cylinderCentroid(centroid, cylinder);
 	printf("centroid: (%.3lf %.3lf %.3lf)\n", centroid.x, centroid.y, centroid.z);
 
-	centroid = sphereCentroid(centroid, sphere);
+	// centroid = sphereCentroid(centroid, sphere);
 	printf("centroid: (%.3lf %.3lf %.3lf)\n", centroid.x, centroid.y, centroid.z);
 
 	// cube2triangle(tcube, cube, tf);
@@ -84,14 +84,14 @@ void main(void) {
 	// sphere.num = sphere2triangle(tsphere, sphere, tf);
 	// drawPrimitive(sphere.num, tsphere, screen);
 
-	tnum += cube2triangle(tri, cube, tf, centroid, tnum);
+	// tnum += cube2triangle(tri, cube, tf, centroid, tnum);
 	printf("tnum: %d\n", tnum);
 	tnum += cylinder2triangle(tri, cylinder, tf,  centroid, tnum);
 	printf("tnum: %d\n", tnum);
-	tnum += sphere2triangle(tri, sphere, tf,  centroid, tnum);
+	// tnum += sphere2triangle(tri, sphere, tf,  centroid, tnum);
 	printf("tnum: %d\n", tnum);
 
-	drawPrimitive(tnum, tri, screen);
+	// drawPrimitive(tnum, tri, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);
