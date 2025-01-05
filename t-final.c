@@ -85,11 +85,11 @@ void main(void) {
 	// drawPrimitive(sphere.num, tsphere, screen);
 
 	// tnum += cube2triangle(tri, cube, tf, centroid, tnum);
-	printf("tnum: %d\n", tnum);
-	tnum += cylinder2triangle(tri, cylinder, tf,  centroid, tnum);
-	printf("tnum: %d\n", tnum);
-	// tnum += sphere2triangle(tri, sphere, tf,  centroid, tnum);
 	// printf("tnum: %d\n", tnum);
+	// tnum += cylinder2triangle(tri, cylinder, tf,  centroid, tnum);
+	// printf("tnum: %d\n", tnum);
+	tnum += sphere2triangle(tri, sphere, tf,  centroid, tnum);
+	printf("tnum: %d\n", tnum);
 
 	drawPrimitive(tnum, tri, screen);
 
