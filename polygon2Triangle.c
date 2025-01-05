@@ -1,8 +1,6 @@
 ﻿// polygon2Triangle
 // Chikako Hikita
 
-     //    addNormalVector(nm, t[num + i], 0, next, i);
-
 void initializeNV(NormalVectors rtn[], int num) {
     for (int i = 0; i < num; i++) {
         rtn[i].count = 0;
@@ -49,6 +47,8 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
 	printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
+    NormalVectors nv[8];
+    Vector avg_nv[8];
 
 	c.centroid.x = (c.p1.x + c.p2.x) / 2;
 	c.centroid.y = (c.p1.y + c.p2.y) / 2;
@@ -93,7 +93,7 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
         rotateVertices(vertices, centroid, tf.rotate, 8);
     }
 
-	t[num].p[0] = vertices[0];	t[num].p[1] = vertices[4];	t[num].p[2] = vertices[7];
+	t[num].p[0] = vertices[0];	    t[num].p[1] = vertices[4];	    t[num].p[2] = vertices[7];
 	t[num + 1].p[0] = vertices[7];	t[num + 1].p[1] = vertices[3];	t[num + 1].p[2] = vertices[0];
 	t[num + 2].p[0] = vertices[1];	t[num + 2].p[1] = vertices[2];	t[num + 2].p[2] = vertices[6];
 	t[num + 3].p[0] = vertices[6];	t[num + 3].p[1] = vertices[5];	t[num + 3].p[2] = vertices[1];
@@ -118,8 +118,11 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
 		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
 		t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y) / 3;
 		t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z) / 3;
+    
+        t[i].v[0] = normalVector(t[i]);
+        t[i].v[1] = t[i].v[0];
+        t[i].v[2] = t[i].v[0];
 	}
-
     return c.num;
 }
 
