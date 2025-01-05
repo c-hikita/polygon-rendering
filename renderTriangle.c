@@ -83,50 +83,6 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 
 		printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
 	}
-
-	/*
-
-	for (int i = 0; i < 3; i++) {
-		// 視線Vの算出
-        v = subtract(s.c, t.p[i]);
-        v = normalize(v);
-		// printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
-
-		// ベクトルLの算出
-        l = subtract(s.iplot, t.p[i]);
-        l = normalize(l);
-		// printf("L = (%.3lf, %.3lf, %.3lf)\n", l.x, l.y, l.z);
-
-		// 内積計算
-        ln = dotProduct(l, n);
-
-		// 正反射ベクトルRの算出
-		r.x = 2 * ln * n.x - l.x;
-		r.y = 2 * ln * n.y - l.y;
-		r.z = 2 * ln * n.z - l.z;
-        r = normalize(r);
-		// printf("R = (%.3lf, %.3lf, %.3lf)\n", r.x, r.y, r.z);
-
-		// 内積計算
-        rv = dotProduct(r, v);
-        // printf("LN = %.3lf, RV = %.3lf\n", ln, rv);
-
-		// 色(r,g,b)の算出
-		color[0] = t.k[0] * o1.r * s.a.r + t.k[1] * o1.r * s.icolor.r * ln + t.k[2] * s.icolor.r * pow(rv, t.n);
-		color[1] = t.k[0] * o1.g * s.a.g + t.k[1] * o1.g * s.icolor.g * ln + t.k[2] * s.icolor.g * pow(rv, t.n);
-		color[2] = t.k[0] * o1.b * s.a.b + t.k[1] * o1.b * s.icolor.b * ln + t.k[2] * s.icolor.b * pow(rv, t.n);
-		// printf("(r,g,b) = (%.3lf, %.3lf, %.3lf)\n", color[0], color[1], color[2]);
-
-		
-		// 色の範囲を[0,1]から[0,255]に変更;
-		rtn[i].r = (int)(color[0] * 255);
-		rtn[i].g = (int)(color[1] * 255);
-		rtn[i].b = (int)(color[2] * 255);
-
-		rtn[i] = clampColor(rtn[i]);
-        printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
-	}
-	*/
 }
 
 Rendered renderTriangle(Triangle3D tri3, Settings s) {

@@ -36,11 +36,11 @@ typedef struct {
 } NormalVectors;
 
 typedef struct {
-	Vector p[3];
+	Vector p[3], v[3];
 	Color255 o;
-	int n, countnv;
+	int n;
 	double k[3];
-	Vector g, ref, vectors[3]; 
+	Vector g, ref; 
 	int id; // 1: cube, 2: cylinder, 3: sphere
 } Triangle3D;
 
