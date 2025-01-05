@@ -340,7 +340,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
     }
 
     // Generate triangles for the horizontal slices (latitudinal)
-    idx = num;
+    idx = 0;
     for (int lat = 0; lat < s.lat_div; lat++) {
         for (int lon = 0; lon < s.long_div; lon++) {
             int next_lon = (lon + 1) % s.long_div;
@@ -348,36 +348,36 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
 
             if (lat == 0) {
                 // Triangles at the north pole
-                t[idx].p[0] = pole[0];
-                t[idx].p[1] = vertices[next_lat * s.long_div + lon];
-                t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
+                t[idx + num].p[0] = pole[0];
+                t[idx + num].p[1] = vertices[next_lat * s.long_div + lon];
+                t[idx + num].p[2] = vertices[next_lat * s.long_div + next_lon];
                 idx++;
             } else if (lat == s.lat_div - 1) {
                 // Triangles at the south pole
-                t[idx].p[0] = vertices[lat * s.long_div + lon];
-                t[idx].p[1] = pole[1];
-                t[idx].p[2] = vertices[lat * s.long_div + next_lon];
+                t[idx + num].p[0] = vertices[lat * s.long_div + lon];
+                t[idx + num].p[1] = pole[1];
+                t[idx + num].p[2] = vertices[lat * s.long_div + next_lon];
                 idx++;
             } else {
                 // Bottom triangles
-                t[idx].p[0] = vertices[lat * s.long_div + lon];
-                t[idx].p[1] = vertices[next_lat * s.long_div + lon];
-                t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
+                t[idx + num].p[0] = vertices[lat * s.long_div + lon];
+                t[idx + num].p[1] = vertices[next_lat * s.long_div + lon];
+                t[idx + num].p[2] = vertices[next_lat * s.long_div + next_lon];
                 idx++;
 
                 // Top triangles
-                t[idx].p[0] = vertices[lat * s.long_div + lon];
-                t[idx].p[1] = vertices[next_lat * s.long_div + next_lon];
-                t[idx].p[2] = vertices[lat * s.long_div + next_lon];
+                t[idx + num].p[0] = vertices[lat * s.long_div + lon];
+                t[idx + num].p[1] = vertices[next_lat * s.long_div + next_lon];
+                t[idx + num].p[2] = vertices[lat * s.long_div + next_lon];
                 idx++;
             }
         }
     }
 
-    rtn = idx - num;
+    // rtn = idx - num;
 
     // Set triangle properties (assuming you want them like the cylinder function)
-    for (int i = num; i < idx; i++) {
+    for (int i = num; i < num + idx; i++) {
         t[i].o = s.o;
         t[i].n = s.n;
         t[i].k[0] = s.k[0];
@@ -386,7 +386,13 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
         t[i].ref = s.p;  // Sphere's center as reference
         t[i].id = 3;
 
-        // printf("t[%d].p: (%.3lf %.3lf %.3lf)\n", i, t[i].p[0].x, t[i].p[0].y, t[i].p[0].z);
+        /*
+        printf("t[%d].p: ", i);
+        for (int j = 0; j < 3; j++) {
+            printf("(%.3lf %.3lf %.3lf) ", t[i].p[j].x, t[i].p[j].y, t[i].p[j].z);
+        }
+        printf("\n");
+        */
 
         // Calculate centroid of each triangle
         t[i].g = (Vector){
@@ -396,7 +402,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
         };
     }
 
-    idx = num;
+    idx = 0;
     for (int lat = 0; lat < s.lat_div; lat++) {
         for (int lon = 0; lon < s.long_div; lon++) {
             int next_lon = (lon + 1) % s.long_div;
@@ -407,43 +413,43 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
                 // t[idx].p[0] = pole[0];
                 // t[idx].p[1] = vertices[next_lat * s.long_div + lon];
                 // t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
-                calcNormalVector(nv, t[idx], rtn, next_lat * s.long_div + lon, next_lat * s.long_div + next_lon);
+                calcNormalVector(nv, t[idx + num], idx, next_lat * s.long_div + lon, next_lat * s.long_div + next_lon);
                 idx++;
             } else if (lat == s.lat_div - 1) {
                 // Triangles at the south pole
                 // t[idx].p[0] = vertices[lat * s.long_div + lon];
                 // t[idx].p[1] = pole[1];
                 // t[idx].p[2] = vertices[lat * s.long_div + next_lon];
-                calcNormalVector(nv, t[idx], lat * s.long_div + lon, rtn + 1, lat * s.long_div + next_lon);
+                calcNormalVector(nv, t[idx + num], lat * s.long_div + lon, idx + 1, lat * s.long_div + next_lon);
                 idx++;
             } else {
                 // Bottom triangles
                 // t[idx].p[0] = vertices[lat * s.long_div + lon];
                 // t[idx].p[1] = vertices[next_lat * s.long_div + lon];
                 // t[idx].p[2] = vertices[next_lat * s.long_div + next_lon];
-                calcNormalVector(nv, t[idx], lat * s.long_div + lon, next_lat * s.long_div + lon, next_lat * s.long_div + next_lon);
+                calcNormalVector(nv, t[idx + num], lat * s.long_div + lon, next_lat * s.long_div + lon, next_lat * s.long_div + next_lon);
                 idx++;
 
                 // Top triangles
                 // t[idx].p[0] = vertices[lat * s.long_div + lon];
                 // t[idx].p[1] = vertices[next_lat * s.long_div + next_lon];
                 // t[idx].p[2] = vertices[lat * s.long_div + next_lon];
-                calcNormalVector(nv, t[idx], lat * s.long_div + lon, next_lat * s.long_div + next_lon, lat * s.long_div + next_lon);
+                calcNormalVector(nv, t[idx + num], lat * s.long_div + lon, next_lat * s.long_div + next_lon, lat * s.long_div + next_lon);
                 idx++;
             }
         }
     }
 
-    /*
+    
     printf("normal vectors: \n");
 
-    calcAverageNV(avg_nv, nv, rtn + 2);
-    for (int i = 0; i < rtn + 2; i++) {
+    calcAverageNV(avg_nv, nv, idx + 2);
+    for (int i = 0; i < idx + 2; i++) {
         printf("%d: (%.1lf %.1lf %.1lf)\n", i, avg_nv[i].x, avg_nv[i].y, avg_nv[i].z);
     }
-    */
+    
 
-    idx = num;
+    idx = 0;
     for (int lat = 0; lat < s.lat_div; lat++) {
         for (int lon = 0; lon < s.long_div; lon++) {
             int next_lon = (lon + 1) % s.long_div;
@@ -451,31 +457,31 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
 
             if (lat == 0) {
                 // Triangles at the north pole
-                t[idx].v[0] = avg_nv[rtn];
-                t[idx].v[1] = avg_nv[next_lat * s.long_div + lon];
-                t[idx].v[2] = avg_nv[next_lat * s.long_div + next_lon];
+                t[idx + num].v[0] = avg_nv[idx];
+                t[idx + num].v[1] = avg_nv[next_lat * s.long_div + lon];
+                t[idx + num].v[2] = avg_nv[next_lat * s.long_div + next_lon];
                 idx++;
             } else if (lat == s.lat_div - 1) {
                 // Triangles at the south pole
-                t[idx].v[0] = avg_nv[lat * s.long_div + lon];
-                t[idx].v[1] = avg_nv[rtn + 1];
-                t[idx].v[2] = avg_nv[lat * s.long_div + next_lon];
+                t[idx + num].v[0] = avg_nv[lat * s.long_div + lon];
+                t[idx + num].v[1] = avg_nv[idx + 1];
+                t[idx + num].v[2] = avg_nv[lat * s.long_div + next_lon];
                 idx++;
             } else {
                 // Bottom triangles
-                t[idx].v[0] = avg_nv[lat * s.long_div + lon];
-                t[idx].v[1] = avg_nv[next_lat * s.long_div + lon];
-                t[idx].v[2] = avg_nv[next_lat * s.long_div + next_lon];
+                t[idx + num].v[0] = avg_nv[lat * s.long_div + lon];
+                t[idx + num].v[1] = avg_nv[next_lat * s.long_div + lon];
+                t[idx + num].v[2] = avg_nv[next_lat * s.long_div + next_lon];
                 idx++;
 
                 // Top triangles
-                t[idx].v[0] = avg_nv[lat * s.long_div + lon];
-                t[idx].v[1] = avg_nv[next_lat * s.long_div + next_lon];
-                t[idx].v[2] = avg_nv[lat * s.long_div + next_lon];
+                t[idx + num].v[0] = avg_nv[lat * s.long_div + lon];
+                t[idx + num].v[1] = avg_nv[next_lat * s.long_div + next_lon];
+                t[idx + num].v[2] = avg_nv[lat * s.long_div + next_lon];
                 idx++;
             }
         }
     }
 
-    return rtn;
+    return idx;
 }

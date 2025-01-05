@@ -58,7 +58,7 @@ void main(void) {
 	sphere.o.r = 0;		sphere.o.g = 200;	sphere.o.b = 200;
 	sphere.n = 9;
 	sphere.k[0] = 0.5;	sphere.k[1] = 0.5;	sphere.k[2] = 0.5;
-	sphere.lat_div = 6;		sphere.long_div = 6;
+	sphere.lat_div = 20;		sphere.long_div = 20;
 	// sphere.num = sphere.lat_div + sphere.long_div + sphere.lat_div * (sphere.long_div - 2) * 2;
 
 	// printf("num: %d\n", sphere.num);
