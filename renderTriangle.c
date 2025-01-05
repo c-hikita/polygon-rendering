@@ -40,8 +40,8 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 	o1.b = (double)t.o.b / 255;
 
 	// 3角形面の法線ベクトルNの算出
-	n = normalVector(t);
-	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
+	// n = normalVector(t);
+	// printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
 
 	/*
 	u1 = subtract(t.p[1], t.p[0]);
@@ -49,8 +49,13 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
     n = crossProduct(u2, u1);
 	n = normalize(n);
 	*/
+
 	// Calculate lighting for each vertex
 	for (int i = 0; i < 3; i++) {
+		n = t.v[i];
+		n = normalize(n);
+		printf("n: (%.2lf %.2lf %.2lf)\n", n.x, n.y, n.z);
+
 		// Normalize vectors
 		v = subtract(s.c, t.p[i]);
 		v = normalize(v);

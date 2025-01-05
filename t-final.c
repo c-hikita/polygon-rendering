@@ -25,7 +25,7 @@ void main(void) {
 	tf.scale = 100;
 	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
-	Triangle3D tri[3000];
+	Triangle3D tri[2000];
 	Vector centroid;
 	int tnum = 0;
 
@@ -47,7 +47,7 @@ void main(void) {
 	cylinder.o.r = 200;	cylinder.o.g = 200;	cylinder.o.b = 255;
 	cylinder.n = 9;
 	cylinder.k[0] = 0.7;	cylinder.k[1] = 0.7;	cylinder.k[2] = 0.7;
-	cylinder.div = 6;		
+	cylinder.div = 30;		
 	cylinder.num = 4 * cylinder.div;
 
 	// shpere
@@ -89,9 +89,9 @@ void main(void) {
 	tnum += cylinder2triangle(tri, cylinder, tf,  centroid, tnum);
 	printf("tnum: %d\n", tnum);
 	// tnum += sphere2triangle(tri, sphere, tf,  centroid, tnum);
-	printf("tnum: %d\n", tnum);
+	// printf("tnum: %d\n", tnum);
 
-	// drawPrimitive(tnum, tri, screen);
+	drawPrimitive(tnum, tri, screen);
 
 	// 24ビット-ビットマップファイルへの書き込み
 	bmpout("sample.bmp", screen.width, screen.height);
