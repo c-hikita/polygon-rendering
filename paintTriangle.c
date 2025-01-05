@@ -4,9 +4,9 @@
 void background(int width, int height) {
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			Pixel[i][j][0] = (unsigned char) 255;
-			Pixel[i][j][1] = (unsigned char) 255;
-			Pixel[i][j][2] = (unsigned char) 255;
+			Pixel[i][j][0] = (unsigned char) 0;
+			Pixel[i][j][1] = (unsigned char) 0;
+			Pixel[i][j][2] = (unsigned char) 0;
 		}
 	}
 }
