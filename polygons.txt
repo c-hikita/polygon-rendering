@@ -1,6 +1,6 @@
 # Cube
-point1 = (300, 300, 200)
-point2 = (400, 400, 300)
+point1 = (300, 300, 300)
+point2 = (350, 350, 350)
 color = (200, 0, 200)
 n = 9
 Ka = 0.5
@@ -10,8 +10,8 @@ Ks = 0.5
 
 # Cylinder
 radius = 100
-height = 200
-position = (200, 200, 300)
+height = 100
+position = (500, 200, 300)
 color = (200, 200, 255)
 n = 9
 Ka = 0.7
@@ -21,7 +21,7 @@ div = 30
 
 # Sphere
 radius = 100
-position = (500, 200, 300)
+position = (200, 200, 300)
 color = (0, 200, 200)
 n = 9
 Ka = 0.5

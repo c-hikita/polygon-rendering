@@ -21,19 +21,11 @@ int containsSubstring(const char* line, const char* substring) {
 void readSettings(FILE* file, Settings* screen) {
     fscanf(file, "screen_width = %d\n", &screen->width);
     fscanf(file, "screen_height = %d\n", &screen->height);
-    fscanf(file, "camera_x = %lf\n", &screen->c.x);
-    fscanf(file, "camera_y = %lf\n", &screen->c.y);
-    fscanf(file, "camera_z = %lf\n", &screen->c.z);
+    fscanf(file, "camera = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
     fscanf(file, "distance = %d\n", &screen->d);
-    fscanf(file, "ambient_r = %lf\n", &screen->a.r);
-    fscanf(file, "ambient_g = %lf\n", &screen->a.g);
-    fscanf(file, "ambient_b = %lf\n", &screen->a.b);
-    fscanf(file, "iplot_x = %lf\n", &screen->iplot.x);
-    fscanf(file, "iplot_y = %lf\n", &screen->iplot.y);
-    fscanf(file, "iplot_z = %lf\n", &screen->iplot.z);
-    fscanf(file, "icolor_r = %lf\n", &screen->icolor.r);
-    fscanf(file, "icolor_g = %lf\n", &screen->icolor.g);
-    fscanf(file, "icolor_b = %lf\n", &screen->icolor.b);
+    fscanf(file, "ambience = (%lf, %lf, %lf)\n", &screen->a.r, &screen->a.g, &screen->a.b);
+    fscanf(file, "iplot = (%lf, %lf, %lf)\n", &screen->iplot.x, &screen->iplot.y, &screen->iplot.z);
+    fscanf(file, "icolor = (%lf, %lf, %lf)\n", &screen->icolor.r, &screen->icolor.g, &screen->icolor.b);
 }
 
 void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder cylinders[MAX_POLYGONS], int* cylinderCount, Sphere spheres[MAX_POLYGONS], int* sphereCount) {

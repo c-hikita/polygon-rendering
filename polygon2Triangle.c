@@ -59,15 +59,15 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
     // printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
     // printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
 
-    if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
-        c.p1.x += tf.translate.x;
-        c.p1.y += tf.translate.y;
-        c.p1.z += tf.translate.z;
+    // if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
+    //     c.p1.x += tf.translate.x;
+    //     c.p1.y += tf.translate.y;
+    //     c.p1.z += tf.translate.z;
 
-        c.p2.x += tf.translate.x;
-        c.p2.y += tf.translate.y;
-        c.p2.z += tf.translate.z;
-    }
+    //     c.p2.x += tf.translate.x;
+    //     c.p2.y += tf.translate.y;
+    //     c.p2.z += tf.translate.z;
+    // }
 
     if (tf.scale != 100) {
         double scale = tf.scale / 100.0;
@@ -95,6 +95,13 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
         rotateVertices(vertices, centroid, tf.rotate, 8);
     }
 
+    if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
+        for (int i = 0; i < 8; i++) {
+            vertices[i].x += tf.translate.x;
+            vertices[i].y += tf.translate.y;
+            vertices[i].z += tf.translate.z;
+        }
+    }
 	t[num].p[0] = vertices[0];	    t[num].p[1] = vertices[4];	    t[num].p[2] = vertices[7];
 	t[num + 1].p[0] = vertices[7];	t[num + 1].p[1] = vertices[3];	t[num + 1].p[2] = vertices[0];
 	t[num + 2].p[0] = vertices[1];	t[num + 2].p[1] = vertices[2];	t[num + 2].p[2] = vertices[6];
@@ -148,10 +155,10 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
 
     // 2. Define Base Points (before translation and rotation)
 
-    // 3. Apply Translation
-    c.p.x += tf.translate.x;
-    c.p.y += tf.translate.y;
-    c.p.z += tf.translate.z;
+    // // 3. Apply Translation
+    // c.p.x += tf.translate.x;
+    // c.p.y += tf.translate.y;
+    // c.p.z += tf.translate.z;
 
     // Update Points After Translation
     o[0] = c.p;
@@ -177,6 +184,17 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
         rotateVertices(vertices, centroid, tf.rotate, c.div * 2);
         rotateVertices(o, centroid, tf.rotate, 2);
+    }
+
+    for (int i = 0; i < c.div * 2; i++) {
+        if (i < 2) {
+            o[i].x += tf.translate.x;
+            o[i].y += tf.translate.y;
+            o[i].z += tf.translate.z;
+        }        
+        vertices[i].x += tf.translate.x;
+        vertices[i].y += tf.translate.y;
+        vertices[i].z += tf.translate.z;
     }
 
     c.centroid = add(o[0], o[1]);
@@ -311,10 +329,10 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
         s.r *= scale;
     }
 
-    // 3. Apply Translation
-    s.p.x += tf.translate.x;
-    s.p.y += tf.translate.y;
-    s.p.z += tf.translate.z;
+    // // 3. Apply Translation
+    // s.p.x += tf.translate.x;
+    // s.p.y += tf.translate.y;
+    // s.p.z += tf.translate.z;
 
     // Generate vertices
     int idx = 0;
@@ -342,6 +360,17 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
         rotateVertices(vertices, centroid, tf.rotate, idx);
         rotateVertices(pole, centroid, tf.rotate, 2);
+    }
+
+    for (int i = 0; i < idx; i++) {
+        if (i < 2) {
+            pole[i].x += tf.translate.x;
+            pole[i].y += tf.translate.y;
+            pole[i].z += tf.translate.z;
+        }        
+        vertices[i].x += tf.translate.x;
+        vertices[i].y += tf.translate.y;
+        vertices[i].z += tf.translate.z;
     }
 
     // Generate triangles for the horizontal slices (latitudinal)
