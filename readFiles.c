@@ -55,95 +55,85 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
 
         // Read cube data
         if (currentPolygonType == 1) {
-            fscanf(file, "cube_p1_x = %lf\n", &cubes[*cubeCount].p1.x);
-            fscanf(file, "cube_p1_y = %lf\n", &cubes[*cubeCount].p1.y);
-            fscanf(file, "cube_p1_z = %lf\n", &cubes[*cubeCount].p1.z);
-            fscanf(file, "cube_p2_x = %lf\n", &cubes[*cubeCount].p2.x);
-            fscanf(file, "cube_p2_y = %lf\n", &cubes[*cubeCount].p2.y);
-            fscanf(file, "cube_p2_z = %lf\n", &cubes[*cubeCount].p2.z);
-            fscanf(file, "cube_color_r = %d\n", &cubes[*cubeCount].o.r);
-            fscanf(file, "cube_color_g = %d\n", &cubes[*cubeCount].o.g);
-            fscanf(file, "cube_color_b = %d\n", &cubes[*cubeCount].o.b);
-            fscanf(file, "cube_n = %d\n", &cubes[*cubeCount].n);
-            fscanf(file, "cube_k0 = %lf\n", &cubes[*cubeCount].k[0]);
-            fscanf(file, "cube_k1 = %lf\n", &cubes[*cubeCount].k[1]);
-            fscanf(file, "cube_k2 = %lf\n", &cubes[*cubeCount].k[2]);
-            fscanf(file, "cube_num = %d\n", &cubes[*cubeCount].num);
+            fscanf(file, "point1 = (%lf, %lf, %lf)\n", &cubes[*cubeCount].p1.x, &cubes[*cubeCount].p1.y, &cubes[*cubeCount].p1.z);
+            fscanf(file, "point2 = (%lf, %lf, %lf)\n", &cubes[*cubeCount].p2.x, &cubes[*cubeCount].p2.y, &cubes[*cubeCount].p2.z);
+            fscanf(file, "color = (%d, %d, %d)\n", &cubes[*cubeCount].o.r, &cubes[*cubeCount].o.g, &cubes[*cubeCount].o.b);
+            fscanf(file, "n = %d\n", &cubes[*cubeCount].n);
+            fscanf(file, "Ka = %lf\n", &cubes[*cubeCount].k[0]);
+            fscanf(file, "Kd = %lf\n", &cubes[*cubeCount].k[1]);
+            fscanf(file, "Ks = %lf\n", &cubes[*cubeCount].k[2]);
             (*cubeCount)++;
         }
 
         // Read cylinder data
         if (currentPolygonType == 2) {
-            fscanf(file, "cylinder_radius = %lf\n", &cylinders[*cylinderCount].r);
-            fscanf(file, "cylinder_height = %lf\n", &cylinders[*cylinderCount].h);
-            fscanf(file, "cylinder_pos_x = %lf\n", &cylinders[*cylinderCount].p.x);
-            fscanf(file, "cylinder_pos_y = %lf\n", &cylinders[*cylinderCount].p.y);
-            fscanf(file, "cylinder_pos_z = %lf\n", &cylinders[*cylinderCount].p.z);
-            fscanf(file, "cylinder_color_r = %d\n", &cylinders[*cylinderCount].o.r);
-            fscanf(file, "cylinder_color_g = %d\n", &cylinders[*cylinderCount].o.g);
-            fscanf(file, "cylinder_color_b = %d\n", &cylinders[*cylinderCount].o.b);
-            fscanf(file, "cylinder_n = %d\n", &cylinders[*cylinderCount].n);
-            fscanf(file, "cylinder_k0 = %lf\n", &cylinders[*cylinderCount].k[0]);
-            fscanf(file, "cylinder_k1 = %lf\n", &cylinders[*cylinderCount].k[1]);
-            fscanf(file, "cylinder_k2 = %lf\n", &cylinders[*cylinderCount].k[2]);
-            fscanf(file, "cylinder_div = %d\n", &cylinders[*cylinderCount].div);
-            fscanf(file, "cylinder_num = %d\n", &cylinders[*cylinderCount].num);
+            fscanf(file, "radius = %lf\n", &cylinders[*cylinderCount].r);
+            fscanf(file, "height = %lf\n", &cylinders[*cylinderCount].h);
+            fscanf(file, "position = (%lf, %lf, %lf)\n", &cylinders[*cylinderCount].p.x, &cylinders[*cylinderCount].p.y, &cylinders[*cylinderCount].p.z);
+            fscanf(file, "color = (%d, %d, %d)\n", &cylinders[*cylinderCount].o.r, &cylinders[*cylinderCount].o.g, &cylinders[*cylinderCount].o.b);
+            fscanf(file, "n = %d\n", &cylinders[*cylinderCount].n);
+            fscanf(file, "Ka = %lf\n", &cylinders[*cylinderCount].k[0]);
+            fscanf(file, "Kd = %lf\n", &cylinders[*cylinderCount].k[1]);
+            fscanf(file, "Ks = %lf\n", &cylinders[*cylinderCount].k[2]);
+            fscanf(file, "div = %d\n", &cylinders[*cylinderCount].div);
             (*cylinderCount)++;
         }
 
         // Read sphere data
         if (currentPolygonType == 3) {
-            fscanf(file, "sphere_radius = %lf\n", &spheres[*sphereCount].r);
-            fscanf(file, "sphere_pos_x = %lf\n", &spheres[*sphereCount].p.x);
-            fscanf(file, "sphere_pos_y = %lf\n", &spheres[*sphereCount].p.y);
-            fscanf(file, "sphere_pos_z = %lf\n", &spheres[*sphereCount].p.z);
-            fscanf(file, "sphere_color_r = %d\n", &spheres[*sphereCount].o.r);
-            fscanf(file, "sphere_color_g = %d\n", &spheres[*sphereCount].o.g);
-            fscanf(file, "sphere_color_b = %d\n", &spheres[*sphereCount].o.b);
-            fscanf(file, "sphere_n = %d\n", &spheres[*sphereCount].n);
-            fscanf(file, "sphere_k0 = %lf\n", &spheres[*sphereCount].k[0]);
-            fscanf(file, "sphere_k1 = %lf\n", &spheres[*sphereCount].k[1]);
-            fscanf(file, "sphere_k2 = %lf\n", &spheres[*sphereCount].k[2]);
-            fscanf(file, "sphere_lat_div = %d\n", &spheres[*sphereCount].lat_div);
-            fscanf(file, "sphere_long_div = %d\n", &spheres[*sphereCount].long_div);
+            fscanf(file, "radius = %lf\n", &spheres[*sphereCount].r);
+            fscanf(file, "position = (%lf, %lf, %lf)\n", &spheres[*sphereCount].p.x, &spheres[*sphereCount].p.y, &spheres[*sphereCount].p.z);
+            fscanf(file, "color = (%d, %d, %d)\n", &spheres[*sphereCount].o.r, &spheres[*sphereCount].o.g, &spheres[*sphereCount].o.b);
+            fscanf(file, "n = %d\n", &spheres[*sphereCount].n);
+            fscanf(file, "Ka = %lf\n", &spheres[*sphereCount].k[0]);
+            fscanf(file, "Kd = %lf\n", &spheres[*sphereCount].k[1]);
+            fscanf(file, "Ks = %lf\n", &spheres[*sphereCount].k[2]);
+            fscanf(file, "div(horizontal) = %d\n", &spheres[*sphereCount].lat_div);
+            fscanf(file, "div(vertical) = %d\n", &spheres[*sphereCount].long_div);
             (*sphereCount)++;
         }
     }
 }
 
 void printSettings(Settings* screen) {
-    printf("\nSettings:\n");
+    printf("\nCurrent Settings:\n");
     printf("Width: %d, Height: %d\n", screen->width, screen->height);
-    printf("Camera position: (%.2lf, %.2lf, %.2lf)\n", screen->c.x, screen->c.y, screen->c.z);
+    printf("Camera position: (%.0lf, %.0lf, %.0lf)\n", screen->c.x, screen->c.y, screen->c.z);
     printf("Distance: %d\n", screen->d);
     printf("Ambient color: (%.2lf, %.2lf, %.2lf)\n", screen->a.r, screen->a.g, screen->a.b);
-    printf("Iplot position: (%.2lf, %.2lf, %.2lf)\n", screen->iplot.x, screen->iplot.y, screen->iplot.z);
+    printf("Iplot position: (%.0lf, %.0lf, %.0lf)\n", screen->iplot.x, screen->iplot.y, screen->iplot.z);
     printf("Icolor: (%.2lf, %.2lf, %.2lf)\n", screen->icolor.r, screen->icolor.g, screen->icolor.b);
 }
 
 void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, Cylinder cylinders[MAX_POLYGONS], int sphereCount, Sphere spheres[MAX_POLYGONS]) {
-    printf("\nCubes:\n");
-	printf("cubecont: %d\n", cubeCount);
+    printf("\nCurrent Primitive:\n");
     for (int i = 0; i < cubeCount; i++) {
-        printf("Cube %d:\n", i + 1);
-        printf("p1: (%.2lf, %.2lf, %.2lf) p2: (%.2lf, %.2lf, %.2lf)\n", cubes[i].p1.x, cubes[i].p1.y, cubes[i].p1.z, cubes[i].p2.x, cubes[i].p2.y, cubes[i].p2.z);
+        printf("\nCube %d:\n", i + 1);
+        printf("p1: (%.0lf, %.0lf, %.0lf) p2: (%.0lf, %.0lf, %.0lf)\n", cubes[i].p1.x, cubes[i].p1.y, cubes[i].p1.z, cubes[i].p2.x, cubes[i].p2.y, cubes[i].p2.z);
         printf("Color: (%d, %d, %d)\n", cubes[i].o.r, cubes[i].o.g, cubes[i].o.b);
-        printf("n: %d k: (%.2lf, %.2lf, %.2lf) num: %d\n", cubes[i].n, cubes[i].k[0], cubes[i].k[1], cubes[i].k[2], cubes[i].num);
+        printf("n: %d Ka: %.2lf Kd: %.2lf Ks: %.2lf\n", cubes[i].n, cubes[i].k[0], cubes[i].k[1], cubes[i].k[2]);
     }
 
-    printf("\nCylinders:\n");
+    // printf("\nCylinders:\n");
     for (int i = 0; i < cylinderCount; i++) {
-        printf("Cylinder %d:\n", i + 1);
-        printf("Radius: %.2lf Height: %.2lf Position: (%.2lf, %.2lf, %.2lf)\n", cylinders[i].r, cylinders[i].h, cylinders[i].p.x, cylinders[i].p.y, cylinders[i].p.z);
+        printf("\nCylinder %d:\n", i + 1);
+        printf("Radius: %.2lf Height: %.2lf Position: (%.0lf, %.0lf, %.0lf)\n", cylinders[i].r, cylinders[i].h, cylinders[i].p.x, cylinders[i].p.y, cylinders[i].p.z);
         printf("Color: (%d, %d, %d)\n", cylinders[i].o.r, cylinders[i].o.g, cylinders[i].o.b);
-        printf("n: %d k: (%.2lf, %.2lf, %.2lf) Div: %d num: %d\n", cylinders[i].n, cylinders[i].k[0], cylinders[i].k[1], cylinders[i].k[2], cylinders[i].div, cylinders[i].num);
+        printf("n: %d Ka: %.2lf Kd: %.2lf Ks: %.2lf\nDiv: %d\n", cylinders[i].n, cylinders[i].k[0], cylinders[i].k[1], cylinders[i].k[2], cylinders[i].div);
     }
 
-    printf("\nSpheres:\n");
+    // printf("\nSpheres:\n");
     for (int i = 0; i < sphereCount; i++) {
-        printf("Sphere %d:\n", i + 1);
-        printf("Radius: %.2lf Position: (%.2lf, %.2lf, %.2lf)\n", spheres[i].r, spheres[i].p.x, spheres[i].p.y, spheres[i].p.z);
+        printf("\nSphere %d:\n", i + 1);
+        printf("Radius: %.2lf Position: (%.0lf, %.0lf, %.0lf)\n", spheres[i].r, spheres[i].p.x, spheres[i].p.y, spheres[i].p.z);
         printf("Color: (%d, %d, %d)\n", spheres[i].o.r, spheres[i].o.g, spheres[i].o.b);
-        printf("n: %d k: (%.2lf, %.2lf, %.2lf) LatDiv: %d LongDiv: %d\n", spheres[i].n, spheres[i].k[0], spheres[i].k[1], spheres[i].k[2], spheres[i].lat_div, spheres[i].long_div);
+        printf("n: %d Ka: %.2lf Kd: %.2lf Ks: %.2lf\nLatDiv: %d LongDiv: %d\n", spheres[i].n, spheres[i].k[0], spheres[i].k[1], spheres[i].k[2], spheres[i].lat_div, spheres[i].long_div);
     }
+}
+
+void printTransform(Transform tf) {
+    printf("\nCurrent Transformation Values:\n");
+    printf("Translation: (%.0f, %.0f, %.0f)\n", tf.translate.x, tf.translate.y, tf.translate.z);
+    printf("Scale: %d%%\n", tf.scale);
+    printf("Rotation: (%.0f, %.0f, %.0f)\n", tf.rotate.x, tf.rotate.y, tf.rotate.z);
 }

@@ -44,18 +44,20 @@ void calcAverageNV(Vector rtn[], NormalVectors nv[], int num) {
 }
 
 int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num) {
-	printf("\n*** cube2triangle ***\n");
+	// printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
     NormalVectors nv[8];
     Vector avg_nv[8];
 
+    c.num = 12;
+
 	c.centroid.x = (c.p1.x + c.p2.x) / 2;
 	c.centroid.y = (c.p1.y + c.p2.y) / 2;
 	c.centroid.z = (c.p1.z + c.p2.z) / 2;
 
-    printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
-    printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
+    // printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
+    // printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
 
     if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
         c.p1.x += tf.translate.x;
@@ -74,8 +76,8 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
         c.p2.z = c.p1.z + (c.p2.z - c.p1.z) * scale;
     }
 
-    printf("Translated Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
-    printf("Translated Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
+    // printf("Translated Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
+    // printf("Translated Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
 
     // Define the cube vertices relative to its diagonal points
     Vector vertices[8] = {
@@ -127,7 +129,7 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
 }
 
 int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid, int num) {
-    printf("\n*** cylinder2triangle ***\n");
+    // printf("\n*** cylinder2triangle ***\n");
 
     NormalVectors nv[100];
     Vector o[2], o_nv[2], avg_nv[100], vertices[100];
@@ -135,6 +137,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
     int next;
 
     initializeNV(nv, 100);
+    c.num = 4 * c.div;
 
     // 1. Apply Scaling
     if (tf.scale != 100) {
@@ -207,7 +210,6 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
         // calcNormalVector(nv, t[num + i + 3 * c.div], i, next + c.div, i + c.div);
     }
 
-
     for (int i = num; i < c.num + num; i++) {
         t[i].o = c.o;
         t[i].n = c.n;
@@ -217,11 +219,11 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
         t[i].ref = c.centroid;
         t[i].id = 2;
 
-        printf("%2d: ", i - num);
-        for (int j = 0; j < 3; j++) {
-            printf("(%.1lf %.1lf %.1lf) ", t[i].v[j].x, t[i].v[j].y, t[i].v[j].z);
-        }
-        printf("\n");
+        // printf("%2d: ", i - num);
+        // for (int j = 0; j < 3; j++) {
+        //     printf("(%.1lf %.1lf %.1lf) ", t[i].v[j].x, t[i].v[j].y, t[i].v[j].z);
+        // }
+        // printf("\n");
 
         // Calculate centroid
         t[i].g = (Vector){
@@ -243,18 +245,18 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
         calcNormalVector(nv, t[num + i + 3 * c.div], i, next + c.div, i + c.div);
     }
 
-    printf("normal vectors: \n");
-    for (int i = 0; i < c.div * 2; i++) {
-        printf("%d: ", i);
-        printf("count: %d  ", nv[i].count);
-        for (int j = 0; j < 6; j++) {
-            printf("(%.1lf %.1lf %.1lf) ", nv[i].v[j].x, nv[i].v[j].y, nv[i].v[j].z);
-        }
-        printf("\n");
-    }
+    // printf("normal vectors: \n");
+    // for (int i = 0; i < c.div * 2; i++) {
+    //     printf("%d: ", i);
+    //     printf("count: %d  ", nv[i].count);
+    //     for (int j = 0; j < 6; j++) {
+    //         printf("(%.1lf %.1lf %.1lf) ", nv[i].v[j].x, nv[i].v[j].y, nv[i].v[j].z);
+    //     }
+    //     printf("\n");
+    // }
 
-    printf("o1: (%.1lf %.1lf %.1lf)\n", o_nv[0].x, o_nv[0].y, o_nv[0].z);
-    printf("o2: (%.1lf %.1lf %.1lf)\n", o_nv[1].x, o_nv[1].y, o_nv[1].z);
+    // printf("o1: (%.1lf %.1lf %.1lf)\n", o_nv[0].x, o_nv[0].y, o_nv[0].z);
+    // printf("o2: (%.1lf %.1lf %.1lf)\n", o_nv[1].x, o_nv[1].y, o_nv[1].z);
 
     calcAverageNV(avg_nv, nv, c.div * 2);
 
@@ -293,7 +295,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
 }
 
 int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int num) {
-    printf("\n*** sphere2triangle ***\n");
+    // printf("\n*** sphere2triangle ***\n");
 
     NormalVectors nv[1000];
     Vector pole[2], avg_nv[1000], vertices[1000];
@@ -443,15 +445,13 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
         }
     }
 
-    
-    printf("normal vectors: \n");
+    // printf("normal vectors: \n");
 
     calcAverageNV(avg_nv, nv, idx + 2);
-    for (int i = 0; i < idx + 2; i++) {
-        printf("%d: (%.1lf %.1lf %.1lf)\n", i, avg_nv[i].x, avg_nv[i].y, avg_nv[i].z);
-    }
+    // for (int i = 0; i < idx + 2; i++) {
+    //     printf("%d: (%.1lf %.1lf %.1lf)\n", i, avg_nv[i].x, avg_nv[i].y, avg_nv[i].z);
+    // }
     
-
     idx = 0;
     for (int lat = 0; lat < s.lat_div; lat++) {
         for (int lon = 0; lon < s.long_div; lon++) {

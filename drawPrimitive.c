@@ -6,7 +6,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 	Vector u1, u2, n, v;
 	double nv;
 
-	printf("***hiddenSurfaceRemoval***\n");
+	// printf("***hiddenSurfaceRemoval***\n");
 	for (int i = 0; i < num; i++) {
 		// printf("triangle[%d]\n", i);
 		n = normalVector(t[i]);
@@ -52,7 +52,7 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 		
 	}
 
-	printf("count: %d\n", rtn);
+	// printf("count: %d\n", rtn);
 
 	return rtn;
 }
@@ -87,7 +87,7 @@ void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	sortTriangles(count, removed);
 	
 	for (int i = 0; i < count; i++) {
-		printf("\ntriangle %d\n", i);
+		// printf("\ntriangle %d\n", i);
 		// t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x)/3;
 		// t[i].g.y = (t[i].p[0].y + t[i].p[1].y + t[i].p[2].y)/3;
 		// t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z)/3;

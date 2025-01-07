@@ -1,93 +1,31 @@
 # Cube
-cube_p1_x = 300
-cube_p1_y = 300
-cube_p1_z = 200
-cube_p2_x = 400
-cube_p2_y = 400
-cube_p2_z = 300
-cube_color_r = 200
-cube_color_g = 0
-cube_color_b = 200
-cube_n = 9
-cube_k0 = 0.5
-cube_k1 = 0.5
-cube_k2 = 0.5
-cube_num = 12
+point1 = (300, 300, 200)
+point2 = (400, 400, 300)
+color = (200, 0, 200)
+n = 9
+Ka = 0.5
+Kd = 0.5
+Ks = 0.5
 
-# Cube
-cube_p1_x = 500
-cube_p1_y = 500
-cube_p1_z = 300
-cube_p2_x = 600
-cube_p2_y = 600
-cube_p2_z = 400
-cube_color_r = 100
-cube_color_g = 100
-cube_color_b = 100
-cube_n = 9
-cube_k0 = 0.6
-cube_k1 = 0.6
-cube_k2 = 0.6
-cube_num = 12
 
 # Cylinder
-cylinder_radius = 100
-cylinder_height = 200
-cylinder_pos_x = 200
-cylinder_pos_y = 200
-cylinder_pos_z = 300
-cylinder_color_r = 200
-cylinder_color_g = 200
-cylinder_color_b = 255
-cylinder_n = 9
-cylinder_k0 = 0.7
-cylinder_k1 = 0.7
-cylinder_k2 = 0.7
-cylinder_div = 30
-cylinder_num = 120
-
-# Cylinder
-cylinder_radius = 150
-cylinder_height = 250
-cylinder_pos_x = 300
-cylinder_pos_y = 300
-cylinder_pos_z = 400
-cylinder_color_r = 150
-cylinder_color_g = 150
-cylinder_color_b = 255
-cylinder_n = 9
-cylinder_k0 = 0.8
-cylinder_k1 = 0.8
-cylinder_k2 = 0.8
-cylinder_div = 40
-cylinder_num = 160
+radius = 100
+height = 200
+position = (200, 200, 300)
+color = (200, 200, 255)
+n = 9
+Ka = 0.7
+Kd = 0.7
+Ks = 0.7
+div = 30
 
 # Sphere
-sphere_radius = 100
-sphere_pos_x = 500
-sphere_pos_y = 200
-sphere_pos_z = 300
-sphere_color_r = 0
-sphere_color_g = 200
-sphere_color_b = 200
-sphere_n = 9
-sphere_k0 = 0.5
-sphere_k1 = 0.5
-sphere_k2 = 0.5
-sphere_lat_div = 20
-sphere_long_div = 20
-
-# Sphere
-sphere_radius = 120
-sphere_pos_x = 600
-sphere_pos_y = 250
-sphere_pos_z = 350
-sphere_color_r = 200
-sphere_color_g = 0
-sphere_color_b = 200
-sphere_n = 9
-sphere_k0 = 0.6
-sphere_k1 = 0.6
-sphere_k2 = 0.6
-sphere_lat_div = 25
-sphere_long_div = 25
+radius = 100
+position = (500, 200, 300)
+color = (0, 200, 200)
+n = 9
+Ka = 0.5
+Kd = 0.5
+Ks = 0.5
+div(horizontal) = 20
+div(vertical) = 20

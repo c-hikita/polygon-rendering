@@ -54,7 +54,7 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 	for (int i = 0; i < 3; i++) {
 		n = t.v[i];
 		n = normalize(n);
-		printf("n: (%.2lf %.2lf %.2lf)\n", n.x, n.y, n.z);
+		// printf("n: (%.2lf %.2lf %.2lf)\n", n.x, n.y, n.z);
 
 		// Normalize vectors
 		v = subtract(s.c, t.p[i]);
@@ -86,7 +86,7 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 		rtn[i].g = (int)(fmax(0, fmin(255, color[1] * 255)));
 		rtn[i].b = (int)(fmax(0, fmin(255, color[2] * 255)));
 
-		printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
+		// printf("(r,g,b) = (%d, %d, %d)\n", rtn[i].r, rtn[i].g, rtn[i].b);
 	}
 }
 
