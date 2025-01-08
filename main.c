@@ -59,7 +59,7 @@ int main() {
 		printf("\nMenu\n");
 		printf("0: Quit\n");
 		printf("1: Start painting\n");
-		printf("2: Update camera point\n");
+		printf("2: Update camera position\n");
 		printf("3: Update transformation values\n");
 
 		printf("\n> ");
@@ -88,7 +88,8 @@ int main() {
 
 				break;
 			case 2:
-				printf("Enter new camera point (x y z)> ");
+    			printf("Current camera position: (%.0lf, %.0lf, %.0lf)\n", screen.c.x, screen.c.y, screen.c.z);
+				printf("Enter new camera position (x y z)> ");
 				scanf("%lf %lf %lf", &screen.c.x, &screen.c.y, &screen.c.z);
 				break;
 			case 3:

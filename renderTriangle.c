@@ -3,30 +3,30 @@
 
 // 透視投影
 // Perspective projection considering camera position
-projection(Vector t[], Vector rtn[], Vector c, int d) {
-	double dx, dy, dz;
+// projection(Vector t[], Vector rtn[], Vector c, int d) {
+// 	double dx, dy, dz;
 
-    for (int i = 0; i < 3; i++) {
-		dx = t[i].x - c.x;
-        dy = t[i].y - c.y;
-        dz = t[i].z - c.z;
+//     for (int i = 0; i < 3; i++) {
+// 		dx = t[i].x - c.x;
+//         dy = t[i].y - c.y;
+//         dz = t[i].z - c.z;
 
-        if (dz != 0) {
-            dz = d / dz;  // Use inverse depth for perspective scaling
-            rtn[i].x = dx * dz;
-            rtn[i].y = dy * dz;
-        } else {
-            // Handle division by zero case (object is on the camera plane)
-            rtn[i].x = dx * d;
-            rtn[i].y = dy * d;
-        }
+//         if (dz != 0) {
+//             dz = d / dz;  // Use inverse depth for perspective scaling
+//             rtn[i].x = dx * dz;
+//             rtn[i].y = dy * dz;
+//         } else {
+//             // Handle division by zero case (object is on the camera plane)
+//             rtn[i].x = dx * d;
+//             rtn[i].y = dy * d;
+//         }
 
-        // Keep depth information for further use
-        rtn[i].z = t[i].z;
-	}
-}
+//         // Keep depth information for further use
+//         rtn[i].z = t[i].z;
+// 	}
+// }
 
-/*
+
 projection(Vector t[], Vector rtn[], Vector c, int d) {
 	for (int i = 0; i < 3; i++) {
 		double dz;
@@ -44,7 +44,7 @@ projection(Vector t[], Vector rtn[], Vector c, int d) {
 		// if (t[i].z + c.y > 0.0001) rtn[i].y /= (t[i].z + c.y);
 	}
 }
-*/
+
 
 void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
     // Vector u1, u2;	// 三角平面のベクトル

@@ -8,6 +8,10 @@ int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings
 
 	// printf("***hiddenSurfaceRemoval***\n");
 	for (int i = 0; i < num; i++) {
+		if (t[i].p[0].x < 0 || t[i].p[0].y < 0 || t[i].p[0].z < 0) continue;
+		if (t[i].p[1].x < 0 || t[i].p[1].y < 0 || t[i].p[1].z < 0) continue;
+		if (t[i].p[2].x < 0 || t[i].p[2].y < 0 || t[i].p[2].z < 0) continue;
+
 		// printf("triangle[%d]\n", i);
 		n = normalVector(t[i]);
 		// printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 

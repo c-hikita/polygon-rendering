@@ -92,7 +92,7 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
     };
 
     // world2Camera
-    world2Camera(vertices, s, 8);
+    world2Camera(vertices, centroid, s, 8);
 
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
         rotateVertices(vertices, centroid, tf.rotate, 8);
