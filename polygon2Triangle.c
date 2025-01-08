@@ -43,7 +43,7 @@ void calcAverageNV(Vector rtn[], NormalVectors nv[], int num) {
     }
 }
 
-int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num) {
+int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centroid, int num) {
 	// printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
@@ -90,6 +90,9 @@ int cube2triangle(Triangle3D t[], Cube c, Transform tf, Vector centroid, int num
         {c.p2.x, c.p2.y, c.p1.z},
         {c.p2.x, c.p2.y, c.p2.z}
     };
+
+    // world2Camera
+    world2Camera(vertices, s, 8);
 
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
         rotateVertices(vertices, centroid, tf.rotate, 8);

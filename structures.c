@@ -51,8 +51,8 @@ typedef struct {
 
 typedef struct {
 	int width, height;	// スクリーンの大きさ
-	Vector c;				// 視点C
-	int d;				// 焦点距離d
+	Vector c, d;		// 視点C, 見る点D
+	int dist;				// 焦点距離d
 	Vector iplot;			// 光源Iの位置
 	Color1 icolor, a;	// 光源Iの色, 環境光
 } Settings;

@@ -125,7 +125,7 @@ Rendered renderTriangle(Triangle3D tri3, Settings s) {
         before[i] = tri3.p[i];
     }
 
-    projection(before, after, s.c, s.d);
+    projection(before, after, s.c, s.dist);
 	calcColor(tri3, color, s);
 
     for (int i = 0; i < 3; i++) {
@@ -134,6 +134,7 @@ Rendered renderTriangle(Triangle3D tri3, Settings s) {
     }
 
     rtn.g = calcCentroid(after);
+	printf("g: %.3lf %.3lf %.3lf\n", rtn.g.x, rtn.g.y, rtn.g.z);
 
     return rtn;
 }

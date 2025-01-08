@@ -10,10 +10,11 @@
 #include "readFiles.c"
 #include "calcVector.c"
 #include "rotate.c"
+#include "world2Camera.c"
+#include "polygon2Triangle.c"
 #include "renderTriangle.c"
 #include "paintTriangle.c"
 #include "drawPrimitive.c"
-#include "polygon2Triangle.c"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,12 +76,12 @@ int main() {
 
 				centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
 				for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
-				for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
-				for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
+				// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
+				// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
 
-				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], tf, centroid, triCount);
-				for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], tf,  centroid, triCount);
-				for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], tf,  centroid, triCount);
+				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, centroid, triCount);
+				// for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], tf,  centroid, triCount);
+				// for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], tf,  centroid, triCount);
 
 				drawPrimitive(triCount, tri, screen);
 				bmpout("output.bmp", screen.width, screen.height);
