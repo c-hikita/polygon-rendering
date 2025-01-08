@@ -1,6 +1,7 @@
 screen_width = 640
 screen_height = 480
-camera = (100, 100, 100)
+camera_position = (0, 0, 0)
+camera_target = (200, 100, 200)
 distance = 200
 ambience = (0.8, 0.8, 0.8)
 iplot = (200, 200, 100)
