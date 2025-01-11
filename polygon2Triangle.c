@@ -50,11 +50,11 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
     NormalVectors nv[8];
     Vector avg_nv[8];
 
-    c.num = 12;
+    // c.num = 12;
 
-	c.centroid.x = (c.p1.x + c.p2.x) / 2;
-	c.centroid.y = (c.p1.y + c.p2.y) / 2;
-	c.centroid.z = (c.p1.z + c.p2.z) / 2;
+	// c.centroid.x = (c.p1.x + c.p2.x) / 2;
+	// c.centroid.y = (c.p1.y + c.p2.y) / 2;
+	// c.centroid.z = (c.p1.z + c.p2.z) / 2;
 
     // printf("Original Point1: (%f, %f, %f)\n", c.p1.x, c.p1.y, c.p1.z);
     // printf("Original Point2: (%f, %f, %f)\n", c.p2.x, c.p2.y, c.p2.z);
@@ -92,7 +92,7 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
     };
 
     // world2Camera
-    world2Camera(vertices, centroid, s, 8);
+    world2Camera(vertices, s, 8);
 
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
         rotateVertices(vertices, centroid, tf.rotate, 8);
@@ -105,6 +105,7 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
             vertices[i].z += tf.translate.z;
         }
     }
+
 	t[num].p[0] = vertices[0];	    t[num].p[1] = vertices[4];	    t[num].p[2] = vertices[7];
 	t[num + 1].p[0] = vertices[7];	t[num + 1].p[1] = vertices[3];	t[num + 1].p[2] = vertices[0];
 	t[num + 2].p[0] = vertices[1];	t[num + 2].p[1] = vertices[2];	t[num + 2].p[2] = vertices[6];
@@ -147,7 +148,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
     int next;
 
     initializeNV(nv, 100);
-    c.num = 4 * c.div;
+    // c.num = 4 * c.div;
 
     // 1. Apply Scaling
     if (tf.scale != 100) {

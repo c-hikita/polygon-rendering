@@ -113,3 +113,18 @@ void initializeTriangles(Triangle3D t[], int num) {
 		t[i].id = 0;
 	}
 }
+
+// Function to move a plot closer to the set point
+Vector movePointCloser(Vector plot, Vector setPoint, double step) {
+    double directionX = setPoint.x - plot.x;
+    double directionY = setPoint.y - plot.y;
+    double directionZ = setPoint.z - plot.z;
+    double length = sqrt(directionX * directionX + directionY * directionY + directionZ * directionZ);
+
+    // Normalize the direction vector and move the plot
+    plot.x += step * (directionX / length);
+    plot.y += step * (directionY / length);
+    plot.z += step * (directionZ / length);
+
+    return plot;
+}

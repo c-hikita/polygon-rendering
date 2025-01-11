@@ -7,7 +7,6 @@ Ka = 0.5
 Kd = 0.5
 Ks = 0.5
 
-
 # Cylinder
 radius = 100
 height = 100
@@ -17,7 +16,6 @@ n = 9
 Ka = 0.7
 Kd = 0.7
 Ks = 0.7
-div = 30
 
 # Sphere
 radius = 100
@@ -27,5 +25,3 @@ n = 9
 Ka = 0.5
 Kd = 0.5
 Ks = 0.5
-div(horizontal) = 20
-div(vertical) = 20

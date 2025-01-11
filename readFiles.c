@@ -21,8 +21,8 @@ int containsSubstring(const char* line, const char* substring) {
 void readSettings(FILE* file, Settings* screen) {
     fscanf(file, "screen_width = %d\n", &screen->width);
     fscanf(file, "screen_height = %d\n", &screen->height);
-    fscanf(file, "camera_position = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
-    fscanf(file, "camera_target = (%lf, %lf, %lf)\n", &screen->d.x, &screen->d.y, &screen->d.z);
+    fscanf(file, "camera = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
+    // fscanf(file, "camera_target = (%lf, %lf, %lf)\n", &screen->d.x, &screen->d.y, &screen->d.z);
     fscanf(file, "distance = %d\n", &screen->dist);
     fscanf(file, "ambience = (%lf, %lf, %lf)\n", &screen->a.r, &screen->a.g, &screen->a.b);
     fscanf(file, "iplot = (%lf, %lf, %lf)\n", &screen->iplot.x, &screen->iplot.y, &screen->iplot.z);
@@ -55,6 +55,12 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
             fscanf(file, "Ka = %lf\n", &cubes[*cubeCount].k[0]);
             fscanf(file, "Kd = %lf\n", &cubes[*cubeCount].k[1]);
             fscanf(file, "Ks = %lf\n", &cubes[*cubeCount].k[2]);
+
+            cubes[*cubeCount].num = 12;
+            cubes[*cubeCount].centroid.x = (cubes[*cubeCount].p1.x + cubes[*cubeCount].p2.x) / 2;
+            cubes[*cubeCount].centroid.y = (cubes[*cubeCount].p1.y + cubes[*cubeCount].p2.y) / 2;
+            cubes[*cubeCount].centroid.z = (cubes[*cubeCount].p1.z + cubes[*cubeCount].p2.z) / 2;
+
             (*cubeCount)++;
         }
 
@@ -68,7 +74,10 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
             fscanf(file, "Ka = %lf\n", &cylinders[*cylinderCount].k[0]);
             fscanf(file, "Kd = %lf\n", &cylinders[*cylinderCount].k[1]);
             fscanf(file, "Ks = %lf\n", &cylinders[*cylinderCount].k[2]);
-            fscanf(file, "div = %d\n", &cylinders[*cylinderCount].div);
+            // fscanf(file, "div = %d\n", &cylinders[*cylinderCount].div);
+
+            cylinders[*cylinderCount].div = 24;
+            cylinders[*cylinderCount].num = 4 * cylinders[*cylinderCount].div;
             (*cylinderCount)++;
         }
 
@@ -81,8 +90,11 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
             fscanf(file, "Ka = %lf\n", &spheres[*sphereCount].k[0]);
             fscanf(file, "Kd = %lf\n", &spheres[*sphereCount].k[1]);
             fscanf(file, "Ks = %lf\n", &spheres[*sphereCount].k[2]);
-            fscanf(file, "div(horizontal) = %d\n", &spheres[*sphereCount].lat_div);
-            fscanf(file, "div(vertical) = %d\n", &spheres[*sphereCount].long_div);
+            // fscanf(file, "div(horizontal) = %d\n", &spheres[*sphereCount].lat_div);
+            // fscanf(file, "div(vertical) = %d\n", &spheres[*sphereCount].long_div);
+
+            spheres[*sphereCount].lat_div = 20;
+            spheres[*sphereCount].long_div = 20;
             (*sphereCount)++;
         }
     }

@@ -29,7 +29,8 @@ int main() {
 	Triangle3D tri[MAX_TRIANGLES];
     int triCount, cubeCount = 0, cylinderCount = 0, sphereCount = 0;
 	int menu, quit;
-	Vector centroid;
+	double step;
+	Vector centroid, tmp[1], offset;
 
 	// Vector input;
 	printf("***Polygon Rendering Software***\n");
@@ -54,6 +55,27 @@ int main() {
 	tf.scale = 100;
 	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
+	centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
+	for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
+	// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
+	// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
+
+	offset.x = 100;	
+	offset.y = 100;
+	offset.z = 100;
+
+	// step = 300;
+	// screen.d = movePointCloser(centroid, screen.c, step);
+	// screen.d = subtract(centroid, offset);
+	screen.d = centroid;
+	// screen.d.x = 100; screen.d.y = 100; screen.d.z = 100;
+	printf("screen.d: (%.0lf, %.0lf, %.0lf)\n", centroid.x, centroid.y, centroid.z);
+	
+	tmp[0] = screen.iplot;
+	world2Camera(tmp, screen, 1);
+	screen.iplot = tmp[0];
+	printf("Iplot (main): (%.0lf, %.0lf, %.0lf)\n", screen.iplot.x, screen.iplot.y, screen.iplot.z);
+
 	quit = 0;
 	while (1) {
 		printf("\nMenu\n");
@@ -76,11 +98,6 @@ int main() {
 
 				triCount = 0;
 				initializeTriangles(tri, MAX_TRIANGLES);
-
-				centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
-				for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
-				// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
-				// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
 
 				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, centroid, triCount);
 				// for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], tf,  centroid, triCount);
