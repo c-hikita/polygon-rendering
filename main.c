@@ -27,7 +27,7 @@ int main() {
     Sphere spheres[MAX_POLYGONS];
 	Transform tf;
 	Triangle3D tri[MAX_TRIANGLES];
-    int cubeCount = 0, cylinderCount = 0, sphereCount = 0, triCount = 0;;
+    int triCount, cubeCount = 0, cylinderCount = 0, sphereCount = 0;
 	int menu, quit;
 	Vector centroid;
 
@@ -73,6 +73,9 @@ int main() {
 			case 1:
 				printf("Painting...\n");
 				background(screen.width, screen.height);
+
+				triCount = 0;
+				initializeTriangles(tri, MAX_TRIANGLES);
 
 				centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
 				for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);

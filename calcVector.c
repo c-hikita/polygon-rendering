@@ -94,3 +94,22 @@ Color255 clampColor(Color255 color) {
     color.b = (color.b < 0) ? 0 : (color.b > 255) ? 255 : color.b;
     return color;
 }
+
+void initializeTriangles(Triangle3D t[], int num) {
+	for (int i = 0; i < num; i++) {
+		Vector p[3], v[3];
+		for (int j = 0; j < 3; j++) {
+			t[i].p[j].x = 0;	t[i].p[j].y = 0;	t[i].p[j].z = 0;
+			t[i].v[j].x = 0;	t[i].v[j].y = 0;	t[i].v[j].z = 0;
+		}
+
+		t[i].o.r = 0;	t[i].o.g = 0;	t[i].o.b = 0;
+		t[i].n = 0;
+		t[i].k[0] = 0;	t[i].k[1] = 0;	t[i].k[2] = 0;
+
+		t[i].g.x = 0;	t[i].g.y = 0;	t[i].g.z = 0;
+		t[i].ref.x = 0;	t[i].ref.y = 0;	t[i].ref.z = 0;
+
+		t[i].id = 0;
+	}
+}

@@ -87,6 +87,7 @@ void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	Triangle3D removed[1000];
 	Rendered rendered;
 
+	initializeTriangles(removed, num);
 	count = hiddenSurfaceRemoval(num, removed, t, s);
 	sortTriangles(count, removed);
 	
