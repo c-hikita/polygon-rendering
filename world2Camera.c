@@ -52,9 +52,9 @@ void world2Camera(Vector vertices[], Settings s, int count) {
 
 	u = crossProduct(n, v);
 
-	printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);
-	printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
-	printf("U = (%.3lf, %.3lf, %.3lf)\n\n", u.x, u.y, u.z);
+	// printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z);
+	// printf("V = (%.3lf, %.3lf, %.3lf)\n", v.x, v.y, v.z);
+	// printf("U = (%.3lf, %.3lf, %.3lf)\n\n", u.x, u.y, u.z);
 
 	t[0][0] = 1;		t[0][1] = 0;		t[0][2] = 0;		t[0][3] = 0;
 	t[1][0] = 0;		t[1][1] = 1;		t[1][2] = 0;		t[1][3] = 0;
@@ -80,15 +80,15 @@ void world2Camera(Vector vertices[], Settings s, int count) {
 		w[2] = vertices[i].z;
 		w[3] = 1;
 
-		printf("world: ");
-		for (int j = 0; j < SIZE; j++) printf("%f ", w[j]);
-		printf("\n");
+		// printf("world: ");
+		// for (int j = 0; j < SIZE; j++) printf("%f ", w[j]);
+		// printf("\n");
 
 		multiplyRows(w, a, c);
 
-		printf("camera: ");
-		for (int j = 0; j < SIZE; j++) printf("%f ", c[j]);
-		printf("\n\n");
+		// printf("camera: ");
+		// for (int j = 0; j < SIZE; j++) printf("%f ", c[j]);
+		// printf("\n\n");
 
 		vertices[i].x = c[0] + s.width / 2;
 		vertices[i].y = c[1] + s.height / 2;

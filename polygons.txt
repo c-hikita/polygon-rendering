@@ -8,8 +8,8 @@ Kd = 0.5
 Ks = 0.5
 
 # Cylinder
-radius = 100
-height = 100
+radius = 50
+height = 150
 position = (500, 200, 300)
 color = (200, 200, 255)
 n = 9
@@ -18,7 +18,7 @@ Kd = 0.7
 Ks = 0.7
 
 # Sphere
-radius = 100
+radius = 50
 position = (200, 200, 300)
 color = (0, 200, 200)
 n = 9

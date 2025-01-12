@@ -78,6 +78,10 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
 
             cylinders[*cylinderCount].div = 24;
             cylinders[*cylinderCount].num = 4 * cylinders[*cylinderCount].div;
+
+            cylinders[*cylinderCount].centroid = cylinders[*cylinderCount].p;
+            cylinders[*cylinderCount].centroid.z += cylinders[*cylinderCount].h / 2;
+            
             (*cylinderCount)++;
         }
 

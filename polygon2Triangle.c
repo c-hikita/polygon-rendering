@@ -170,7 +170,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int 
     // Update Points After Translation
     o[0] = c.p;
     o[1] = (Vector){c.p.x, c.p.y, c.p.z + c.h};
-    c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
+    // c.centroid = (Vector){c.p.x, c.p.y, c.p.z + c.h / 2};
 
     // 4. Generate Vertices
     for (int i = 0; i < c.div; i++) {
@@ -228,8 +228,8 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int 
 
         // Top face
         t[num + i + c.div].p[0] = o[1];
-        t[num + i + c.div].p[1] = vertices[i + c.div];
-        t[num + i + c.div].p[2] = vertices[next + c.div];
+        t[num + i + c.div].p[1] = vertices[next + c.div];
+        t[num + i + c.div].p[2] = vertices[i + c.div];
         // calcNormalVector(nv, t[num + i + c.div], i + c.div, next + c.div, -1);
 
         // Side faces
@@ -239,8 +239,8 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int 
         // calcNormalVector(nv, t[num + i + 2 * c.div], i, next, next + c.div);
 
         t[num + i + 3 * c.div].p[0] = vertices[i];
-        t[num + i + 3 * c.div].p[1] = vertices[next + c.div];
-        t[num + i + 3 * c.div].p[2] = vertices[i + c.div];
+        t[num + i + 3 * c.div].p[1] = vertices[i + c.div];
+        t[num + i + 3 * c.div].p[2] = vertices[next + c.div];
         // calcNormalVector(nv, t[num + i + 3 * c.div], i, next + c.div, i + c.div);
     }
 
@@ -353,14 +353,15 @@ int sphere2triangle(Triangle3D t[], Sphere s, Settings set, Transform tf, int nu
     // Generate vertices
     int idx = 0;
     for (int lat = 0; lat <= s.lat_div; lat++) {
-        double theta = lat * theta_step;  // Vertical angle
+        // double theta = lat * theta_step;  // Vertical angle
+        double theta = (lat * theta_step) - (PI / 2);
         for (int lon = 0; lon < s.long_div; lon++) {
             double phi = lon * phi_step;  // Horizontal angle
 
             // Calculate the vertices position using spherical coordinates
-            vertices[idx].x = s.p.x + s.r * sin(theta) * cos(phi);
-            vertices[idx].y = s.p.y + s.r * sin(theta) * sin(phi);
-            vertices[idx].z = s.p.z + s.r * cos(theta);
+            vertices[idx].x = s.p.x + s.r * cos(theta) * cos(phi);
+            vertices[idx].y = s.p.y + s.r * cos(theta) * sin(phi);
+            vertices[idx].z = s.p.z + s.r * sin(theta);
             idx++;
         }
     }

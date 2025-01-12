@@ -114,17 +114,65 @@ void initializeTriangles(Triangle3D t[], int num) {
 	}
 }
 
-// Function to move a plot closer to the set point
-Vector movePointCloser(Vector plot, Vector setPoint, double step) {
-    double directionX = setPoint.x - plot.x;
-    double directionY = setPoint.y - plot.y;
-    double directionZ = setPoint.z - plot.z;
-    double length = sqrt(directionX * directionX + directionY * directionY + directionZ * directionZ);
+// // Function to move a plot closer to the set point
+// Vector movePointCloser(Vector plot, Vector setPoint, double step) {
+//     double directionX = setPoint.x - plot.x;
+//     double directionY = setPoint.y - plot.y;
+//     double directionZ = setPoint.z - plot.z;
+//     double length = sqrt(directionX * directionX + directionY * directionY + directionZ * directionZ);
 
-    // Normalize the direction vector and move the plot
-    plot.x += step * (directionX / length);
-    plot.y += step * (directionY / length);
-    plot.z += step * (directionZ / length);
+//     // Normalize the direction vector and move the plot
+//     plot.x += step * (directionX / length);
+//     plot.y += step * (directionY / length);
+//     plot.z += step * (directionZ / length);
 
-    return plot;
+//     return plot;
+// }
+
+Vector cubeCentroid(Vector centroid, Cube c) {
+    Vector thisCube, rtn;
+
+    thisCube = add(c.p1, c.p2);
+    thisCube = divide(thisCube, 2);
+
+    if (centroid.x == 0 && centroid.y == 0 && centroid.z == 0) {
+        return thisCube;
+    }
+
+    rtn = add(thisCube, centroid);
+    rtn = divide(rtn, 2);
+
+    return rtn;
+}
+
+Vector cylinderCentroid(Vector centroid, Cylinder c) {
+    Vector o1, o2, thisCylinder, rtn;
+
+    o1 = c.p;
+    o2 = (Vector){c.p.x, c.p.y, c.p.z + c.h};
+
+    thisCylinder = add(o1, o2);
+    thisCylinder = divide(thisCylinder, 2);
+
+    if (centroid.x == 0 && centroid.y == 0 && centroid.z == 0) {
+        return thisCylinder;
+    }
+
+    rtn = add(thisCylinder, centroid);
+    rtn = divide(rtn, 2);
+
+    return rtn;
+}
+
+Vector sphereCentroid(Vector centroid, Sphere s) {
+    Vector rtn;
+
+    if (centroid.x == 0 && centroid.y == 0 && centroid.z == 0) {
+        return s.p;
+    }
+
+    rtn = add(s.p, centroid);
+    divide(rtn, 2);
+
+    return rtn;
 }
