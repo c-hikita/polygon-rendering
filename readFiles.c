@@ -25,7 +25,7 @@ void readSettings(FILE* file, Settings* screen) {
     // fscanf(file, "camera_target = (%lf, %lf, %lf)\n", &screen->d.x, &screen->d.y, &screen->d.z);
     fscanf(file, "distance = %d\n", &screen->dist);
     fscanf(file, "ambience = (%lf, %lf, %lf)\n", &screen->a.r, &screen->a.g, &screen->a.b);
-    fscanf(file, "iplot = (%lf, %lf, %lf)\n", &screen->iplot.x, &screen->iplot.y, &screen->iplot.z);
+    fscanf(file, "iplot = (%lf, %lf, %lf)\n", &screen->world_i.x, &screen->world_i.y, &screen->world_i.z);
     fscanf(file, "icolor = (%lf, %lf, %lf)\n", &screen->icolor.r, &screen->icolor.g, &screen->icolor.b);
 }
 
@@ -104,10 +104,10 @@ void printSettings(Settings* screen) {
     printf("\nCurrent Settings:\n");
     printf("Width: %d, Height: %d\n", screen->width, screen->height);
     printf("Camera position: (%.0lf, %.0lf, %.0lf)\n", screen->c.x, screen->c.y, screen->c.z);
-    printf("Camera target: (%.0lf, %.0lf, %.0lf)\n", screen->d.x, screen->d.y, screen->d.z);
+    printf("Camera target: (%.0lf, %.0lf, %.0lf)\n", screen->world_d.x, screen->world_d.y, screen->world_d.z);
     printf("Distance: %d\n", screen->dist);
     printf("Ambient color: (%.2lf, %.2lf, %.2lf)\n", screen->a.r, screen->a.g, screen->a.b);
-    printf("Iplot position: (%.0lf, %.0lf, %.0lf)\n", screen->iplot.x, screen->iplot.y, screen->iplot.z);
+    printf("Iplot position: (%.0lf, %.0lf, %.0lf)\n", screen->world_i.x, screen->world_i.y, screen->world_i.z);
     printf("Icolor: (%.2lf, %.2lf, %.2lf)\n", screen->icolor.r, screen->icolor.g, screen->icolor.b);
 }
 

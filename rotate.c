@@ -1,4 +1,4 @@
-﻿// transformPrimitive.c
+﻿// rotate.c
 // Chikako Hikita
 
 Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
@@ -36,11 +36,14 @@ Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
     return rotated;
 }
 
-void rotateVertices (Vector v[], Vector c, Vector angle, int num) {
+void rotateVertices (Vector v[], Settings s, Vector angle, int num) {
     for (int i = 0; i < num; i++) {
-        v[i].x -= c.x;
-        v[i].y -= c.y;
-        v[i].z -= c.z;
+        // v[i].x -= (s.c.x + s.width / 2);
+        // v[i].y -= (s.c.y + s.height / 2);
+        // v[i].z -= s.c.z;
+
+        v[i].x -= s.width / 2;
+        v[i].y -= s.height / 2;
     }
 
     // Rotate the vertices
@@ -50,9 +53,12 @@ void rotateVertices (Vector v[], Vector c, Vector angle, int num) {
 
     // Translate vertices back to the world coordinates
     for (int i = 0; i < num; i++) {
-        v[i].x += c.x;
-        v[i].y += c.y;
-        v[i].z += c.z;
+        // v[i].x += (s.c.x + s.width / 2);
+        // v[i].y += (s.c.y + s.height / 2);
+        // v[i].z += s.c.z;
+    
+        v[i].x += s.width / 2;
+        v[i].y += s.height / 2;
     }
 
     // Print the rotated vertices

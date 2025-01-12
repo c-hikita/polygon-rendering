@@ -41,7 +41,7 @@ void world2Camera(Vector vertices[], Settings s, int count) {
     // s.d = centroid;
 	// Vector tmp = {100, 100, 100};
 	// target = subtract(target, tmp);
-	n = subtract(s.d, s.c);
+	n = subtract(s.world_d, s.c);
 	n = normalize(n);	
 
 	v.x = 0; v.y = 0; v.z = 1;

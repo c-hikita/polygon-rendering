@@ -30,7 +30,7 @@ int main() {
     int triCount, cubeCount = 0, cylinderCount = 0, sphereCount = 0;
 	int menu, quit;
 	double step;
-	Vector centroid, tmp[1], offset;
+	Vector centroid, tmp[2];
 
 	// Vector input;
 	printf("***Polygon Rendering Software***\n");
@@ -60,21 +60,12 @@ int main() {
 	// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
 	// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
 
-	offset.x = 100;	
-	offset.y = 100;
-	offset.z = 100;
-
 	// step = 300;
 	// screen.d = movePointCloser(centroid, screen.c, step);
 	// screen.d = subtract(centroid, offset);
-	screen.d = centroid;
+	screen.world_d = centroid;
 	// screen.d.x = 100; screen.d.y = 100; screen.d.z = 100;
 	printf("screen.d: (%.0lf, %.0lf, %.0lf)\n", centroid.x, centroid.y, centroid.z);
-	
-	tmp[0] = screen.iplot;
-	world2Camera(tmp, screen, 1);
-	screen.iplot = tmp[0];
-	printf("Iplot (main): (%.0lf, %.0lf, %.0lf)\n", screen.iplot.x, screen.iplot.y, screen.iplot.z);
 
 	quit = 0;
 	while (1) {
@@ -95,13 +86,21 @@ int main() {
 			case 1:
 				printf("Painting...\n");
 				background(screen.width, screen.height);
+			
+				tmp[0] = screen.world_d;
+				tmp[1] = screen.world_i;
+				world2Camera(tmp, screen, 2);
+				screen.camera_d = tmp[0];
+				screen.camera_i = tmp[1];
+				printf("Camera D (main): (%.0lf, %.0lf, %.0lf)\n", screen.camera_d.x, screen.camera_d.y, screen.camera_d.z);
+				printf("Camera I (main): (%.0lf, %.0lf, %.0lf)\n", screen.camera_i.x, screen.camera_i.y, screen.camera_i.z);
 
 				triCount = 0;
 				initializeTriangles(tri, MAX_TRIANGLES);
 
-				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, centroid, triCount);
-				// for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], tf,  centroid, triCount);
-				// for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], tf,  centroid, triCount);
+				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, triCount);
+				// for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], screen, tf, triCount);
+				// for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], screen, tf, triCount);
 
 				drawPrimitive(triCount, tri, screen);
 				bmpout("output.bmp", screen.width, screen.height);

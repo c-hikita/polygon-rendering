@@ -43,12 +43,12 @@ void calcAverageNV(Vector rtn[], NormalVectors nv[], int num) {
     }
 }
 
-int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centroid, int num) {
+int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, int num) {
 	// printf("\n*** cube2triangle ***\n");
 
 	// Vector vertices[8];
     NormalVectors nv[8];
-    Vector avg_nv[8];
+    Vector tmp[1], avg_nv[8];
 
     // c.num = 12;
 
@@ -94,8 +94,11 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
     // world2Camera
     world2Camera(vertices, s, 8);
 
+    tmp[0] = c.centroid;
+    world2Camera(tmp, s, 1);
+
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, centroid, tf.rotate, 8);
+        rotateVertices(vertices, s, tf.rotate, 8);
     }
 
     if (tf.translate.x != 0 || tf.translate.y != 0 || tf.translate.z != 0) {
@@ -125,7 +128,7 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
 		t[i].k[0] = c.k[0];
 		t[i].k[1] = c.k[1];
 		t[i].k[2] = c.k[2];
-		t[i].ref = c.centroid;
+		t[i].ref = tmp[0];
         t[i].id = 1;
 
 		t[i].g.x = (t[i].p[0].x + t[i].p[1].x + t[i].p[2].x) / 3;
@@ -139,7 +142,7 @@ int cube2triangle(Triangle3D t[], Cube c, Settings s, Transform tf, Vector centr
     return c.num;
 }
 
-int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid, int num) {
+int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int num) {
     // printf("\n*** cylinder2triangle ***\n");
 
     NormalVectors nv[100];
@@ -186,8 +189,8 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, centroid, tf.rotate, c.div * 2);
-        rotateVertices(o, centroid, tf.rotate, 2);
+        rotateVertices(vertices, s, tf.rotate, c.div * 2);
+        rotateVertices(o, s, tf.rotate, 2);
     }
 
     for (int i = 0; i < c.div * 2; i++) {
@@ -316,7 +319,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Transform tf, Vector centroid,
     return c.num;
 }
 
-int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int num) {
+int sphere2triangle(Triangle3D t[], Sphere s, Settings set, Transform tf, int num) {
     // printf("\n*** sphere2triangle ***\n");
 
     NormalVectors nv[1000];
@@ -362,8 +365,8 @@ int sphere2triangle(Triangle3D t[], Sphere s, Transform tf, Vector centroid, int
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
-        rotateVertices(vertices, centroid, tf.rotate, idx);
-        rotateVertices(pole, centroid, tf.rotate, 2);
+        rotateVertices(vertices, set, tf.rotate, idx);
+        rotateVertices(pole, set, tf.rotate, 2);
     }
 
     for (int i = 0; i < idx; i++) {

@@ -86,7 +86,7 @@ void calcColor(Triangle3D t, Color255 rtn[], Settings s) {
 		v = subtract(s.c, t.p[i]);
 		v = normalize(v);
 
-		l = subtract(s.iplot, t.p[i]);
+		l = subtract(s.camera_i, t.p[i]);
 		l = normalize(l);
 
 		ln = dotProduct(l, n);
