@@ -42,8 +42,9 @@ void rotateVertices (Vector v[], Settings s, Vector angle, int num) {
         // v[i].y -= (s.c.y + s.height / 2);
         // v[i].z -= s.c.z;
 
-        v[i].x -= s.width / 2;
-        v[i].y -= s.height / 2;
+        v[i].x -= (s.camera_d.x + s.width / 2);
+        v[i].y -= (s.camera_d.y + s.height / 2);
+        v[i].z -= s.camera_d.z;
     }
 
     // Rotate the vertices
@@ -57,8 +58,9 @@ void rotateVertices (Vector v[], Settings s, Vector angle, int num) {
         // v[i].y += (s.c.y + s.height / 2);
         // v[i].z += s.c.z;
     
-        v[i].x += s.width / 2;
-        v[i].y += s.height / 2;
+        v[i].x += (s.camera_d.x + s.width / 2);
+        v[i].y += (s.camera_d.y + s.height / 2);
+        v[i].z += s.camera_d.z;
     }
 
     // Print the rotated vertices
