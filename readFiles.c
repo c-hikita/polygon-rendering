@@ -1,28 +1,25 @@
 ﻿// readFiles.c
 // Chikako Hikita
 
-// Manually check if a substring exists in a string
 int containsSubstring(const char* line, const char* substring) {
     int sub_len = 0;
-    // Find length of substring manually
     while (substring[sub_len] != '\0') {
         sub_len++;
     }
 
     while (*line) {
         if (strncmp(line, substring, sub_len) == 0) {
-            return 1;  // Substring found
+            return 1; 
         }
         line++;
     }
-    return 0;  // Substring not found
+    return 0; 
 }
 
 void readSettings(FILE* file, Settings* screen) {
     fscanf(file, "screen_width = %d\n", &screen->width);
     fscanf(file, "screen_height = %d\n", &screen->height);
     fscanf(file, "camera = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
-    // fscanf(file, "camera_target = (%lf, %lf, %lf)\n", &screen->d.x, &screen->d.y, &screen->d.z);
     fscanf(file, "distance = %d\n", &screen->dist);
     fscanf(file, "ambience = (%lf, %lf, %lf)\n", &screen->a.r, &screen->a.g, &screen->a.b);
     fscanf(file, "iplot = (%lf, %lf, %lf)\n", &screen->world_i.x, &screen->world_i.y, &screen->world_i.z);
@@ -74,7 +71,6 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
             fscanf(file, "Ka = %lf\n", &cylinders[*cylinderCount].k[0]);
             fscanf(file, "Kd = %lf\n", &cylinders[*cylinderCount].k[1]);
             fscanf(file, "Ks = %lf\n", &cylinders[*cylinderCount].k[2]);
-            // fscanf(file, "div = %d\n", &cylinders[*cylinderCount].div);
 
             cylinders[*cylinderCount].div = 24;
             cylinders[*cylinderCount].num = 4 * cylinders[*cylinderCount].div;
@@ -94,8 +90,6 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
             fscanf(file, "Ka = %lf\n", &spheres[*sphereCount].k[0]);
             fscanf(file, "Kd = %lf\n", &spheres[*sphereCount].k[1]);
             fscanf(file, "Ks = %lf\n", &spheres[*sphereCount].k[2]);
-            // fscanf(file, "div(horizontal) = %d\n", &spheres[*sphereCount].lat_div);
-            // fscanf(file, "div(vertical) = %d\n", &spheres[*sphereCount].long_div);
 
             spheres[*sphereCount].lat_div = 20;
             spheres[*sphereCount].long_div = 20;
@@ -111,8 +105,8 @@ void printSettings(Settings* screen) {
     printf("Camera target: (%.0lf, %.0lf, %.0lf)\n", screen->world_d.x, screen->world_d.y, screen->world_d.z);
     printf("Distance: %d\n", screen->dist);
     printf("Ambient color: (%.2lf, %.2lf, %.2lf)\n", screen->a.r, screen->a.g, screen->a.b);
-    printf("Iplot position: (%.0lf, %.0lf, %.0lf)\n", screen->world_i.x, screen->world_i.y, screen->world_i.z);
-    printf("Icolor: (%.2lf, %.2lf, %.2lf)\n", screen->icolor.r, screen->icolor.g, screen->icolor.b);
+    printf("I position: (%.0lf, %.0lf, %.0lf)\n", screen->world_i.x, screen->world_i.y, screen->world_i.z);
+    printf("I color: (%.2lf, %.2lf, %.2lf)\n", screen->icolor.r, screen->icolor.g, screen->icolor.b);
 }
 
 void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, Cylinder cylinders[MAX_POLYGONS], int sphereCount, Sphere spheres[MAX_POLYGONS]) {
@@ -124,7 +118,6 @@ void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, C
         printf("n: %d Ka: %.2lf Kd: %.2lf Ks: %.2lf\n", cubes[i].n, cubes[i].k[0], cubes[i].k[1], cubes[i].k[2]);
     }
 
-    // printf("\nCylinders:\n");
     for (int i = 0; i < cylinderCount; i++) {
         printf("\nCylinder %d:\n", i + 1);
         printf("Radius: %.2lf Height: %.2lf Position: (%.0lf, %.0lf, %.0lf)\n", cylinders[i].r, cylinders[i].h, cylinders[i].p.x, cylinders[i].p.y, cylinders[i].p.z);
@@ -132,7 +125,6 @@ void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, C
         printf("n: %d Ka: %.2lf Kd: %.2lf Ks: %.2lf\nDiv: %d\n", cylinders[i].n, cylinders[i].k[0], cylinders[i].k[1], cylinders[i].k[2], cylinders[i].div);
     }
 
-    // printf("\nSpheres:\n");
     for (int i = 0; i < sphereCount; i++) {
         printf("\nSphere %d:\n", i + 1);
         printf("Radius: %.2lf Position: (%.0lf, %.0lf, %.0lf)\n", spheres[i].r, spheres[i].p.x, spheres[i].p.y, spheres[i].p.z);

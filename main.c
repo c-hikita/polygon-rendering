@@ -32,7 +32,6 @@ int main() {
 	double step;
 	Vector centroid, tmp[2];
 
-	// Vector input;
 	printf("***Polygon Rendering Software***\n");
 
 	FILE* settingsFile = fopen("settings.txt", "r");
@@ -61,27 +60,19 @@ int main() {
 	for (int i = 0; i < sphereCount; i++) centroid = add(centroid, spheres[i].p);
 
 	centroid = divide(centroid, cubeCount + cylinderCount + sphereCount);
-	// for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
-	// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
-	// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
-
-	// step = 300;
-	// screen.d = movePointCloser(centroid, screen.c, step);
-	// screen.d = subtract(centroid, offset);
 	screen.world_d = centroid;
-	// screen.d.x = 100; screen.d.y = 100; screen.d.z = 100;
-	// printf("screen.d: (%.0lf, %.0lf, %.0lf)\n", centroid.x, centroid.y, centroid.z);
+
+	printf("\nMenu\n");
+	printf("0: Quit\n");
+	printf("1: Start painting\n");
+	printf("2: Update camera position\n");
+	printf("3: Update scale\n");
+	printf("4: Update translation values\n");
+	printf("5: Update rotation values\n");
+	printf("6: Show menu\n");
 
 	quit = 0;
 	while (1) {
-		printf("\nMenu\n");
-		printf("0: Quit\n");
-		printf("1: Start painting\n");
-		printf("2: Update camera position\n");
-		printf("3: Update scale\n");
-		printf("4: Update translation values\n");
-		printf("5: Update rotation values\n");
-
 		printf("\n> ");
 		scanf("%d", &menu);
 		printf("\n");
@@ -99,8 +90,6 @@ int main() {
 				world2Camera(tmp, screen, 2);
 				screen.camera_d = tmp[0];
 				screen.camera_i = tmp[1];
-				// printf("Camera D (main): (%.0lf, %.0lf, %.0lf)\n", screen.camera_d.x, screen.camera_d.y, screen.camera_d.z);
-				// printf("Camera I (main): (%.0lf, %.0lf, %.0lf)\n", screen.camera_i.x, screen.camera_i.y, screen.camera_i.z);
 
 				triCount = 0;
 				initializeTriangles(tri, MAX_TRIANGLES);
@@ -132,6 +121,16 @@ int main() {
 			    printf("Current rotation angles: x: %.0lf° y: %.0lf° z: %.0lf°\n", tf.rotate.x, tf.rotate.y, tf.rotate.z);
 				printf("Enter new translation values [x, y, z]> ");
 				scanf("%lf, %lf, %lf", &tf.rotate.x, &tf.rotate.y, &tf.rotate.z);				
+				break;
+			case 6:
+				printf("\nMenu\n");
+				printf("0: Quit\n");
+				printf("1: Start painting\n");
+				printf("2: Update camera position\n");
+				printf("3: Update scale\n");
+				printf("4: Update translation values\n");
+				printf("5: Update rotation values\n");
+				printf("6: Show menu\n");
 				break;
 			default:
 				printf("Invalid input. Please try again.\n");

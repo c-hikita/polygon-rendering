@@ -5,7 +5,7 @@ Vector add(Vector a, Vector b) {
     Vector result = {a.x + b.x, a.y + b.y, a.z + b.z};
     return result;
 }
-// 引き算
+
 Vector subtract(Vector a, Vector b) {
     Vector result = {a.x - b.x, a.y - b.y, a.z - b.z};
     return result;
@@ -21,7 +21,7 @@ Vector divide(Vector a, double n) {
     return result;
 }
 
-// Function to compute the cross product of two vectors
+// 外積
 Vector crossProduct(Vector a, Vector b) {
     Vector result = {
         a.y * b.z - a.z * b.y,
@@ -39,7 +39,7 @@ double dotProduct(Vector a, Vector b) {
 // 単位ベクトル
 Vector normalize(Vector v) {
     double length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-    if (length > 0.0001) {  // avoid division by zero
+    if (length > 0.0001) { 
         v.x /= length;
         v.y /= length;
         v.z /= length;
@@ -57,32 +57,22 @@ Vector calcCentroid(Vector p[]) {
 }
 
 Vector normalVector(Triangle3D t) {
-    // printf("*** normalVector ***\n");
     Vector n, u1, u2, reference;
     double test;
-
-    // printf("ref = (%.3lf, %.3lf, %.3lf)\n", t.ref.x, t.ref.y, t.ref.z); 
 
     u1 = subtract(t.p[1], t.p[0]);
     u2 = subtract(t.p[2], t.p[0]);
     n = crossProduct(u2, u1);
 	n = normalize(n);
 
-    // printf("N = (%.3lf, %.3lf, %.3lf)\n", n.x, n.y, n.z); 
-
     reference = subtract(t.g, t.ref);
     reference = normalize(reference);
-    // printf("ref = (%.3lf, %.3lf, %.3lf)\n", reference.x, reference.y, reference.z); 
-
     test = dotProduct(n, reference);
-    // printf("test: %.3lf\n", test);
     
     if (test < 0) {
         n.x = - n.x;
         n.y = - n.y;
         n.z = - n.z;
-
-        // printf("N rotated\n");
     }
     return n;
 }
@@ -113,21 +103,6 @@ void initializeTriangles(Triangle3D t[], int num) {
 		t[i].id = 0;
 	}
 }
-
-// // Function to move a plot closer to the set point
-// Vector movePointCloser(Vector plot, Vector setPoint, double step) {
-//     double directionX = setPoint.x - plot.x;
-//     double directionY = setPoint.y - plot.y;
-//     double directionZ = setPoint.z - plot.z;
-//     double length = sqrt(directionX * directionX + directionY * directionY + directionZ * directionZ);
-
-//     // Normalize the direction vector and move the plot
-//     plot.x += step * (directionX / length);
-//     plot.y += step * (directionY / length);
-//     plot.z += step * (directionZ / length);
-
-//     return plot;
-// }
 
 Vector cubeCentroid(Vector centroid, Cube c) {
     Vector thisCube, rtn;

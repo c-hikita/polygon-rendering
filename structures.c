@@ -5,12 +5,6 @@ typedef struct {
 	double x, y, z;
 } Vector;
 
-/*
-typedef struct {
-    double x, y, z, w;
-} Vector4;
-*/
-
 typedef struct {
 	double r, g, b;
 } Color1;
@@ -23,12 +17,6 @@ typedef struct {
 	Vector p;
     Color255 c;
 } ColorPlot;
-
-/*
-typedef struct {
-    double m[4][4];
-} Matrix4x4;
-*/
 
 typedef struct {
 	Vector v[6];
