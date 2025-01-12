@@ -56,9 +56,9 @@ int main() {
 	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
 	centroid.x = 0;	centroid.y = 0;	centroid.z = 0;
-	for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
+	// for (int i = 0; i < cubeCount; i++) centroid = cubeCentroid(centroid, cubes[i]);
 	// for (int i = 0; i < cylinderCount; i++) centroid = cylinderCentroid(centroid, cylinders[i]);
-	// for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
+	for (int i = 0; i < sphereCount; i++) centroid = sphereCentroid(centroid, spheres[i]);
 
 	// step = 300;
 	// screen.d = movePointCloser(centroid, screen.c, step);
@@ -73,7 +73,9 @@ int main() {
 		printf("0: Quit\n");
 		printf("1: Start painting\n");
 		printf("2: Update camera position\n");
-		printf("3: Update transformation values\n");
+		printf("3: Update scale\n");
+		printf("4: Update translation values\n");
+		printf("5: Update rotation values\n");
 
 		printf("\n> ");
 		scanf("%d", &menu);
@@ -98,9 +100,9 @@ int main() {
 				triCount = 0;
 				initializeTriangles(tri, MAX_TRIANGLES);
 
-				for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, triCount);
+				// for (int i = 0; i < cubeCount; i++) triCount += cube2triangle(tri, cubes[i], screen, tf, triCount);
 				// for (int i = 0; i < cylinderCount; i++) triCount += cylinder2triangle(tri, cylinders[i], screen, tf, triCount);
-				// for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], screen, tf, triCount);
+				for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], screen, tf, triCount);
 
 				drawPrimitive(triCount, tri, screen);
 				bmpout("output.bmp", screen.width, screen.height);
@@ -114,20 +116,18 @@ int main() {
 			case 3:
 				printf("Enter scale (in %%) >");
 				scanf("%d", &tf.scale);
-
+				break;
+			case 4:
 				printf("Enter translation values (x y z)> ");
 				scanf("%lf %lf %lf", &tf.translate.x, &tf.translate.y, &tf.translate.z);
-
-				printf("Enter rotation angles (x y z in degrees)> ");
-				scanf("%lf %lf %lf", &tf.rotate.x, &tf.rotate.y, &tf.rotate.z);
-
-				printTransform(tf);
 				break;
+			case 5:
+				printf("Enter rotation angles (x y z in degrees)> ");
+				scanf("%lf %lf %lf", &tf.rotate.x, &tf.rotate.y, &tf.rotate.z);				break;
 			default:
 				printf("Invalid input. Please try again.\n");
 				break;
 		}
-
 
 		if (quit == 1) {
 			printf("\nExiting program...\n");

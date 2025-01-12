@@ -146,7 +146,7 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int 
     // printf("\n*** cylinder2triangle ***\n");
 
     NormalVectors nv[100];
-    Vector o[2], o_nv[2], avg_nv[100], vertices[100];
+    Vector tmp[1], o[2], o_nv[2], avg_nv[100], vertices[100];
     double theta = 2 * PI / c.div;
     int next;
 
@@ -186,6 +186,15 @@ int cylinder2triangle(Triangle3D t[], Cylinder c, Settings s, Transform tf, int 
             c.p.z + c.h
         };
     }
+
+    // world2Camera
+    world2Camera(vertices, s, c.div * 2);
+    world2Camera(o, s, 2);
+
+    // tmp[0] = add(o[0], o[1]);
+    // tmp[0] = divide(tmp[0], 2);    
+    // world2Camera(tmp, s, 1);
+    // c.centroid = tmp[0];
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
@@ -323,7 +332,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Settings set, Transform tf, int nu
     // printf("\n*** sphere2triangle ***\n");
 
     NormalVectors nv[1000];
-    Vector pole[2], avg_nv[1000], vertices[1000];
+    Vector tmp[1], pole[2], avg_nv[1000], vertices[1000];
     double theta_step = PI / s.lat_div;  // Vertical step
     double phi_step = 2 * PI / s.long_div;  // Horizontal step
     int count, rtn;
@@ -362,6 +371,13 @@ int sphere2triangle(Triangle3D t[], Sphere s, Settings set, Transform tf, int nu
 
     pole[0].z += s.r;
     pole[1].z -= s.r;
+
+    tmp[0] = s.p;
+
+    // world2Camera
+    world2Camera(vertices, set, idx);
+    world2Camera(pole, set, 2);
+    world2Camera(tmp, set, 1);
 
     // 5. Apply Rotation
     if (tf.rotate.x != 0 || tf.rotate.y != 0 || tf.rotate.z != 0) {
@@ -424,7 +440,7 @@ int sphere2triangle(Triangle3D t[], Sphere s, Settings set, Transform tf, int nu
         t[i].k[0] = s.k[0];
         t[i].k[1] = s.k[1];
         t[i].k[2] = s.k[2];
-        t[i].ref = s.p;  // Sphere's center as reference
+        t[i].ref = tmp[0];  // Sphere's center as reference
         t[i].id = 3;
 
         /*
