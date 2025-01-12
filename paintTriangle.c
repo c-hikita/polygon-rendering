@@ -11,12 +11,10 @@ void background(int width, int height) {
 	}
 }
 
-// Helper function to perform linear interpolation between two values
 double interpolate(double a, double b, double t) {
     return (1 - t) * a + t * b;
 }
 
-// Helper function for linear interpolation of colors
 Color255 interpolateColor(Color255 c1, Color255 c2, double t) {
     Color255 result;
     result.r = (int)((1.0 - t) * c1.r + t * c2.r);
@@ -25,7 +23,6 @@ Color255 interpolateColor(Color255 c1, Color255 c2, double t) {
     return result;
 }
 
-// Function to calculate min and max without using std::min or std::max
 int myMin(int a, int b) {
     return (a < b) ? a : b;
 }
@@ -34,38 +31,32 @@ int myMax(int a, int b) {
     return (a > b) ? a : b;
 }
 
-// Function to render a triangle with Gouraud shading based on color interpolation
+// 三角形の塗りつぶし
 void paintTriangle(int width, int height, Rendered rendered) {
-    // Extract vertices and colors
     ColorPlot v1 = rendered.cp[0];
     ColorPlot v2 = rendered.cp[1];
     ColorPlot v3 = rendered.cp[2];
 
-    // Determine the bounding box for the triangle (min and max without using std::min or std::max)
     int minX = myMin(v1.p.x, myMin(v2.p.x, v3.p.x));
     int maxX = myMax(v1.p.x, myMax(v2.p.x, v3.p.x));
     int minY = myMin(v1.p.y, myMin(v2.p.y, v3.p.y));
     int maxY = myMax(v1.p.y, myMax(v2.p.y, v3.p.y));
 
-    // Iterate through pixels in the bounding box
     for (int y = minY; y <= maxY && y < height; y++) {
         for (int x = minX; x <= maxX && x < width; x++) {
-            Vector p = {x + 0.5, y + 0.5}; // Pixel center
+            Vector p = {x + 0.5, y + 0.5};
 
-            // Compute barycentric coordinates
             double lambda1 = ((v2.p.y - v3.p.y) * (p.x - v3.p.x) + (v3.p.x - v2.p.x) * (p.y - v3.p.y)) /
                              ((v2.p.y - v3.p.y) * (v1.p.x - v3.p.x) + (v3.p.x - v2.p.x) * (v1.p.y - v3.p.y));
             double lambda2 = ((v3.p.y - v1.p.y) * (p.x - v3.p.x) + (v1.p.x - v3.p.x) * (p.y - v3.p.y)) /
                              ((v2.p.y - v3.p.y) * (v1.p.x - v3.p.x) + (v3.p.x - v2.p.x) * (v1.p.y - v3.p.y));
             double lambda3 = 1.0 - lambda1 - lambda2;
 
-            // If inside or on the boundary of the triangle, interpolate color
             if (lambda1 >= 0 && lambda2 >= 0 && lambda3 >= 0) {
                 Color255 color1 = interpolateColor(v1.c, v2.c, lambda2 / (lambda1 + lambda2));
                 Color255 pixelColor = interpolateColor(color1, v3.c, lambda3);
                 pixelColor = clampColor(pixelColor);
                 
-                // Set the pixel color (apply intensity to RGB)
                 Pixel[y][x][0] = pixelColor.r;
                 Pixel[y][x][1] = pixelColor.g;
                 Pixel[y][x][2] = pixelColor.b;
@@ -73,4 +64,3 @@ void paintTriangle(int width, int height, Rendered rendered) {
         }
     }
 }
-

@@ -23,7 +23,7 @@ void main(void) {
 	Transform tf;
 	tf.translate.x = 0;	tf.translate.y = 0;	tf.translate.z = 0;
 	tf.scale = 100;
-	tf.rotate.x = 0;	tf.rotate.y = 0;	tf.rotate.z = 0;
+	tf.rotate.x = 15;	tf.rotate.y = 0;	tf.rotate.z = 0;
 
 	Triangle3D tri[3000];
 	Vector centroid;

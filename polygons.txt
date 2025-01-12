@@ -1,0 +1,27 @@
+# Cube
+point1 = (300, 300, 300)
+point2 = (400, 400, 400)
+color = (200, 0, 200)
+n = 9
+Ka = 0.5
+Kd = 0.5
+Ks = 0.5
+
+# Cylinder
+radius = 50
+height = 150
+position = (500, 200, 300)
+color = (200, 200, 255)
+n = 9
+Ka = 0.7
+Kd = 0.7
+Ks = 0.7
+
+# Sphere
+radius = 50
+position = (200, 200, 300)
+color = (0, 200, 200)
+n = 9
+Ka = 0.5
+Kd = 0.5
+Ks = 0.5
