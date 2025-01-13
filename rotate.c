@@ -34,8 +34,8 @@ Vector rotatePoint(Vector point, int theta_x, int theta_y, int theta_z) {
 
 void rotateVertices (Vector v[], Settings s, Vector angle, int num) {
     for (int i = 0; i < num; i++) {
-        v[i].x -= (s.camera_d.x + s.width / 2);
-        v[i].y -= (s.camera_d.y + s.height / 2);
+        v[i].x -= (s.camera_d.x + WIDTH / 2);
+        v[i].y -= (s.camera_d.y + HEIGHT / 2);
         v[i].z -= s.camera_d.z;
     }
 
@@ -44,8 +44,8 @@ void rotateVertices (Vector v[], Settings s, Vector angle, int num) {
     }
 
     for (int i = 0; i < num; i++) {
-        v[i].x += (s.camera_d.x + s.width / 2);
-        v[i].y += (s.camera_d.y + s.height / 2);
+        v[i].x += (s.camera_d.x + WIDTH / 2);
+        v[i].y += (s.camera_d.y + HEIGHT / 2);
         v[i].z += s.camera_d.z;
     }
 }

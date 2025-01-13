@@ -87,7 +87,7 @@ int main() {
 				break;
 			case 1:
 				printf("Painting...\n");
-				background(screen.width, screen.height);
+				background();
 			
 				tmp[0] = screen.world_d;
 				tmp[1] = screen.world_i;
@@ -103,7 +103,7 @@ int main() {
 				for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], screen, tf, triCount);
 
 				drawPrimitive(triCount, tri, screen);
-				bmpout("output.bmp", screen.width, screen.height);
+				bmpout("output.bmp", WIDTH, HEIGHT);
 
 				break;
 			case 2:

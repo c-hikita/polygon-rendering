@@ -67,8 +67,8 @@ void world2Camera(Vector vertices[], Settings s, int count) {
 
 		multiplyRows(w, a, c);
 
-		vertices[i].x = c[0] + s.width / 2;
-		vertices[i].y = c[1] + s.height / 2;
+		vertices[i].x = c[0] + WIDTH / 2;
+		vertices[i].y = c[1] + HEIGHT / 2;
 		vertices[i].z = c[2];
 	}
 }

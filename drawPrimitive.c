@@ -2,9 +2,9 @@
 // Chikako Hikita
 
 // Initialize the Z-buffer to a far depth value
-void initializeZBuffer(int width, int height) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+void initializeZBuffer() {
+    for (int i = 0; i < HEIGHT; i++) {
+        for (int j = 0; j < WIDTH; j++) {
             ZBuffer[i][j] = 10000; // Initialize with the maximum possible value
         }
     }
@@ -62,7 +62,6 @@ void sortTriangles(int n, Triangle3D t[]) {
 void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	int count;
 	Triangle3D removed[1000];
-	// double ZBuffer[HEIGHT][WIDTH];
 	Rendered rendered;
 
 	s.c.x = 0;
@@ -72,16 +71,8 @@ void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	initializeTriangles(removed, num);
 	count = hiddenSurfaceRemoval(num, removed, t, s);
 
-	initializeZBuffer(s.width, s.height);
+	initializeZBuffer();
 	// sortTriangles(count, removed);
-
-	// printf("zbuffer:\n");
-    // for (int i = 0; i < s.height; i++) {
-    //     for (int j = 0; j < s.width; j++) {
-    //         printf("%.0lf ", ZBuffer[i][j]); // Initialize with the maximum possible value
-    //     }
-	// 	printf("\n");
-    // }
 
 	for (int i = 0; i < count; i++) {
 		// printf("\ntriangle %d\n", i);
@@ -90,6 +81,6 @@ void drawPrimitive(int num, Triangle3D t[], Settings s) {
 		t[i].g.z = (t[i].p[0].z + t[i].p[1].z + t[i].p[2].z)/3;
 
 		rendered = renderTriangle(removed[i], s);	// 三角形のレンダリング
-		paintTriangle(s.width, s.height, rendered);	// 三角形の塗りつぶし
+		paintTriangle(rendered);	// 三角形の塗りつぶし
 	}
 }

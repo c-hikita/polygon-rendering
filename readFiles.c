@@ -17,8 +17,6 @@ int containsSubstring(const char* line, const char* substring) {
 }
 
 void readSettings(FILE* file, Settings* screen) {
-    fscanf(file, "screen_width = %d\n", &screen->width);
-    fscanf(file, "screen_height = %d\n", &screen->height);
     fscanf(file, "camera = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
     fscanf(file, "distance = %d\n", &screen->dist);
     fscanf(file, "ambience = (%lf, %lf, %lf)\n", &screen->a.r, &screen->a.g, &screen->a.b);
@@ -100,9 +98,7 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
 
 void printSettings(Settings* screen) {
     printf("\nCurrent Settings:\n");
-    printf("Width: %d, Height: %d\n", screen->width, screen->height);
     printf("Camera position: (%.0lf, %.0lf, %.0lf)\n", screen->c.x, screen->c.y, screen->c.z);
-    printf("Camera target: (%.0lf, %.0lf, %.0lf)\n", screen->world_d.x, screen->world_d.y, screen->world_d.z);
     printf("Distance: %d\n", screen->dist);
     printf("Ambient color: (%.2lf, %.2lf, %.2lf)\n", screen->a.r, screen->a.g, screen->a.b);
     printf("I position: (%.0lf, %.0lf, %.0lf)\n", screen->world_i.x, screen->world_i.y, screen->world_i.z);
