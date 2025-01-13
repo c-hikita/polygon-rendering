@@ -1,11 +1,10 @@
 ﻿// drawPrimitive.c
 // Chikako Hikita
 
-// Initialize the Z-buffer to a far depth value
 void initializeZBuffer() {
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            ZBuffer[i][j] = 10000; // Initialize with the maximum possible value
+            ZBuffer[i][j] = 10000; 
         }
     }
 }

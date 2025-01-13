@@ -31,7 +31,6 @@ int myMax(int a, int b) {
     return (a > b) ? a : b;
 }
 
-// Paint a triangle using the Z-buffer
 void paintTriangle(Rendered rendered) {
     int minX, maxX, minY, maxY;
     double lambda1, lambda2, lambda3;
