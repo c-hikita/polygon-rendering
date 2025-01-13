@@ -1,8 +1,16 @@
 ﻿// main.c
 // Chikako Hikita
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAX_POLYGONS 2
 #define MAX_TRIANGLES 3000
+#define WIDTH 640
+#define HEIGHT 480
+
+double ZBuffer[HEIGHT][WIDTH];
 
 #include "cg.h"
 #include "writeBmp.c"
@@ -15,10 +23,6 @@
 #include "renderTriangle.c"
 #include "paintTriangle.c"
 #include "drawPrimitive.c"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 int main() {
     Settings screen;

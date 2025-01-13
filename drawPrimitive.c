@@ -1,6 +1,16 @@
 ﻿// drawPrimitive.c
 // Chikako Hikita
 
+// Initialize the Z-buffer to a far depth value
+void initializeZBuffer(int width, int height) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            ZBuffer[i][j] = 10000; // Initialize with the maximum possible value
+        }
+    }
+}
+
+
 // 後面除去
 int hiddenSurfaceRemoval(int num, Triangle3D removed[], Triangle3D t[], Settings s) {
 	int check, rtn = 0;
@@ -52,6 +62,7 @@ void sortTriangles(int n, Triangle3D t[]) {
 void drawPrimitive(int num, Triangle3D t[], Settings s) {
 	int count;
 	Triangle3D removed[1000];
+	// double ZBuffer[HEIGHT][WIDTH];
 	Rendered rendered;
 
 	s.c.x = 0;
@@ -60,7 +71,17 @@ void drawPrimitive(int num, Triangle3D t[], Settings s) {
 
 	initializeTriangles(removed, num);
 	count = hiddenSurfaceRemoval(num, removed, t, s);
-	sortTriangles(count, removed);
+
+	initializeZBuffer(s.width, s.height);
+	// sortTriangles(count, removed);
+
+	// printf("zbuffer:\n");
+    // for (int i = 0; i < s.height; i++) {
+    //     for (int j = 0; j < s.width; j++) {
+    //         printf("%.0lf ", ZBuffer[i][j]); // Initialize with the maximum possible value
+    //     }
+	// 	printf("\n");
+    // }
 
 	for (int i = 0; i < count; i++) {
 		// printf("\ntriangle %d\n", i);

@@ -9,7 +9,7 @@ projection(Vector t[], Vector rtn[], int d) {
 
 		rtn[i].x = dz * t[i].x;
 		rtn[i].y = dz * t[i].y;
-		rtn[i].z = d;
+		rtn[i].z = t[i].z;
 	}
 }
 
