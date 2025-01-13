@@ -38,7 +38,6 @@ typedef struct {
 } Rendered;
 
 typedef struct {
-	int width, height;				// スクリーンの大きさ
 	Vector c, world_d, camera_d;	// 視点C, 見る点D
 	int dist;						// 焦点距離d
 	Vector world_i, camera_i;		// 光源Iの位置

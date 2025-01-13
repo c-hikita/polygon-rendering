@@ -1,8 +1,16 @@
 ﻿// main.c
 // Chikako Hikita
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAX_POLYGONS 2
 #define MAX_TRIANGLES 3000
+#define WIDTH 640
+#define HEIGHT 480
+
+double ZBuffer[HEIGHT][WIDTH];
 
 #include "cg.h"
 #include "writeBmp.c"
@@ -15,10 +23,6 @@
 #include "renderTriangle.c"
 #include "paintTriangle.c"
 #include "drawPrimitive.c"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 int main() {
     Settings screen;
@@ -83,7 +87,7 @@ int main() {
 				break;
 			case 1:
 				printf("Painting...\n");
-				background(screen.width, screen.height);
+				background();
 			
 				tmp[0] = screen.world_d;
 				tmp[1] = screen.world_i;
@@ -99,7 +103,7 @@ int main() {
 				for (int i = 0; i < sphereCount; i++) triCount += sphere2triangle(tri, spheres[i], screen, tf, triCount);
 
 				drawPrimitive(triCount, tri, screen);
-				bmpout("output.bmp", screen.width, screen.height);
+				bmpout("output.bmp", WIDTH, HEIGHT);
 
 				break;
 			case 2:
