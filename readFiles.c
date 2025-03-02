@@ -1,6 +1,25 @@
-﻿// readFiles.c
-// Chikako Hikita
+﻿/** 
+ * @file readFiles.c
+ * @brief Functions to read settings and geometric objects from a file, and print out the settings and polygons.
+ * 
+ * This file includes functions to parse settings such as camera position, ambient light, and various geometric 
+ * objects (Cube, Cylinder, Sphere). It also contains utility functions for string searching and printing the 
+ * current settings and objects in a human-readable format.
+ */
 
+#include <stdio.h>
+#include <string.h>
+
+/**
+ * @brief Checks if a substring is contained within a string.
+ * 
+ * This function searches for a specific substring within a line of text. If the substring is found at the beginning
+ * of any part of the line, it returns 1, otherwise returns 0.
+ *
+ * @param line The line of text to be searched.
+ * @param substring The substring to search for within the line.
+ * @return 1 if substring is found in the line, otherwise 0.
+ */
 int containsSubstring(const char* line, const char* substring) {
     int sub_len = 0;
     while (substring[sub_len] != '\0') {
@@ -16,6 +35,15 @@ int containsSubstring(const char* line, const char* substring) {
     return 0; 
 }
 
+/**
+ * @brief Reads settings from a file and stores them in a Settings structure.
+ * 
+ * This function reads various camera settings, distance, light properties, and other parameters from the provided 
+ * file and stores them in the provided Settings structure.
+ *
+ * @param file The file to read settings from.
+ * @param screen Pointer to the Settings structure to store the read values.
+ */
 void readSettings(FILE* file, Settings* screen) {
     fscanf(file, "camera = (%lf, %lf, %lf)\n", &screen->c.x, &screen->c.y, &screen->c.z);
     fscanf(file, "distance = %d\n", &screen->dist);
@@ -24,6 +52,21 @@ void readSettings(FILE* file, Settings* screen) {
     fscanf(file, "icolor = (%lf, %lf, %lf)\n", &screen->icolor.r, &screen->icolor.g, &screen->icolor.b);
 }
 
+/**
+ * @brief Reads polygon data from a file and stores them in the respective arrays.
+ * 
+ * This function reads polygon data (Cube, Cylinder, Sphere) from the file, detecting the type of each polygon 
+ * and reading the respective properties (like color, size, and position). The data is stored in the appropriate 
+ * arrays, and the counts for each polygon type are updated.
+ *
+ * @param file The file to read polygon data from.
+ * @param cubes Array to store Cube objects.
+ * @param cubeCount Pointer to store the current number of cubes.
+ * @param cylinders Array to store Cylinder objects.
+ * @param cylinderCount Pointer to store the current number of cylinders.
+ * @param spheres Array to store Sphere objects.
+ * @param sphereCount Pointer to store the current number of spheres.
+ */
 void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder cylinders[MAX_POLYGONS], int* cylinderCount, Sphere spheres[MAX_POLYGONS], int* sphereCount) {
     char line[256];
     char currentPolygonType = 0; // 1: Cube, 2: Cylinder, 3: Sphere
@@ -96,6 +139,14 @@ void readPolygons(FILE* file, Cube cubes[MAX_POLYGONS], int* cubeCount, Cylinder
     }
 }
 
+/**
+ * @brief Prints the current settings stored in the Settings structure.
+ * 
+ * This function prints the current camera position, distance, ambient light color, and other relevant settings 
+ * stored in the Settings structure.
+ *
+ * @param screen Pointer to the Settings structure to print values from.
+ */
 void printSettings(Settings* screen) {
     printf("\nCurrent Settings:\n");
     printf("Camera position: (%.0lf, %.0lf, %.0lf)\n", screen->c.x, screen->c.y, screen->c.z);
@@ -105,6 +156,19 @@ void printSettings(Settings* screen) {
     printf("I color: (%.2lf, %.2lf, %.2lf)\n", screen->icolor.r, screen->icolor.g, screen->icolor.b);
 }
 
+/**
+ * @brief Prints the details of all the polygons stored.
+ * 
+ * This function prints detailed information about all the polygons (Cube, Cylinder, Sphere) stored in their
+ * respective arrays, including properties like position, color, and material parameters.
+ *
+ * @param cubeCount The number of cubes in the system.
+ * @param cubes Array of Cube objects.
+ * @param cylinderCount The number of cylinders in the system.
+ * @param cylinders Array of Cylinder objects.
+ * @param sphereCount The number of spheres in the system.
+ * @param spheres Array of Sphere objects.
+ */
 void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, Cylinder cylinders[MAX_POLYGONS], int sphereCount, Sphere spheres[MAX_POLYGONS]) {
     printf("\nCurrent Primitive:\n");
     for (int i = 0; i < cubeCount; i++) {
@@ -129,6 +193,14 @@ void printPolygons(int cubeCount, Cube cubes[MAX_POLYGONS], int cylinderCount, C
     }
 }
 
+/**
+ * @brief Prints the current transformation values.
+ * 
+ * This function prints the current transformation parameters such as translation, scale, and rotation stored 
+ * in the Transform structure.
+ *
+ * @param tf The Transform structure containing the current transformation values.
+ */
 void printTransform(Transform tf) {
     printf("\nCurrent Transformation Values:\n");
     printf("Translation: (%.0f, %.0f, %.0f)\n", tf.translate.x, tf.translate.y, tf.translate.z);
